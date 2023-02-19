@@ -5,7 +5,6 @@ import constants from "../constants/constants";
 function PriorityBar({ priority, setPriority, buttons }) {
   const handleClick = (item, label) => {
     setPriority(label);
-    console.log(label);
   };
   return (
     <View style={styles.container}>

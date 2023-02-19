@@ -14,7 +14,7 @@ import PriorityBar from "./PriorityBar";
 import DatePicker from "./DatePicker";
 import TimePicker from "./TimePicker";
 import ColorBar from "./ColorBar";
-import TaskItem from "./TaskItem";
+import NotificationsButton from "./NotificationsButton";
 
 export {
   TabBar,
@@ -33,5 +33,5 @@ export {
   DatePicker,
   TimePicker,
   ColorBar,
-  TaskItem,
+  NotificationsButton,
 };

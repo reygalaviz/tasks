@@ -38,7 +38,8 @@ export default {
   //font-size
   daygreeting: RFValue(30),
   header: RFValue(15),
-  sectionHeader: RFValue(18),
+  screenHeader: RFValue(20),
+  sectionHeader: RFValue(15),
   cardTitle: RFValue(14),
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
@@ -48,4 +49,7 @@ export default {
 
   //add-task
   taskFont: RFValue(12),
+
+  //modal-sheet-top-padding
+  sheetTopPadding: Platform.OS === "ios" ? height * 0.06 : 60,
 };

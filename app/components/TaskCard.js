@@ -12,11 +12,11 @@ import Checkmark from "./Checkmark";
 import Priority from "./Priority";
 
 function TaskCard({ task }) {
-  // const completedTasks = Object.values(task).filter(
-  //   (task) => task.completed
-  // ).length;
+  const completedTasks = Object.values(task).filter(
+    (task) => task.completed
+  ).length;
 
-  // const remainingTasks = Object.values(task).length - completedTasks;
+  const remainingTasks = Object.values(task).length - completedTasks;
 
   return (
     <Pressable style={[styles.container, { backgroundColor: task.color }]}>
@@ -30,17 +30,14 @@ function TaskCard({ task }) {
       <View>
         <View style={styles.dateContainer}>
           <MaterialIcons name="calendar-today" size={18} color="black" />
-          <Text style={styles.date}>{task.date}</Text>
+          <Text style={styles.date}></Text>
         </View>
         <View style={styles.timeContainer}>
           <View style={{ flexDirection: "row" }}>
             <MaterialIcons name="access-time" size={18} color="black" />
-            <Text style={styles.date}>{task.time}</Text>
+            <Text style={styles.date}></Text>
           </View>
-          <Priority
-            bgColor={task.priorityColor}
-            priorityTitle={task.priority}
-          />
+          <Priority priorityTitle={task.priority} />
         </View>
       </View>
     </Pressable>

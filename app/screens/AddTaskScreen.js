@@ -7,6 +7,8 @@ import {
   Platform,
   Pressable,
   TouchableHighlight,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
@@ -20,6 +22,8 @@ import ColorBar from "../components/ColorBar";
 import constants from "../constants/constants";
 import AddTaskButton from "../components/AddTaskButton";
 import ModalSheet from "../components/ModalSheet";
+import { Ionicons } from "@expo/vector-icons";
+import ModalSheetHeader from "../components/ModalSheetHeader";
 
 function AddTaskScreen({ addTask }) {
   let defaultDate = new Date();
@@ -94,76 +98,63 @@ function AddTaskScreen({ addTask }) {
         index={-1}
         onChange={handleSnapPress}
       >
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <TouchableWithoutFeedback
+          onPress={() => {
+            console.log("dismissed");
+            Keyboard.dismiss();
+          }}
         >
-          <View style={styles.container}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: constants.m,
-              }}
-            >
-              <Text style={{ fontSize: 20, fontWeight: "500" }}>
-                Create your task
-              </Text>
-              <TouchableHighlight
-                underlayColor={"transparent"}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <View style={styles.container}>
+              <ModalSheetHeader
+                title="Create your task"
                 onPress={onCancelPress}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  right: 0,
-                }}
-              >
-                <Text style={{ fontSize: 16 }}>Cancel</Text>
-              </TouchableHighlight>
+              />
+              <CustomInput
+                placeholder="Write your task"
+                value={task}
+                setValue={(value) => setTask(value)}
+              />
+
+              <DatePicker
+                date={date}
+                setDate={setDate}
+                defaultDate={defaultDate}
+                onDateChange={(date) => console.log(date)}
+              />
+              <TimePicker
+                time={time}
+                setTime={setTime}
+                defaultTime={defaultTime}
+                onTimeChange={(time) => console.log(time)}
+              />
+
+              <PriorityBar
+                priority={priority}
+                setPriority={setPriority}
+                buttons={["High", "Medium", "Low"]}
+              />
+              <ColorBar color={color} setColor={setColor} />
+              <CustomButton
+                onPress={handleAddTask}
+                title="Submit"
+                style={[styles.button]}
+              />
             </View>
-
-            <CustomInput
-              placeholder="Write your task"
-              value={task}
-              setValue={(value) => setTask(value)}
-            />
-
-            <DatePicker
-              date={date}
-              setDate={setDate}
-              defaultDate={defaultDate}
-              onDateChange={(date) => console.log(date)}
-            />
-            <TimePicker
-              time={time}
-              setTime={setTime}
-              defaultTime={defaultTime}
-              onTimeChange={(time) => console.log(time)}
-            />
-
-            <PriorityBar
-              priority={priority}
-              setPriority={setPriority}
-              buttons={["High", "Medium", "Low"]}
-            />
-            <ColorBar color={color} setColor={setColor} />
-            <CustomButton
-              onPress={handleAddTask}
-              title="Submit"
-              style={[styles.button]}
-            />
-          </View>
-        </KeyboardAvoidingView>
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </ModalSheet>
     </>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 15,
-    paddingTop: 20,
+    paddingHorizontal: constants.m,
+    paddingTop: constants.s,
   },
+
   date: {
     paddingVertical: 15,
     paddingHorizontal: 10,

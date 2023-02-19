@@ -7,6 +7,7 @@ import { storeData, getData } from "./app/asyncstorage/asyncStorage";
 import { EventRegister } from "react-native-event-listeners";
 import CalendarScreen from "./app/screens/CalendarScreen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { PortalProvider } from "@gorhom/portal";
 import { RecoilRoot } from "recoil";
 
 export default function App() {
@@ -25,13 +26,17 @@ export default function App() {
   });
 
   return (
-    <BottomSheetModalProvider>
+    <PortalProvider>
       <RecoilRoot>
-        <themeContext.Provider value={mode === true ? theme.dark : theme.light}>
-          <HomeScreen />
-        </themeContext.Provider>
+        <BottomSheetModalProvider>
+          <themeContext.Provider
+            value={mode === true ? theme.dark : theme.light}
+          >
+            <HomeScreen />
+          </themeContext.Provider>
+        </BottomSheetModalProvider>
       </RecoilRoot>
-    </BottomSheetModalProvider>
+    </PortalProvider>
   );
 }
 

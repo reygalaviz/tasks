@@ -4,29 +4,26 @@ import tempData from "../tempData";
 import TaskCard from "./TaskCard";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
-import TaskItem from "./TaskItem";
 
 function TaskFlatList({ tasks }) {
   const todoList = useRecoilValue(todoItem);
   return (
-    <View style={styles.tasks}>
-      {tasks
-        .sort((a, b) => b.id - a.id)
-        .map((task) => (
-          <TaskItem key={task.id} task={task} />
-        ))}
-    </View>
+    // <View style={styles.tasks}>
+    //   {tasks
+    //     .sort((a, b) => b.id - a.id)
+    //     .map((task) => (
+    //       <TaskCard key={task.id} task={task} />
+    //     ))}
+    // </View>
 
-    // <FlatList
-    //   data={tempData}
-    //   keyExtractor={(item) => item.name}
-    //   showsVerticalScrollIndicator={false}
-    //   renderItem={({ item }) => <TaskCard list={item} />}
-    // />
+    <FlatList
+      data={tasks}
+      keyExtractor={(item) => item.id}
+      showsVerticalScrollIndicator={false}
+      renderItem={({ item }) => <TaskCard key={item.id} task={item} />}
+    />
   );
 }
-const styles = StyleSheet.create({
-  tasks: {},
-});
+const styles = StyleSheet.create({});
 
 export default TaskFlatList;
