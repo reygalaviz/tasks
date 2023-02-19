@@ -1,20 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { StyleSheet, StatusBar } from "react-native";
+import { HomeScreen, SettingsScreen } from "./app/screens";
+import themeContext from "./app/theme/themeContext";
+import theme from "./app/theme/theme";
+import { storeData, getData } from "./app/asyncstorage/asyncStorage";
+import { EventRegister } from "react-native-event-listeners";
+import CalendarScreen from "./app/screens/CalendarScreen";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+import { RecoilRoot } from "recoil";
 
 export default function App() {
+  const [mode, setMode] = useState(false);
+
+  useEffect(() => {
+    let eventListener = EventRegister.addEventListener(
+      "changeTheme",
+      (data) => {
+        setMode(data);
+      }
+    );
+    return () => {
+      EventRegister.removeEventListener(eventListener);
+    };
+  });
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BottomSheetModalProvider>
+      <RecoilRoot>
+        <themeContext.Provider value={mode === true ? theme.dark : theme.light}>
+          <HomeScreen />
+        </themeContext.Provider>
+      </RecoilRoot>
+    </BottomSheetModalProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const styles = StyleSheet.create({});
