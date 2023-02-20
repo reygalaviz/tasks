@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import moment from "moment";
 import {
   Modal,
@@ -12,8 +12,9 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Feather } from "@expo/vector-icons";
 import constants from "../constants/constants";
-
+import themeContext from "../theme/themeContext";
 function TimePicker({ time, setTime, ...props }) {
+  const theme = useContext(themeContext);
   const { textStyle, defaultTime } = props;
 
   const [showTime, setShowTime] = useState(false);
@@ -45,15 +46,20 @@ function TimePicker({ time, setTime, ...props }) {
               paddingHorizontal: 10,
               borderWidth: 1,
               borderRadius: 10,
+              borderColor: theme.textBorder,
               width: "100%",
               marginBottom: 10,
               flexDirection: "row",
               alignItems: "center",
             }}
           >
-            <Feather name="clock" size={24} color="black" />
+            <Feather name="clock" size={24} color={theme.color} />
             <Text
-              style={{ marginLeft: constants.s, fontSize: constants.taskFont }}
+              style={{
+                marginLeft: constants.s,
+                fontSize: constants.taskFont,
+                color: theme.color,
+              }}
             >
               {moment(time).format("LT")}
             </Text>

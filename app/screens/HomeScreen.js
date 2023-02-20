@@ -1,16 +1,8 @@
 import "react-native-gesture-handler";
 import React, { useState, useContext, useCallback, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Switch,
-  Button,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, StatusBar } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
-import TabBar from "../components/TabBar";
+import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
 import Greeting from "../components/Greeting";
 import TaskFlatList from "../components/TaskFlatList";
@@ -20,8 +12,18 @@ import { todoItem } from "../recoil/atom/todoItem";
 import SettingsScreen from "./SettingsScreen";
 import NotificationsButton from "../components/NotificationsButton";
 import SettingsButton from "../components/SettingsButton";
+import themeContext from "../theme/themeContext";
+import Animated, {
+  SlideInDown,
+  SlideInUp,
+  FadeInUp,
+} from "react-native-reanimated";
+import CustomInput from "../components/CustomInput";
+import TabBar from "../components/TabBar";
 
 function HomeScreen(props) {
+  const theme = useContext(themeContext);
+
   const todoList = useRecoilValue(todoItem);
   const [mode, setMode] = useState(false);
 
@@ -40,12 +42,19 @@ function HomeScreen(props) {
   return (
     <>
       <StatusBar barStyle={mode === false ? "dark-content" : "light-content"} />
-      <View style={styles.container}>
-        <TabBar>
-          <NotificationsButton on />
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <HeaderBar>
+          <NotificationsButton />
           <SettingsButton onOpenSettings={onOpenSettings} />
-        </TabBar>
+        </HeaderBar>
+
         <Greeting />
+        {/* <View style={{ marginHorizontal: constants.m }}>
+          <CustomInput />
+        </View> */}
+
+        <TabBar />
+
         <AddTaskScreen addTask={addTask} />
         {tasks && <TaskFlatList tasks={tasks} />}
         <SettingsScreen
@@ -63,7 +72,6 @@ function HomeScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: constants.m,
   },
 });
 

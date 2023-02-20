@@ -44,12 +44,17 @@ export default {
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
 
-  //tab-bar
-  HEADER_HEIGHT: Platform.OS === "ios" ? 125 : 70 + StatusBar.currentHeight,
+  //header-bar
+  marginTopHeader: Platform.OS === "ios" ? 50 : 70 + StatusBar.currentHeight,
 
   //add-task
   taskFont: RFValue(12),
 
   //modal-sheet-top-padding
   sheetTopPadding: Platform.OS === "ios" ? height * 0.06 : 60,
+
+  //tab-bar
+  tabWidth: horizontalScale(100),
+  tabHeight: verticalScale(45),
+  tabText: RFValue(12),
 };

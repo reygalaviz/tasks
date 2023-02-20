@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   TextInput,
@@ -6,22 +6,24 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import constants from "../constants/constants";
+import themeContext from "../theme/themeContext";
 
 const CustomInput = ({ placeholder, value, setValue }) => {
+  const theme = useContext(themeContext);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderColor: theme.textBorder }]}>
       <TextInput
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
-        style={[styles.input]}
+        style={{ color: theme.color }}
+        placeholderTextColor={theme.color}
       />
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
     width: "100%",
     paddingVertical: 15,
     paddingHorizontal: 10,

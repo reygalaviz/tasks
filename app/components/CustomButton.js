@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, TextInput, StyleSheet, Pressable, Text } from "react-native";
+import themeContext from "../theme/themeContext";
 
 const CustomButton = ({
   title,
@@ -9,19 +10,21 @@ const CustomButton = ({
   fgColor,
   style,
 }) => {
+  const theme = useContext(themeContext);
+
   return (
     <Pressable
       onPress={onPress}
       style={[
         style,
-        styles.container,
+        [styles.container, { backgroundColor: theme.color }],
         styles[`container_${type}`],
         bgColor ? { backgroundColor: bgColor } : {},
       ]}
     >
       <Text
         style={[
-          styles.text,
+          [styles.text, { color: theme.buttonText }],
           styles[`text_${type}`],
           fgColor ? { color: fgColor } : {},
         ]}
@@ -39,9 +42,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
   },
-  container_PRIMARY: {
-    backgroundColor: "black",
-  },
+  container_PRIMARY: {},
   container_SECONDARY: {
     borderColor: "black",
     borderWidth: 1,

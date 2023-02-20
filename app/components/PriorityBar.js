@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
 import constants from "../constants/constants";
+import themeContext from "../theme/themeContext";
 
 function PriorityBar({ priority, setPriority, buttons }) {
+  const theme = useContext(themeContext);
+
   const handleClick = (item, label) => {
     setPriority(label);
   };
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.headerText}>Priority</Text>
+        <Text style={[styles.headerText, { color: theme.color }]}>
+          Priority
+        </Text>
       </View>
       <View style={styles.buttonContainer}>
         {buttons.map((buttonLabel) => {
@@ -18,20 +23,32 @@ function PriorityBar({ priority, setPriority, buttons }) {
               onPress={(item) => handleClick(item, buttonLabel)}
               key={buttonLabel}
               style={[
-                buttonLabel === priority ? styles.buttonActive : styles.button,
-                buttonLabel === "High" ? { borderRightWidth: 0 } : null,
-                buttonLabel === "Medium" ? { borderRightWidth: 0 } : null,
+                buttonLabel === priority
+                  ? [styles.buttonActive, { backgroundColor: theme.color }]
+                  : styles.button,
+                buttonLabel === "High"
+                  ? { borderRightWidth: 0, borderColor: theme.textBorder }
+                  : null,
+                buttonLabel === "Medium"
+                  ? { borderRightWidth: 0, borderColor: theme.textBorder }
+                  : null,
                 buttonLabel === "High"
                   ? { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }
                   : null,
                 buttonLabel === "Low"
-                  ? { borderTopRightRadius: 10, borderBottomRightRadius: 10 }
+                  ? {
+                      borderTopRightRadius: 10,
+                      borderBottomRightRadius: 10,
+                      borderColor: theme.textBorder,
+                    }
                   : null,
               ]}
             >
               <Text
                 style={[
-                  buttonLabel === priority ? styles.textActive : styles.text,
+                  buttonLabel === priority
+                    ? [styles.textActive, { color: theme.active }]
+                    : [styles.text, { color: theme.color }],
                 ]}
               >
                 {buttonLabel}
@@ -73,12 +90,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
-  text: {
-    color: "black",
-  },
-  textActive: {
-    color: "white",
-  },
+  // text: {
+  //   color: "black",
+  // },
+  // textActive: {
+  //   color: "white",
+  // },
 });
 
 export default PriorityBar;

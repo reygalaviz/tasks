@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import moment from "moment";
 import {
   Modal,
@@ -14,8 +14,10 @@ import { Feather } from "@expo/vector-icons";
 import constants from "../constants/constants";
 import { useRecoilState } from "recoil";
 import { todoDate } from "../recoil/atom/todoDate";
+import themeContext from "../theme/themeContext";
 
 function DatePicker({ date, setDate, ...props }) {
+  const theme = useContext(themeContext);
   const { textStyle, defaultDate } = props;
 
   const [showDate, setShowDate] = useState(false);
@@ -47,15 +49,20 @@ function DatePicker({ date, setDate, ...props }) {
             paddingHorizontal: 10,
             borderWidth: 1,
             borderRadius: 10,
+            borderColor: theme.textBorder,
             width: "100%",
             marginBottom: 10,
             flexDirection: "row",
             alignItems: "center",
           }}
         >
-          <Feather name="calendar" size={24} color="black" />
+          <Feather name="calendar" size={24} color={theme.color} />
           <Text
-            style={{ marginLeft: constants.s, fontSize: constants.taskFont }}
+            style={{
+              marginLeft: constants.s,
+              fontSize: constants.taskFont,
+              color: theme.color,
+            }}
           >
             {moment(date).format("LL")}
           </Text>

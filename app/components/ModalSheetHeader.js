@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import constants from "../constants/constants";
 import { Ionicons } from "@expo/vector-icons";
 
-function ModalSheetHeader({ title, onPress }) {
+function ModalSheetHeader({ title, onPress, style, iconColor }) {
   return (
     <View style={styles.headerContainer}>
-      <Text style={[styles.headerText]}>{title}</Text>
+      <Text style={[styles.headerText, style]}>{title}</Text>
       <Pressable onPress={onPress}>
-        <Ionicons name="close" size={24} color="black" />
+        <Ionicons name="close" size={24} color={iconColor} />
       </Pressable>
     </View>
   );

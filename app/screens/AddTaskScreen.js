@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useContext } from "react";
 import {
   View,
   Text,
@@ -24,6 +24,7 @@ import AddTaskButton from "../components/AddTaskButton";
 import ModalSheet from "../components/ModalSheet";
 import { Ionicons } from "@expo/vector-icons";
 import ModalSheetHeader from "../components/ModalSheetHeader";
+import themeContext from "../theme/themeContext";
 
 function AddTaskScreen({ addTask }) {
   let defaultDate = new Date();
@@ -34,8 +35,10 @@ function AddTaskScreen({ addTask }) {
   const [priority, setPriority] = useState("");
   const [color, setColor] = useState("");
 
+  const theme = useContext(themeContext);
+
   const sheetRef = useRef();
-  const snapPoints = ["90%"];
+  const snapPoints = ["65%"];
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpenAddTask = () => {
@@ -50,31 +53,7 @@ function AddTaskScreen({ addTask }) {
     sheetRef?.current?.close();
   };
 
-  const setToDoList = useSetRecoilState(todoItem);
-
-  const addToDo = () => {
-    if (task && date && time && priority && color) {
-      setToDoList((oldList) => [
-        ...oldList,
-        {
-          name: task,
-          date: date,
-          time: time,
-          priority: priority,
-          color: color,
-          completed: false,
-        },
-      ]);
-      setTask("");
-      setDate(defaultDate);
-      setTime(defaultTime);
-      setPriority(0), setColor(0);
-      sheetRef?.current?.close();
-    }
-  };
-
   const handleAddTask = (e) => {
-    console.log(priority);
     addTask({
       name: task,
       priority: priority,
@@ -97,6 +76,7 @@ function AddTaskScreen({ addTask }) {
         snapPoints={snapPoints}
         index={-1}
         onChange={handleSnapPress}
+        style={{ backgroundColor: theme.background }}
       >
         <TouchableWithoutFeedback
           onPress={() => {
@@ -104,46 +84,44 @@ function AddTaskScreen({ addTask }) {
             Keyboard.dismiss();
           }}
         >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-          >
-            <View style={styles.container}>
-              <ModalSheetHeader
-                title="Create your task"
-                onPress={onCancelPress}
-              />
-              <CustomInput
-                placeholder="Write your task"
-                value={task}
-                setValue={(value) => setTask(value)}
-              />
+          <View style={styles.container}>
+            <ModalSheetHeader
+              title="Create your task"
+              onPress={onCancelPress}
+              iconColor={theme.color}
+              style={{ color: theme.color }}
+            />
+            <CustomInput
+              placeholder="Write your task"
+              value={task}
+              setValue={(value) => setTask(value)}
+            />
 
-              <DatePicker
-                date={date}
-                setDate={setDate}
-                defaultDate={defaultDate}
-                onDateChange={(date) => console.log(date)}
-              />
-              <TimePicker
-                time={time}
-                setTime={setTime}
-                defaultTime={defaultTime}
-                onTimeChange={(time) => console.log(time)}
-              />
+            <DatePicker
+              date={date}
+              setDate={setDate}
+              defaultDate={defaultDate}
+              onDateChange={(date) => console.log(date)}
+            />
+            <TimePicker
+              time={time}
+              setTime={setTime}
+              defaultTime={defaultTime}
+              onTimeChange={(time) => console.log(time)}
+            />
 
-              <PriorityBar
-                priority={priority}
-                setPriority={setPriority}
-                buttons={["High", "Medium", "Low"]}
-              />
-              <ColorBar color={color} setColor={setColor} />
-              <CustomButton
-                onPress={handleAddTask}
-                title="Submit"
-                style={[styles.button]}
-              />
-            </View>
-          </KeyboardAvoidingView>
+            <PriorityBar
+              priority={priority}
+              setPriority={setPriority}
+              buttons={["High", "Medium", "Low"]}
+            />
+            <ColorBar color={color} setColor={setColor} />
+            <CustomButton
+              onPress={handleAddTask}
+              title="Submit"
+              style={[styles.button]}
+            />
+          </View>
         </TouchableWithoutFeedback>
       </ModalSheet>
     </>

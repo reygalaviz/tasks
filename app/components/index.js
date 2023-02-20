@@ -15,6 +15,7 @@ import DatePicker from "./DatePicker";
 import TimePicker from "./TimePicker";
 import ColorBar from "./ColorBar";
 import NotificationsButton from "./NotificationsButton";
+import HeaderBar from "./HeaderBar";
 
 export {
   TabBar,
@@ -34,4 +35,5 @@ export {
   TimePicker,
   ColorBar,
   NotificationsButton,
+  HeaderBar,
 };

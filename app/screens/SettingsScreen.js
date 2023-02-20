@@ -5,7 +5,6 @@ import themeContext from "../theme/themeContext";
 import ModalSheet from "../components/ModalSheet";
 import constants from "../constants/constants";
 import { Portal, PortalHost } from "@gorhom/portal";
-import { Ionicons } from "@expo/vector-icons";
 import ModalSheetHeader from "../components/ModalSheetHeader";
 
 function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
@@ -43,15 +42,26 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
           snapPoints={snapPoints}
           index={-1}
           onChange={handleSnapPress}
+          style={{ backgroundColor: theme.background }}
         >
           <View style={styles.container}>
-            <ModalSheetHeader title="Settings" onPress={onCancelPress} />
+            <ModalSheetHeader
+              title="Settings"
+              onPress={onCancelPress}
+              iconColor={theme.color}
+              style={{ color: theme.color }}
+            />
 
             <View style={styles.themeContainer}>
-              <Text style={{ fontSize: constants.sectionHeader }}>
+              <Text style={[styles.themeText, { color: theme.color }]}>
                 Dark Mode
               </Text>
               <Switch
+                value={mode}
+                onValueChange={(value) => {
+                  setMode(value);
+                  EventRegister.emit("changeTheme", value);
+                }}
                 style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
               />
             </View>
@@ -86,6 +96,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  themeText: {
+    fontSize: constants.sectionHeader,
   },
 });
 

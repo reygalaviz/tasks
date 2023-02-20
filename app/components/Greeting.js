@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import constants from "../constants/constants";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
+import themeContext from "../theme/themeContext";
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+  withRepeat,
+  withSequence,
+  withDelay,
+} from "react-native-reanimated";
 
 function Greeting(props) {
+  const theme = useContext(themeContext);
   const onSearchPressed = () => {
     console.warn("search");
   };
@@ -20,22 +29,40 @@ function Greeting(props) {
   } else if (hours >= 17 && hours <= 24) {
     greet = "Good evening";
   }
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: withRepeat(
+          withSequence(
+            withTiming(-10),
+            withDelay(1500, withTiming(0)),
+            withTiming(-10)
+          ),
+          -1,
+          true
+        ),
+      },
+    ],
+  }));
   return (
     <>
-      <View style={styles.container}>
-        <Text style={styles.header}>{greet}</Text>
-        <Pressable style={styles.right} onPress={onSearchPressed}>
-          <Ionicons name="ios-search" size={24} color="black" />
-        </Pressable>
-      </View>
-      <Text style={styles.subHeader}>{moment().format("LL")}</Text>
+      <Animated.View style={[styles.container, animatedStyle]}>
+        <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
+
+        <Text style={[styles.subHeader, { color: theme.color }]}>
+          {moment().format("LL")}
+        </Text>
+      </Animated.View>
     </>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "space-between",
+    marginTop: constants.m,
+    marginHorizontal: constants.m,
   },
   header: {
     fontSize: constants.daygreeting,
