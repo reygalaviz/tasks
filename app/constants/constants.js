@@ -40,21 +40,24 @@ export default {
   header: RFValue(15),
   screenHeader: RFValue(20),
   sectionHeader: RFValue(15),
-  cardTitle: RFValue(14),
-  cardDate: RFValue(12),
-  cardPriority: RFValue(12),
 
   //header-bar
-  marginTopHeader: Platform.OS === "ios" ? 50 : 70 + StatusBar.currentHeight,
+  marginTopHeader: Platform.OS === "ios" ? 60 : 70 + StatusBar.currentHeight,
 
   //add-task
   taskFont: RFValue(12),
+
+  //task-card
+  cardTitle: RFValue(14),
+  cardDate: RFValue(12),
+  cardPriority: RFValue(12),
+  cardHeight: verticalScale(125),
 
   //modal-sheet-top-padding
   sheetTopPadding: Platform.OS === "ios" ? height * 0.06 : 60,
 
   //tab-bar
   tabWidth: horizontalScale(100),
-  tabHeight: verticalScale(45),
+  tabHeight: verticalScale(40),
   tabText: RFValue(12),
 };

@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { FlatList, View, StyleSheet, Text } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
 
 const tabs = ["Today", "Upcoming", "Completed"];
 
 function TabBar(props) {
+  const theme = useContext(themeContext);
+
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
   return (
     <View
@@ -26,14 +29,16 @@ function TabBar(props) {
                 styles.container,
                 {
                   backgroundColor:
-                    selectedTab === tab ? "black" : "transparent",
+                    selectedTab === tab ? theme.buttonColor : null,
                 },
               ]}
             >
               <Text
                 style={[
                   styles.text,
-                  { color: selectedTab === tab ? "white" : "black" },
+                  {
+                    color: selectedTab === tab ? theme.buttonText : theme.color,
+                  },
                 ]}
               >
                 {tab}

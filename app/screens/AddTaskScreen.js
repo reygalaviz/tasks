@@ -38,7 +38,7 @@ function AddTaskScreen({ addTask }) {
   const theme = useContext(themeContext);
 
   const sheetRef = useRef();
-  const snapPoints = ["65%"];
+  const snapPoints = ["80%"];
   const [isOpen, setIsOpen] = useState(false);
 
   const onOpenAddTask = () => {

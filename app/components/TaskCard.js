@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,18 @@ import constants from "../constants/constants";
 import { MaterialIcons } from "@expo/vector-icons";
 import Checkmark from "./Checkmark";
 import Priority from "./Priority";
-import Animated, { AnimatedLayout, SlideInLeft } from "react-native-reanimated";
+import Animated, {
+  AnimatedLayout,
+  SlideInLeft,
+  SlideOutRight,
+} from "react-native-reanimated";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import themeContext from "../theme/themeContext";
 
 function TaskCard({ task }) {
+  const [isChecked, setIsChecked] = useState("");
+  const theme = useContext(themeContext);
+
   const completedTasks = Object.values(task).filter(
     (task) => task.completed
   ).length;
@@ -23,10 +32,23 @@ function TaskCard({ task }) {
     <Animated.View entering={SlideInLeft}>
       <Pressable style={[styles.container, { backgroundColor: task.color }]}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title} numberOfLines={3}>
+          <Text style={[styles.title]} numberOfLines={3}>
             {task.name}
           </Text>
-          <Checkmark />
+
+          <BouncyCheckbox
+            useNativeDriver={true}
+            size={25}
+            style={{ alignSelf: "flex-start" }}
+            fillColor="#B5EF8A"
+            unfillColor={task.color}
+            iconStyle={{ borderColor: "red" }}
+            innerIconStyle={{
+              borderWidth: 1,
+              borderColor: isChecked ? "#B5EF8A" : theme.backgorund,
+            }}
+            onPress={(value) => setIsChecked(value)}
+          />
         </View>
 
         <View>
@@ -48,7 +70,7 @@ function TaskCard({ task }) {
 }
 const styles = StyleSheet.create({
   container: {
-    height: 130,
+    height: constants.cardHeight,
     width: "100%",
     borderWidth: 1,
     borderRadius: 10,
@@ -68,11 +90,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: constants.cardTitle,
     fontWeight: "bold",
-    width: "70%",
+    width: "80%",
   },
   dateContainer: {
+    width: "75%",
     flexDirection: "row",
     alignItems: "center",
+    paddingTop: constants.xs,
   },
   date: {
     fontSize: constants.cardDate,
@@ -81,8 +105,7 @@ const styles = StyleSheet.create({
   },
   timeContainer: {
     flexDirection: "row",
-    alignItems: "center",
-    marginTop: constants.xs - 2,
+    alignItems: "flex-end",
     justifyContent: "space-between",
   },
 });

@@ -11,8 +11,9 @@ import Animated, {
   withSequence,
   withDelay,
 } from "react-native-reanimated";
+import { Feather } from "@expo/vector-icons";
 
-function Greeting(props) {
+function Greeting({ OnCalendarPress }) {
   const theme = useContext(themeContext);
   const onSearchPressed = () => {
     console.warn("search");
@@ -47,11 +48,22 @@ function Greeting(props) {
   }));
   return (
     <>
-      <Animated.View style={[styles.container, animatedStyle]}>
-        <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
+      <Animated.View style={[styles.container]}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
+          <Pressable onPress={OnCalendarPress}>
+            <Feather name="calendar" size={24} color={theme.color} />
+          </Pressable>
+        </View>
 
         <Text style={[styles.subHeader, { color: theme.color }]}>
-          {moment().format("LL")}
+          {moment().format("dddd, MMMM D YYYY")}
         </Text>
       </Animated.View>
     </>

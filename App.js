@@ -5,10 +5,10 @@ import themeContext from "./app/theme/themeContext";
 import theme from "./app/theme/theme";
 import { storeData, getData } from "./app/asyncstorage/asyncStorage";
 import { EventRegister } from "react-native-event-listeners";
-import CalendarScreen from "./app/screens/CalendarScreen";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { RecoilRoot } from "recoil";
+import StackNavigation from "./app/navigation/StackNavigation";
 
 export default function App() {
   const [mode, setMode] = useState(false);
@@ -32,7 +32,7 @@ export default function App() {
           <themeContext.Provider
             value={mode === true ? theme.dark : theme.light}
           >
-            <HomeScreen />
+            <StackNavigation />
           </themeContext.Provider>
         </BottomSheetModalProvider>
       </RecoilRoot>

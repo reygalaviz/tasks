@@ -2,13 +2,30 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
+import moment from "moment";
+import { Feather } from "@expo/vector-icons";
 
-function HeaderBar({ children }) {
+function HeaderBar({
+  children,
+  back,
+  reminder,
+  date,
+  headerText,
+  onBackPress,
+}) {
   const theme = useContext(themeContext);
   return (
     <View style={styles.container}>
       <View style={styles.layout}>
-        <Text style={[styles.appName, { color: theme.color }]}>reminder</Text>
+        {back && (
+          <Pressable onPress={onBackPress}>
+            <Feather name="chevron-left" size={24} color="black" />
+          </Pressable>
+        )}
+        {reminder && (
+          <Text style={[styles.appName, { color: theme.color }]}>reminder</Text>
+        )}
+        {date && <Text style={headerText}>{moment().format("LL")}</Text>}
       </View>
       <View style={[styles.layout, styles.right]}>{children}</View>
     </View>

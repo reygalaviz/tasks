@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   StyleSheet,
@@ -8,11 +8,14 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import constants from "../constants/constants";
+import themeContext from "../theme/themeContext";
 
 const circle_size = 40;
 const circle_ringsize = 2;
 
 function ColorBar({ color, setColor }) {
+  const theme = useContext(themeContext);
+
   const cardColors = [
     "#586BA4",
     "#F5DD90",
@@ -31,7 +34,10 @@ function ColorBar({ color, setColor }) {
           <View key={value}>
             <TouchableWithoutFeedback onPress={() => setColor(value)}>
               <View
-                style={[styles.circle, isActive && { borderColor: "black" }]}
+                style={[
+                  styles.circle,
+                  isActive && { borderColor: theme.color },
+                ]}
               >
                 <View
                   style={[styles.circleInside, { backgroundColor: value }]}

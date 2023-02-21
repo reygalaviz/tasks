@@ -1,6 +1,19 @@
 import "react-native-gesture-handler";
-import React, { useState, useContext, useCallback, useRef } from "react";
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import React, {
+  useState,
+  useContext,
+  useCallback,
+  useRef,
+  useEffect,
+} from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  SafeAreaView,
+} from "react-native";
 import { EventRegister } from "react-native-event-listeners";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
@@ -17,11 +30,11 @@ import Animated, {
   SlideInDown,
   SlideInUp,
   FadeInUp,
+  withDecay,
 } from "react-native-reanimated";
-import CustomInput from "../components/CustomInput";
 import TabBar from "../components/TabBar";
 
-function HomeScreen(props) {
+function HomeScreen({ navigation }) {
   const theme = useContext(themeContext);
 
   const todoList = useRecoilValue(todoItem);
@@ -29,9 +42,12 @@ function HomeScreen(props) {
 
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const sheetSettingsRef = useRef();
-
   const onOpenSettings = () => {
     sheetSettingsRef.current?.expand();
+  };
+
+  const OnCalendarPress = () => {
+    navigation.navigate("CalendarScreen");
   };
 
   const [tasks, setTasks] = useState([]);
@@ -39,24 +55,36 @@ function HomeScreen(props) {
     setTasks((prev) => [...prev, task]);
   };
 
+  const scrolling = useRef(new Animated.Value(0)).current;
+  const diffClamp = Animated.diffClamp(scrolling, 0, 100);
+  const translation = Animated.interpolateNode(diffClamp, {
+    inputRange: [0, 100],
+    outputRange: [0, -100],
+  });
+
+  const headermax = 150;
+  const headermin = 50;
+
+  const animatedHeaderHeight = scrolling.interpolate({
+    inputRange: [0, headermax - headermin],
+    outputRange: [headermax, headermin],
+    extrapolate: "clamp",
+  });
+
   return (
     <>
       <StatusBar barStyle={mode === false ? "dark-content" : "light-content"} />
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <HeaderBar>
+        <HeaderBar reminder>
           <NotificationsButton />
           <SettingsButton onOpenSettings={onOpenSettings} />
         </HeaderBar>
-
-        <Greeting />
-        {/* <View style={{ marginHorizontal: constants.m }}>
-          <CustomInput />
-        </View> */}
-
+        <Greeting OnCalendarPress={OnCalendarPress} />
         <TabBar />
 
+        {tasks && <TaskFlatList tasks={tasks} scrolling={scrolling} />}
+
         <AddTaskScreen addTask={addTask} />
-        {tasks && <TaskFlatList tasks={tasks} />}
         <SettingsScreen
           isOpen={isSettingsOpen}
           setIsOpen={setIsSettingsOpen}

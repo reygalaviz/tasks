@@ -1,10 +1,22 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import HeaderBar from "../components/HeaderBar";
+import constants from "../constants/constants";
+import { Calendar } from "react-native-calendars";
 
-function CalendarScreen(props) {
+function CalendarScreen({ navigation }) {
+  const onBackPress = () => {
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
-      <Text>calendar screen</Text>
+      <HeaderBar
+        back
+        date
+        onBackPress={onBackPress}
+        headerText={styles.headerText}
+      />
+      <Calendar />
     </View>
   );
 }
@@ -12,8 +24,11 @@ function CalendarScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  },
+  headerText: {
+    paddingLeft: constants.s,
+    fontSize: constants.header,
+    fontWeight: "bold",
   },
 });
 
