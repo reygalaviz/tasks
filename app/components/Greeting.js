@@ -11,7 +11,6 @@ import Animated, {
   withSequence,
   withDelay,
 } from "react-native-reanimated";
-import { Feather } from "@expo/vector-icons";
 
 function Greeting({ OnCalendarPress }) {
   const theme = useContext(themeContext);
@@ -58,7 +57,7 @@ function Greeting({ OnCalendarPress }) {
         >
           <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
           <Pressable onPress={OnCalendarPress}>
-            <Feather name="calendar" size={24} color={theme.color} />
+            <Ionicons name="ios-search-outline" size={24} color="black" />
           </Pressable>
         </View>
 

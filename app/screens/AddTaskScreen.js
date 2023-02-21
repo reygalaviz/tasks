@@ -30,8 +30,8 @@ function AddTaskScreen({ addTask }) {
   let defaultDate = new Date();
   let defaultTime = new Date(Date.now());
   const [task, setTask] = useState("");
-  const [date, setDate] = useState(new Date(defaultDate));
-  const [time, setTime] = useState(moment(defaultTime));
+  const [date, setDate] = useState(defaultDate);
+  const [time, setTime] = useState(defaultTime);
   const [priority, setPriority] = useState("");
   const [color, setColor] = useState("");
 
@@ -57,6 +57,8 @@ function AddTaskScreen({ addTask }) {
     addTask({
       name: task,
       priority: priority,
+      date: moment(date).format("LL"),
+      time: moment(time).format("LT"),
       color: color,
       completed: false,
       id: Date.now(),
@@ -66,6 +68,8 @@ function AddTaskScreen({ addTask }) {
     setTime(defaultTime);
     setPriority(""), setColor("");
     sheetRef?.current?.close();
+    console.log(date);
+    console.log(time);
   };
 
   return (

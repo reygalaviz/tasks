@@ -54,12 +54,12 @@ function TaskCard({ task }) {
         <View>
           <View style={styles.dateContainer}>
             <MaterialIcons name="calendar-today" size={18} color="black" />
-            <Text style={styles.date}></Text>
+            <Text style={styles.date}>{task.date}</Text>
           </View>
           <View style={styles.timeContainer}>
             <View style={{ flexDirection: "row" }}>
               <MaterialIcons name="access-time" size={18} color="black" />
-              <Text style={styles.date}></Text>
+              <Text style={styles.date}>{task.time}</Text>
             </View>
             <Priority priorityTitle={task.priority} />
           </View>

@@ -16,7 +16,8 @@ function CalendarScreen({ navigation }) {
         onBackPress={onBackPress}
         headerText={styles.headerText}
       />
-      <Calendar />
+
+      <Calendar style={{ borderWidth: 2 }} />
     </View>
   );
 }

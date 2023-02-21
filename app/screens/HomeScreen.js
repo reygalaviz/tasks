@@ -46,8 +46,8 @@ function HomeScreen({ navigation }) {
     sheetSettingsRef.current?.expand();
   };
 
-  const OnCalendarPress = () => {
-    navigation.navigate("CalendarScreen");
+  const onSearchPress = () => {
+    console.warn("search");
   };
 
   const [tasks, setTasks] = useState([]);
@@ -79,7 +79,7 @@ function HomeScreen({ navigation }) {
           <NotificationsButton />
           <SettingsButton onOpenSettings={onOpenSettings} />
         </HeaderBar>
-        <Greeting OnCalendarPress={OnCalendarPress} />
+        <Greeting OnCalendarPress={onSearchPress} />
         <TabBar />
 
         {tasks && <TaskFlatList tasks={tasks} scrolling={scrolling} />}

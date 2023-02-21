@@ -23,11 +23,11 @@ function DatePicker({ date, setDate, ...props }) {
   const [showDate, setShowDate] = useState(false);
 
   const onDChange = (e, selectedDate) => {
-    setDate(moment(selectedDate));
+    setDate(selectedDate);
   };
 
   const onDateCancel = () => {
-    setDate(moment(new Date()));
+    setDate(new Date());
     setShowDate(false);
   };
   const onDateDone = () => {
@@ -36,7 +36,7 @@ function DatePicker({ date, setDate, ...props }) {
   };
 
   const onClickOutside = () => {
-    setDate(moment(new Date()));
+    setDate(new Date());
     setShowDate(false);
   };
 
@@ -140,7 +140,6 @@ function DatePicker({ date, setDate, ...props }) {
 DatePicker.defaultProps = {
   textStyle: {},
   defaultDate: moment(),
-
   onDateChange: () => {},
 };
 

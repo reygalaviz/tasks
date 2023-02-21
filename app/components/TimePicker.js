@@ -23,7 +23,7 @@ function TimePicker({ time, setTime, ...props }) {
     setTime(moment(selectedTime));
   };
   const onTimeCancel = () => {
-    setTime(moment(defaultTime));
+    setTime(new Date(Date.now()));
     setShowTime(false);
   };
   const onTimeDone = () => {
@@ -32,7 +32,7 @@ function TimePicker({ time, setTime, ...props }) {
   };
 
   const onClickOutside = () => {
-    setTime(moment(defaultTime));
+    setTime(new Date(Date.now()));
     setShowTime(false);
   };
 
