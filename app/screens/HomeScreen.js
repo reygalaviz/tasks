@@ -53,7 +53,13 @@ function HomeScreen({ navigation }) {
   const [tasks, setTasks] = useState([]);
   const addTask = (task) => {
     setTasks((prev) => [...prev, task]);
+    console.log(tasks);
   };
+
+  const deleteTask = useCallback((id) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+    console.log(tasks);
+  });
 
   const scrolling = useRef(new Animated.Value(0)).current;
   const diffClamp = Animated.diffClamp(scrolling, 0, 100);
@@ -82,7 +88,7 @@ function HomeScreen({ navigation }) {
         <Greeting OnCalendarPress={onSearchPress} />
         <TabBar />
 
-        {tasks && <TaskFlatList tasks={tasks} scrolling={scrolling} />}
+        {tasks && <TaskFlatList tasks={tasks} deleteTask={deleteTask} />}
 
         <AddTaskScreen addTask={addTask} />
         <SettingsScreen

@@ -68,8 +68,6 @@ function AddTaskScreen({ addTask }) {
     setTime(defaultTime);
     setPriority(""), setColor("");
     sheetRef?.current?.close();
-    console.log(date);
-    console.log(time);
   };
 
   return (

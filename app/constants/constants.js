@@ -42,7 +42,7 @@ export default {
   sectionHeader: RFValue(15),
 
   //header-bar
-  marginTopHeader: Platform.OS === "ios" ? 60 : 70 + StatusBar.currentHeight,
+  marginTopHeader: Platform.OS === "ios" ? 60 : 10 + StatusBar.currentHeight,
 
   //add-task
   taskFont: RFValue(12),

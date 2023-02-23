@@ -1,14 +1,19 @@
 import React, { useRef } from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import tempData from "../tempData";
 import TaskCard from "./TaskCard";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
 import constants from "../constants/constants";
 import Animated from "react-native-reanimated";
+import {
+  NativeViewGestureHandler,
+  PanGestureHandler,
+} from "react-native-gesture-handler";
 
-function TaskFlatList({ tasks, scrolling }) {
+function TaskFlatList({ tasks, deleteTask }) {
   const todoList = useRecoilValue(todoItem);
+  const scrollRef = useRef();
 
   return (
     // <View style={styles.tasks}>
@@ -19,21 +24,17 @@ function TaskFlatList({ tasks, scrolling }) {
     //     ))}
     // </View>
 
-    <Animated.FlatList
-      onScroll={Animated.event(
-        [{ nativeEvent: { contentOffset: { y: scrolling } } }],
-        { useNativeDriver: true }
-      )}
-      scrollEventThrottle={16}
+    <FlatList
       style={{ flex: 1 }}
       data={tasks}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={true}
       contentContainerStyle={{
-        marginHorizontal: constants.m,
         paddingBottom: constants.l,
       }}
-      renderItem={({ item }) => <TaskCard key={item.id} task={item} />}
+      renderItem={({ item }) => (
+        <TaskCard deleteTask={deleteTask} key={item.id} task={item} />
+      )}
     />
   );
 }

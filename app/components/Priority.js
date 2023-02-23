@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: constants.cardPriority,
+    fontWeight: "600",
   },
 });
 
