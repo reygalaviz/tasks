@@ -1,3 +1,32 @@
+// import React, { useState, useContext, useRef } from "react";
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   Pressable,
+//   useWindowDimensions,
+//   Dimensions,
+// } from "react-native";
+// import constants from "../constants/constants";
+// import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+// import Checkmark from "./Checkmark";
+// import Priority from "./Priority";
+// import Animated, {
+//   runOnJS,
+//   SlideInLeft,
+//   SlideOutLeft,
+//   useAnimatedGestureHandler,
+//   useAnimatedStyle,
+//   useSharedValue,
+//   withSequence,
+//   withSpring,
+//   withTiming,
+//   Easing,
+// } from "react-native-reanimated";
+// import { PanGestureHandler } from "react-native-gesture-handler";
+// import BouncyCheckbox from "react-native-bouncy-checkbox";
+// import themeContext from "../theme/themeContext";
+// import Swipeable from "react-native-gesture-handler/Swipeable";
 // const translateX = useSharedValue(0);
 // const taskHeight = useSharedValue(constants.cardHeight);
 // const marginVertical = useSharedValue(10);

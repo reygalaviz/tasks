@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import {
   View,
   Text,
@@ -8,32 +8,15 @@ import {
   Dimensions,
 } from "react-native";
 import constants from "../constants/constants";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
 import Checkmark from "./Checkmark";
 import Priority from "./Priority";
-import Animated, {
-  runOnJS,
-  SlideInLeft,
-  SlideOutLeft,
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSequence,
-  withSpring,
-  withTiming,
-  Easing,
-} from "react-native-reanimated";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
 import themeContext from "../theme/themeContext";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
 function TaskCard({ task, deleteTask }) {
-  const [isChecked, setIsChecked] = useState(task.completed);
-
-  const handleCheckbox = (e) => {
-    setIsChecked(!isChecked);
-  };
   const theme = useContext(themeContext);
 
   const completedTasks = Object.values(task).filter(
@@ -45,24 +28,10 @@ function TaskCard({ task, deleteTask }) {
     return (
       <View style={[, styles.taskContainer, {}]}>
         <View style={[, styles.task, { backgroundColor: task.color }]}>
-          <View style={styles.titleContainer}>
-            <Text style={[styles.title]} numberOfLines={3}>
+          <View style={[styles.titleContainer]}>
+            <Text style={[styles.title, {}]} numberOfLines={3}>
               {task.name}
             </Text>
-
-            <BouncyCheckbox
-              useNativeDriver={true}
-              size={35}
-              style={{ alignSelf: "flex-start" }}
-              fillColor="##5CFF5C"
-              unfillColor="#A3EBB1"
-              iconStyle={{ borderColor: "black" }}
-              innerIconStyle={{
-                borderWidth: 1,
-                borderColor: "black",
-              }}
-              onPress={handleCheckbox}
-            />
           </View>
 
           <View>
@@ -71,7 +40,12 @@ function TaskCard({ task, deleteTask }) {
               <Text style={styles.date}>{task.date}</Text>
             </View>
             <View style={styles.timeContainer}>
-              <View style={{ flexDirection: "row" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
                 <MaterialIcons name="access-time" size={20} color="black" />
                 <Text style={styles.date}>{task.time}</Text>
               </View>
@@ -94,25 +68,55 @@ function TaskCard({ task, deleteTask }) {
           justifyContent: "center",
           alignItems: "flex-end",
           marginRight: constants.m,
-          marginLeft: -15,
+          marginLeft: "-4%",
         }}
       >
-        <View
+        <Animated.View
           style={{
             paddingVertical: constants.m,
             paddingHorizontal: constants.l,
           }}
         >
           <Ionicons name="trash-outline" size={24} color="black" />
-        </View>
+        </Animated.View>
       </Pressable>
     );
   };
 
+  const leftSwipeActions = () => {
+    return (
+      <Animated.View
+        style={{
+          borderRadius: 10,
+          height: constants.cardHeight,
+          marginHorizontal: constants.m,
+          backgroundColor: "#77DD77",
+          justifyContent: "center",
+          flex: 1,
+        }}
+      >
+        <Octicons
+          name="check"
+          size={24}
+          color="black"
+          style={{
+            paddingVertical: constants.m,
+            paddingHorizontal: constants.l,
+          }}
+        />
+      </Animated.View>
+    );
+  };
+
   return (
-    <Swipeable renderRightActions={rightSwipeActions}>
-      <Card />
-    </Swipeable>
+    <Animated.View entering={SlideInLeft}>
+      <Swipeable
+        renderLeftActions={leftSwipeActions}
+        renderRightActions={rightSwipeActions}
+      >
+        <Card />
+      </Swipeable>
+    </Animated.View>
 
     // <Animated.View entering={SlideInLeft}>
     //   <Card />
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: constants.s / 2,
+    marginBottom: constants.s + 1,
   },
   task: {
     height: constants.cardHeight,
@@ -148,7 +152,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: constants.cardTitle,
     fontWeight: "bold",
-    width: "80%",
+    width: "100%",
   },
   dateContainer: {
     width: "75%",
@@ -165,6 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
+    // backgroundColor: "red",
   },
   iconContainer: {
     backgroundColor: "#ED6A5E",
