@@ -1,11 +1,19 @@
 import React, { useState, useContext, useRef, useCallback } from "react";
-import { View, Text, StyleSheet, StatusBar, Switch } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Switch,
+  ScrollView,
+} from "react-native";
 import { EventRegister } from "react-native-event-listeners";
 import themeContext from "../theme/themeContext";
 import ModalSheet from "../components/ModalSheet";
 import constants from "../constants/constants";
 import { Portal, PortalHost } from "@gorhom/portal";
 import ModalSheetHeader from "../components/ModalSheetHeader";
+import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
   const theme = useContext(themeContext);
@@ -44,14 +52,13 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
           onChange={handleSnapPress}
           style={{ backgroundColor: theme.background }}
         >
-          <View style={styles.container}>
-            <ModalSheetHeader
-              title="Settings"
-              onPress={onCancelPress}
-              iconColor={theme.color}
-              style={{ color: theme.color }}
-            />
-
+          <ModalSheetHeader
+            title="Settings"
+            onPress={onCancelPress}
+            iconColor={theme.color}
+            style={{ color: theme.color }}
+          />
+          <BottomSheetScrollView style={{ paddingHorizontal: constants.m }}>
             <View style={styles.themeContainer}>
               <Text style={[styles.themeText, { color: theme.color }]}>
                 Dark Mode
@@ -65,7 +72,7 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
                 style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
               />
             </View>
-          </View>
+          </BottomSheetScrollView>
         </ModalSheet>
       </Portal>
       <PortalHost name="host" />

@@ -53,6 +53,7 @@ function ColorBar({ color, setColor }) {
 
 const styles = StyleSheet.create({
   group: {
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     width: circle_size + circle_ringsize * 4,
     height: circle_size + circle_ringsize * 4,
     borderRadius: 100,
-    marginRight: 5,
+    marginRight: 2,
 
     borderWidth: circle_ringsize,
     borderColor: "transparent",

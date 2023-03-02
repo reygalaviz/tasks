@@ -1,7 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import "react-native-gesture-handler";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 
 function ModalSheet({
   children,
@@ -22,15 +25,13 @@ function ModalSheet({
       handleIndicatorStyle={{ display: "none" }}
       backgroundStyle={style}
     >
-      <BottomSheetView>{children}</BottomSheetView>
+      {children}
     </BottomSheet>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    zIndex: 1000,
-  },
+  container: { zIndex: 1000 },
 });
 
 export default ModalSheet;

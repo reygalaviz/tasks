@@ -15,9 +15,18 @@ import Animated, { SlideInLeft } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import themeContext from "../theme/themeContext";
 import Swipeable from "react-native-gesture-handler/Swipeable";
+import { useNavigation } from "@react-navigation/native";
 
 function TaskCard({ task, deleteTask }) {
   const theme = useContext(themeContext);
+  const navigation = useNavigation();
+
+  const onDetailsScreen = () => {
+    navigation.navigate("DetailsScreen", {
+      selectedTask: task,
+      id: task.id,
+    });
+  };
 
   const completedTasks = Object.values(task).filter(
     (task) => task.completed
@@ -26,7 +35,7 @@ function TaskCard({ task, deleteTask }) {
 
   const Card = () => {
     return (
-      <View style={[, styles.taskContainer, {}]}>
+      <Pressable onPress={onDetailsScreen} style={[, styles.taskContainer, {}]}>
         <View style={[, styles.task, { backgroundColor: task.color }]}>
           <View style={[styles.titleContainer]}>
             <Text style={[styles.title, {}]} numberOfLines={3}>
@@ -53,7 +62,7 @@ function TaskCard({ task, deleteTask }) {
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
 

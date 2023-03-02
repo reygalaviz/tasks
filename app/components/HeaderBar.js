@@ -3,29 +3,38 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
 import moment from "moment";
-import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 
 function HeaderBar({
   children,
   back,
   reminder,
   date,
-  headerText,
+  header,
   onBackPress,
+  style,
 }) {
   const theme = useContext(themeContext);
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.layout}>
         {back && (
-          <Pressable onPress={onBackPress}>
-            <Feather name="chevron-left" size={24} color="black" />
+          <Pressable
+            onPress={onBackPress}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Entypo name="chevron-left" size={24} color="black" />
+            <Text style={styles.headerText}>{header}</Text>
           </Pressable>
         )}
         {reminder && (
           <Text style={[styles.appName, { color: theme.color }]}>reminder</Text>
         )}
-        {date && <Text style={headerText}>{moment().format("LL")}</Text>}
+
+        {date && <Text style={styles.headerText}>{moment().format("LL")}</Text>}
       </View>
       <View style={[styles.layout, styles.right]}>{children}</View>
     </View>
@@ -34,7 +43,7 @@ function HeaderBar({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: constants.m,
+    marginHorizontal: constants.m,
     marginTop: constants.marginTopHeader,
     alignItems: "center",
     justifyContent: "space-between",
@@ -49,6 +58,11 @@ const styles = StyleSheet.create({
     fontSize: constants.header,
   },
   right: { justifyContent: "flex-end" },
+  headerText: {
+    paddingLeft: 2,
+    fontSize: constants.header,
+    fontWeight: "bold",
+  },
 });
 
 export default HeaderBar;

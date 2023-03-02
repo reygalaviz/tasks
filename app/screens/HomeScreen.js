@@ -33,34 +33,40 @@ import Animated, {
   withDecay,
 } from "react-native-reanimated";
 import TabBar from "../components/TabBar";
+import ModalSheet from "../components/ModalSheet";
+import TaskDetailsScreen from "./TaskDetailsScreen";
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, ...props }) {
   const theme = useContext(themeContext);
 
+  const onOpenCalendar = () => {
+    navigation.navigate("CalendarScreen");
+  };
+
+  //recoil
   const todoList = useRecoilValue(todoItem);
   const [mode, setMode] = useState(false);
 
+  //settings screen
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const sheetSettingsRef = useRef();
   const onOpenSettings = () => {
     sheetSettingsRef.current?.expand();
   };
 
-  const onSearchPress = () => {
-    console.warn("search");
-  };
-
-  const [tasks, setTasks] = useState([]);
+  //add task
   const addTask = (task) => {
-    setTasks((prev) => [...prev, task]);
-    console.log(tasks);
+    props.setTasks((prev) => [...prev, task]);
+    console.log(props.tasks);
   };
 
+  //delete task
   const deleteTask = useCallback((id) => {
-    setTasks((prev) => prev.filter((t) => t.id !== id));
-    console.log(tasks);
+    props.setTasks((prev) => prev.filter((t) => t.id !== id));
+    console.log(props.tasks);
   });
 
+  //animated header
   const scrolling = useRef(new Animated.Value(0)).current;
   const diffClamp = Animated.diffClamp(scrolling, 0, 100);
   const translation = Animated.interpolateNode(diffClamp, {
@@ -85,10 +91,12 @@ function HomeScreen({ navigation }) {
           <NotificationsButton />
           <SettingsButton onOpenSettings={onOpenSettings} />
         </HeaderBar>
-        <Greeting OnCalendarPress={onSearchPress} />
+        <Greeting OnCalendarPress={onOpenCalendar} />
         <TabBar />
 
-        {tasks && <TaskFlatList tasks={tasks} deleteTask={deleteTask} />}
+        {props.tasks && (
+          <TaskFlatList tasks={props.tasks} deleteTask={deleteTask} />
+        )}
 
         <AddTaskScreen addTask={addTask} />
         <SettingsScreen

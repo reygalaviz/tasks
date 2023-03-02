@@ -11,7 +11,7 @@ import {
   PanGestureHandler,
 } from "react-native-gesture-handler";
 
-function TaskFlatList({ tasks, deleteTask }) {
+function TaskFlatList({ tasks, deleteTask, onDetailsScreen }) {
   const todoList = useRecoilValue(todoItem);
   const scrollRef = useRef();
 

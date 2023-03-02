@@ -3,6 +3,7 @@ import SettingsScreen from "./SettingsScreen";
 import AddTaskScreen from "./AddTaskScreen";
 import CalendarScreen from "./CalendarScreen";
 import NotificationScreen from "./NotificationScreen";
+import TaskDetailsScreen from "./TaskDetailsScreen";
 
 export {
   HomeScreen,
@@ -10,4 +11,5 @@ export {
   AddTaskScreen,
   CalendarScreen,
   NotificationScreen,
+  TaskDetailsScreen,
 };

@@ -42,10 +42,19 @@ export default {
   sectionHeader: RFValue(15),
 
   //header-bar
-  marginTopHeader: Platform.OS === "ios" ? 60 : 10 + StatusBar.currentHeight,
+  marginTopHeader:
+    Platform.OS === "ios" ? verticalScale(60) : 10 + StatusBar.currentHeight,
+
+  //text-input
+  titleMaxHeight: verticalScale(100),
+  titleMinHeight: verticalScale(20),
+  detailsMaxHeight: verticalScale(150),
+  detailsMinHeight: verticalScale(20),
 
   //add-task
-  taskFont: RFValue(12),
+  taskFont: RFValue(16),
+  taskDetailsFont: RFValue(13),
+  taskFontDateTime: RFValue(13),
 
   //task-card
   cardTitle: RFValue(14),
@@ -54,7 +63,7 @@ export default {
   cardHeight: verticalScale(125),
 
   //modal-sheet-top-padding
-  sheetTopPadding: Platform.OS === "ios" ? height * 0.06 : 60,
+  sheetTopPadding: Platform.OS === "ios" ? verticalScale(40) : 60,
 
   //tab-bar
   tabWidth: horizontalScale(100),

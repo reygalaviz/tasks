@@ -8,16 +8,36 @@ import {
 import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
 
-const CustomInput = ({ placeholder, value, setValue }) => {
+const CustomInput = ({
+  placeholder,
+  value,
+  setValue,
+  style,
+  textStyle,
+  maxHeight,
+  minHeight,
+  maxLength,
+}) => {
   const theme = useContext(themeContext);
+
   return (
-    <View style={[styles.container, { borderColor: theme.textBorder }]}>
+    <View style={[styles.container, { borderColor: theme.textBorder }, style]}>
       <TextInput
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
-        style={{ color: theme.color }}
-        placeholderTextColor={theme.color}
+        style={[
+          {
+            color: theme.color,
+            maxHeight: maxHeight,
+            minHeight: minHeight,
+          },
+          textStyle,
+        ]}
+        placeholderTextColor="gray"
+        maxLength={maxLength}
+        numberOfLines={3}
+        multiline={true}
       />
     </View>
   );
@@ -25,9 +45,6 @@ const CustomInput = ({ placeholder, value, setValue }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-    borderWidth: 1,
     borderRadius: 10,
     marginVertical: 10,
   },

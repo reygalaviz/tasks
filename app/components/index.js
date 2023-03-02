@@ -17,6 +17,8 @@ import ColorBar from "./ColorBar";
 import NotificationsButton from "./NotificationsButton";
 import HeaderBar from "./HeaderBar";
 import CheckBox from "./CheckBox";
+import DeleteButton from "./DeleteButton";
+import CustomModalBackground from "./CustomModalBackground";
 
 export {
   TabBar,
@@ -38,4 +40,6 @@ export {
   NotificationsButton,
   HeaderBar,
   CheckBox,
+  DeleteButton,
+  CustomModalBackground,
 };

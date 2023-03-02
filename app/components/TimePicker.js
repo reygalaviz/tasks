@@ -57,11 +57,11 @@ function TimePicker({ time, setTime, ...props }) {
             <Text
               style={{
                 marginLeft: constants.s,
-                fontSize: constants.taskFont,
+                fontSize: constants.taskFontDateTime,
                 color: theme.color,
               }}
             >
-              {moment(time).format("LT")}
+              {time.format("LT")}
             </Text>
           </View>
 
