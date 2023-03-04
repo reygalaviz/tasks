@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { View, StyleSheet, Text, ScrollView, Modal } from "react-native";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
@@ -10,8 +10,10 @@ import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
 import RBSheet from "react-native-raw-bottom-sheet";
+import themeContext from "../theme/themeContext";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
+  const theme = useContext(themeContext);
   const rbSheetRef = useRef();
   const modalVisible = () => {
     rbSheetRef.current.open();
@@ -69,17 +71,33 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
   };
 
   return (
-    <View style={styles.container}>
-      <RBSheet ref={rbSheetRef} customStyles={{ container: styles.sheet }}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <RBSheet
+        ref={rbSheetRef}
+        customStyles={{
+          container: {
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+            backgroundColor: theme.background,
+          },
+        }}
+        openDuration={200}
+      >
         <View style={styles.sheetHeader}>
-          <Text numberOfLines={1} style={[styles.sheetTitle]}>
+          <Text
+            numberOfLines={1}
+            style={[styles.sheetTitle, { color: theme.color }]}
+          >
             {selectedTaskData.name !== ""
               ? selectedTaskData.name
               : selectedTaskData.details}
           </Text>
         </View>
         <View style={styles.sheetBody}>
-          <Text numberOfLines={1} style={[styles.bodyText]}>
+          <Text
+            numberOfLines={1}
+            style={[styles.bodyText, { color: theme.color }]}
+          >
             Are you sure tou want to delete?
           </Text>
           <CustomButton
@@ -91,6 +109,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             type="SECONDARY"
             title="Cancel"
             onPress={handleCancelDelete}
+            fgColor={theme.color}
           />
         </View>
       </RBSheet>
@@ -120,7 +139,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             setValue={(value) => setUpdatedTaskDetails(value)}
             placeholder={
               selectedTaskData.details == ""
-                ? "Add notes"
+                ? "add notes"
                 : selectedTaskData.details
             }
           />
@@ -134,6 +153,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             onPress={handleEditTask}
             title="Update"
             style={[styles.button]}
+            bgColor={theme.buttonBarColor}
           />
         </View>
       </ScrollView>
@@ -149,10 +169,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
   },
   sheetHeader: {
-    paddingVertical: constants.m,
+    paddingTop: constants.m,
     paddingHorizontal: constants.m,
     borderBottomWidth: 1,
-    borderColor: "#efefef",
+    borderColor: "#a7a7a7",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -162,14 +182,14 @@ const styles = StyleSheet.create({
   },
   sheetBody: {
     paddingHorizontal: constants.m,
-    paddingTop: constants.s,
+
     alignItems: "center",
     justifyContent: "center",
   },
   bodyText: {
     fontSize: 16,
     fontWeight: "400",
-    marginBottom: 24,
+    marginVertical: constants.m,
     textAlign: "center",
   },
   form: {

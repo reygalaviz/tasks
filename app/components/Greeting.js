@@ -57,7 +57,7 @@ function Greeting({ OnCalendarPress }) {
         >
           <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
           <Pressable onPress={OnCalendarPress}>
-            <Ionicons name="ios-search-outline" size={24} color="black" />
+            <Ionicons name="ios-search-outline" size={24} color={theme.color} />
           </Pressable>
         </View>
 

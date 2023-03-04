@@ -26,8 +26,10 @@ function HeaderBar({
               alignItems: "center",
             }}
           >
-            <Entypo name="chevron-left" size={24} color="black" />
-            <Text style={styles.headerText}>{header}</Text>
+            <Entypo name="chevron-left" size={24} color={theme.color} />
+            <Text style={[styles.headerText, { color: theme.color }]}>
+              {header}
+            </Text>
           </Pressable>
         )}
         {reminder && (

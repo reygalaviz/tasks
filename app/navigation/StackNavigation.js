@@ -6,6 +6,7 @@ import HomeScreen from "../screens/HomeScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import TaskDetailsScreen from "../screens/TaskDetailsScreen";
 import AddTaskScreen from "../screens/AddTaskScreen";
+import DeletedTasksScreen from "../screens/DeletedTasksScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,10 @@ function StackNavigation(props) {
             />
           )}
         </Stack.Screen>
+        <Stack.Screen
+          name="DeletedTasksScreen"
+          component={DeletedTasksScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

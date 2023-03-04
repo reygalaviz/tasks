@@ -90,6 +90,7 @@ function AddTaskScreen({ ...props }) {
         snapPoints={snapPoints}
         index={-1}
         onChange={handleSnapPress}
+        style={{ backgroundColor: theme.background }}
       >
         <ModalSheetHeader
           title="Create your task"
@@ -110,7 +111,7 @@ function AddTaskScreen({ ...props }) {
             style={{ marginBottom: constants.xl }}
             maxLength={500}
             textStyle={styles.detailsText}
-            placeholder="Add notes"
+            placeholder="add notes"
             value={taskDetails}
             setValue={(value) => setTaskDetails(value)}
           />
@@ -125,6 +126,8 @@ function AddTaskScreen({ ...props }) {
             onPress={handleAddTask}
             title="Submit"
             style={[styles.button]}
+            bgColor={theme.buttonBarColor}
+            fgColor={theme.color}
           />
         </BottomSheetScrollView>
       </ModalSheet>

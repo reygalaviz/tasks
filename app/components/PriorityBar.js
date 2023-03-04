@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: constants.sectionHeader,
+    fontWeight: "600",
   },
   buttonContainer: {
     flexDirection: "row",

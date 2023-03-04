@@ -6,16 +6,20 @@ const theme = {
     textBorder: "black",
     active: "white",
     buttonColor: "black",
+    buttonBarColor: "black",
     buttonText: "white",
+    divider: "#a7a7a7",
   },
   dark: {
     theme: "dark",
     color: "white",
-    background: "black",
+    background: "#121212",
     textBorder: "gray",
     active: "black",
     buttonColor: "white",
+    buttonBarColor: "#282828",
     buttonText: "black",
+    divider: "#a7a7a7",
   },
 };
 

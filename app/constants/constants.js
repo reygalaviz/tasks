@@ -39,7 +39,8 @@ export default {
   daygreeting: RFValue(30),
   header: RFValue(15),
   screenHeader: RFValue(20),
-  sectionHeader: RFValue(15),
+  sectionHeader: RFValue(13),
+  sectionItem: RFValue(12),
 
   //header-bar
   marginTopHeader:

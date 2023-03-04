@@ -1,4 +1,10 @@
-import React, { useState, useContext, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useContext,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   View,
   Text,
@@ -6,6 +12,7 @@ import {
   StatusBar,
   Switch,
   ScrollView,
+  Pressable,
 } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
 import themeContext from "../theme/themeContext";
@@ -14,8 +21,16 @@ import constants from "../constants/constants";
 import { Portal, PortalHost } from "@gorhom/portal";
 import ModalSheetHeader from "../components/ModalSheetHeader";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { Feather } from "@expo/vector-icons";
 
-function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
+function SettingsScreen({
+  isOpen,
+  setIsOpen,
+  sheetRef,
+  mode,
+  setMode,
+  navigation,
+}) {
   const theme = useContext(themeContext);
   const snapPoints = ["100%"];
 
@@ -28,20 +43,26 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
     sheetRef?.current?.close();
   };
 
-  const ThemeSwitch = () => {
-    return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text style={{ color: theme.color }}>Change color theme:</Text>
-        <Switch
-          value={mode}
-          onValueChange={(value) => {
-            setMode(value);
-            EventRegister.emit("changeTheme", value);
-          }}
-        />
-      </View>
-    );
-  };
+  const sections = [
+    {
+      header: "Preferences",
+      items: [
+        { id: "darkMode", label: "Dark Mode", type: "toggle" },
+        { id: "deletedTask", label: "Deleted Tasks", type: "select" },
+      ],
+    },
+    {
+      header: "Help",
+      items: [
+        { id: "bug", label: "Report Bug", type: "link" },
+        { id: "contact", label: "Contact Us", type: "link" },
+      ],
+    },
+  ];
+  const [form, setForm] = useState({
+    darkMode: false,
+  });
+
   return (
     <>
       <Portal>
@@ -58,20 +79,60 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef, mode, setMode }) {
             iconColor={theme.color}
             style={{ color: theme.color }}
           />
-          <BottomSheetScrollView style={{ paddingHorizontal: constants.m }}>
-            <View style={styles.themeContainer}>
-              <Text style={[styles.themeText, { color: theme.color }]}>
-                Dark Mode
-              </Text>
-              <Switch
-                value={mode}
-                onValueChange={(value) => {
-                  setMode(value);
-                  EventRegister.emit("changeTheme", value);
-                }}
-                style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }}
-              />
-            </View>
+          <BottomSheetScrollView style={{}}>
+            {sections.map(({ header, items }) => (
+              <View key={header} style={styles.section}>
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionHeaderText}>{header}</Text>
+                </View>
+                <View style={styles.sectionBody}>
+                  {items.map(({ label, id, type }, index) => (
+                    <View
+                      style={[
+                        styles.rowWrapper,
+                        // index === 0 && { borderTopWidth: 0 },
+                      ]}
+                      key={id}
+                    >
+                      <Pressable>
+                        <View style={styles.row}>
+                          <Text
+                            style={[styles.rowLabel, { color: theme.color }]}
+                          >
+                            {label}
+                          </Text>
+                          <View style={styles.rowSpacer} />
+                          {type === "select" && <Text>{form[id]}</Text>}
+                          {["select", "link"].includes(type) && (
+                            <Feather
+                              name="chevron-right"
+                              size={24}
+                              color="#ababab"
+                            />
+                          )}
+                          {type === "toggle" && (
+                            <Switch
+                              value={form[id]}
+                              onValueChange={(value) => {
+                                setForm({ ...form, [id]: value });
+
+                                {
+                                  id === "darkMode" &&
+                                    EventRegister.emit("changeTheme", value);
+                                }
+                              }}
+                              style={{
+                                transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+                              }}
+                            />
+                          )}
+                        </View>
+                      </Pressable>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            ))}
           </BottomSheetScrollView>
         </ModalSheet>
       </Portal>
@@ -106,6 +167,39 @@ const styles = StyleSheet.create({
   },
   themeText: {
     fontSize: constants.sectionHeader,
+  },
+  section: {
+    paddingTop: 12,
+  },
+  sectionHeader: {
+    paddingHorizontal: constants.m,
+    paddingVertical: 8,
+  },
+  sectionHeaderText: {
+    fontSize: constants.sectionHeader,
+    fontWeight: "600",
+    color: "#a7a7a7",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  rowWrapper: {
+    paddingLeft: constants.m,
+    // borderTopWidth: 1,
+    borderColor: "#e3e3e3",
+  },
+  row: {
+    height: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    paddingRight: 24,
+  },
+  rowLabel: {
+    fontSize: constants.sectionItem,
+    fontWeight: "500",
+  },
+  rowSpacer: {
+    flex: 1,
   },
 });
 

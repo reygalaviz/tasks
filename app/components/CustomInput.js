@@ -34,7 +34,7 @@ const CustomInput = ({
           },
           textStyle,
         ]}
-        placeholderTextColor="gray"
+        placeholderTextColor="#b0b3b8"
         maxLength={maxLength}
         numberOfLines={3}
         multiline={true}

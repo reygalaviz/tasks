@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import tempData from "../tempData";
 import TaskCard from "./TaskCard";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
