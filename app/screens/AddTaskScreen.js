@@ -15,7 +15,7 @@ import CustomInput from "../components/CustomInput";
 import { useSetRecoilState, useRecoilState } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
 import PriorityBar from "../components/PriorityBar";
-import DatePicker from "../components/CustomDatePicker";
+import CustomDatePicker from "../components/CustomDatePicker";
 import TimePicker from "../components/TimePicker";
 import moment from "moment";
 import ColorBar from "../components/ColorBar";
@@ -27,11 +27,9 @@ import ModalSheetHeader from "../components/ModalSheetHeader";
 import themeContext from "../theme/themeContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import CustomModalBackground from "../components/CustomModalBackground";
 import { Portal, PortalHost } from "@gorhom/portal";
-import CustomDatePicker from "../components/CustomDatePicker";
 
-function AddTaskScreen({ addTask }) {
+function AddTaskScreen({ ...props }) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
   const [date, setDate] = useState(new Date());
@@ -64,11 +62,11 @@ function AddTaskScreen({ addTask }) {
   };
 
   const handleAddTask = (e) => {
-    addTask({
+    props.addTask({
       name: task,
       details: taskDetails,
-      date: date,
-      time: moment(time).format("LT"),
+      // date: date,
+      // time: moment(time).format("LT"),
       priority: priority,
       color: color,
       completed: false,
@@ -80,6 +78,7 @@ function AddTaskScreen({ addTask }) {
     setTime("");
     setPriority(""), setColor("");
     sheetRef?.current?.close();
+    console.log(task);
   };
 
   return (

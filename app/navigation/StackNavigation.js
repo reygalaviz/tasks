@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -11,6 +11,11 @@ const Stack = createNativeStackNavigator();
 
 function StackNavigation(props) {
   const [tasks, setTasks] = useState([]);
+
+  const deleteTask = useCallback((id) => {
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+  });
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -21,7 +26,12 @@ function StackNavigation(props) {
       >
         <Stack.Screen name="HomeScreen">
           {(props) => (
-            <HomeScreen {...props} tasks={tasks} setTasks={setTasks} />
+            <HomeScreen
+              {...props}
+              tasks={tasks}
+              setTasks={setTasks}
+              deleteTask={deleteTask}
+            />
           )}
         </Stack.Screen>
         <Stack.Screen name="AddTaskScreen">
@@ -32,7 +42,12 @@ function StackNavigation(props) {
         <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
         <Stack.Screen name="DetailsScreen">
           {(props) => (
-            <TaskDetailsScreen {...props} tasks={tasks} setTasks={setTasks} />
+            <TaskDetailsScreen
+              {...props}
+              tasks={tasks}
+              setTasks={setTasks}
+              deleteTask={deleteTask}
+            />
           )}
         </Stack.Screen>
       </Stack.Navigator>

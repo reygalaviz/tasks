@@ -16,7 +16,7 @@ import { useRecoilState } from "recoil";
 import { todoDate } from "../recoil/atom/todoDate";
 import themeContext from "../theme/themeContext";
 
-function DatePicker({ date, setDate }) {
+function CustomDatePicker({ date, setDate }) {
   const theme = useContext(themeContext);
 
   const [showDate, setShowDate] = useState(false);
@@ -154,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DatePicker;
+export default CustomDatePicker;

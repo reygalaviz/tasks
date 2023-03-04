@@ -48,7 +48,7 @@ export default {
   //text-input
   titleMaxHeight: verticalScale(100),
   titleMinHeight: verticalScale(20),
-  detailsMaxHeight: verticalScale(150),
+  detailsMaxHeight: "100%",
   detailsMinHeight: verticalScale(20),
 
   //add-task
@@ -69,4 +69,8 @@ export default {
   tabWidth: horizontalScale(100),
   tabHeight: verticalScale(40),
   tabText: RFValue(12),
+
+  //pop-up-window
+  modalWidth: width,
+  modalHeight: height * 0.25,
 };

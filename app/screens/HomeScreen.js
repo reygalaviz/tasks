@@ -60,12 +60,6 @@ function HomeScreen({ navigation, ...props }) {
     console.log(props.tasks);
   };
 
-  //delete task
-  const deleteTask = useCallback((id) => {
-    props.setTasks((prev) => prev.filter((t) => t.id !== id));
-    console.log(props.tasks);
-  });
-
   //animated header
   const scrolling = useRef(new Animated.Value(0)).current;
   const diffClamp = Animated.diffClamp(scrolling, 0, 100);
@@ -95,7 +89,7 @@ function HomeScreen({ navigation, ...props }) {
         <TabBar />
 
         {props.tasks && (
-          <TaskFlatList tasks={props.tasks} deleteTask={deleteTask} />
+          <TaskFlatList tasks={props.tasks} deleteTask={props.deleteTask} />
         )}
 
         <AddTaskScreen addTask={addTask} />

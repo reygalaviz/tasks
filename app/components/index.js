@@ -11,15 +11,14 @@ import Priority from "./Priority";
 import SettingsButton from "./SettingsButton";
 import TaskFlatList from "./TaskFlatList";
 import PriorityBar from "./PriorityBar";
-import DatePicker from "./DatePicker";
+import CustomDatePicker from "./CustomDatePicker";
 import TimePicker from "./TimePicker";
 import ColorBar from "./ColorBar";
 import NotificationsButton from "./NotificationsButton";
 import HeaderBar from "./HeaderBar";
 import CheckBox from "./CheckBox";
 import DeleteButton from "./DeleteButton";
-import CustomModalBackground from "./CustomModalBackground";
-
+import DeleteConfirm from "./DeleteConfirm";
 export {
   TabBar,
   Greeting,
@@ -34,12 +33,12 @@ export {
   SettingsButton,
   TaskFlatList,
   PriorityBar,
-  DatePicker,
+  CustomDatePicker,
   TimePicker,
   ColorBar,
   NotificationsButton,
   HeaderBar,
   CheckBox,
   DeleteButton,
-  CustomModalBackground,
+  DeleteConfirm,
 };

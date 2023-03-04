@@ -17,14 +17,14 @@ const CustomButton = ({
       onPress={onPress}
       style={[
         style,
-        [styles.container, { backgroundColor: theme.color }],
+        [styles.container],
         styles[`container_${type}`],
         bgColor ? { backgroundColor: bgColor } : {},
       ]}
     >
       <Text
         style={[
-          [styles.text, { color: theme.buttonText }],
+          [styles.text],
           styles[`text_${type}`],
           fgColor ? { color: fgColor } : {},
         ]}
@@ -42,9 +42,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
   },
-  container_PRIMARY: {},
+  container_PRIMARY: {
+    backgroundColor: "black",
+  },
   container_SECONDARY: {
-    borderColor: "black",
+    borderColor: "lightgray",
     borderWidth: 1,
   },
   container_TERTIARY: {},
@@ -54,7 +56,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   text_SECONDARY: {
-    color: "black",
+    color: "gray",
   },
   text_TERTIARY: {
     color: "gray",

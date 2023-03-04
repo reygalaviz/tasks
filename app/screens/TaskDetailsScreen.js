@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, StyleSheet, Text, ScrollView, Modal } from "react-native";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import HeaderBar from "../components/HeaderBar";
@@ -9,8 +9,13 @@ import TimePicker from "../components/TimePicker";
 import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
+import RBSheet from "react-native-raw-bottom-sheet";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
+  const rbSheetRef = useRef();
+  const modalVisible = () => {
+    rbSheetRef.current.open();
+  };
   const selectedTaskData = route.params.selectedTask;
   const onBackPress = () => {
     navigation.goBack();
@@ -54,11 +59,44 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     console.log(updatedTaskDetails);
     navigation.navigate("HomeScreen");
   };
+  const handleDeleteTask = () => {
+    props.deleteTask(selectedTaskData.id);
+    rbSheetRef.current.close();
+    navigation.navigate("HomeScreen");
+  };
+  const handleCancelDelete = () => {
+    rbSheetRef.current.close();
+  };
 
   return (
     <View style={styles.container}>
+      <RBSheet ref={rbSheetRef} customStyles={{ container: styles.sheet }}>
+        <View style={styles.sheetHeader}>
+          <Text numberOfLines={1} style={[styles.sheetTitle]}>
+            {selectedTaskData.name !== ""
+              ? selectedTaskData.name
+              : selectedTaskData.details}
+          </Text>
+        </View>
+        <View style={styles.sheetBody}>
+          <Text numberOfLines={1} style={[styles.bodyText]}>
+            Are you sure tou want to delete?
+          </Text>
+          <CustomButton
+            bgColor="#ED6A5E"
+            title="Delete"
+            onPress={() => handleDeleteTask()}
+          />
+          <CustomButton
+            type="SECONDARY"
+            title="Cancel"
+            onPress={handleCancelDelete}
+          />
+        </View>
+      </RBSheet>
+
       <HeaderBar onBackPress={onBackPress} back header="Home" style={{}}>
-        <DeleteButton />
+        <DeleteButton onPress={() => modalVisible()} />
       </HeaderBar>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
@@ -86,17 +124,6 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
                 : selectedTaskData.details
             }
           />
-          {/* <DatePicker
-            date={updatedDate}
-            setDate={setUpdatedDate}
-            onDateChange={(date) => console.log(date)}
-          />
-          <TimePicker
-            time={updatedTime}
-            setTime={setUpdatedTime}
-            onTimeChange={(time) => console.log(time)}
-          /> */}
-
           <PriorityBar
             priority={updatedPriority}
             setPriority={setUpdatedPriority}
@@ -116,6 +143,34 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  sheet: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  sheetHeader: {
+    paddingVertical: constants.m,
+    paddingHorizontal: constants.m,
+    borderBottomWidth: 1,
+    borderColor: "#efefef",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sheetTitle: {
+    fontSize: constants.sectionHeader,
+    fontWeight: "600",
+  },
+  sheetBody: {
+    paddingHorizontal: constants.m,
+    paddingTop: constants.s,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  bodyText: {
+    fontSize: 16,
+    fontWeight: "400",
+    marginBottom: 24,
+    textAlign: "center",
   },
   form: {
     paddingHorizontal: constants.m,

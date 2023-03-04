@@ -126,10 +126,6 @@ function TaskCard({ task, deleteTask }) {
         <Card />
       </Swipeable>
     </Animated.View>
-
-    // <Animated.View entering={SlideInLeft}>
-    //   <Card />
-    // </Animated.View>
   );
 }
 const styles = StyleSheet.create({

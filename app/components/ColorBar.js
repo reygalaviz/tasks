@@ -24,6 +24,13 @@ function ColorBar({ color, setColor }) {
     "#799496",
     "#F0EFF4",
     "#F79AD3",
+    "#92B9BD",
+    "#D9DBF1",
+    "#C0FDFB",
+    "#BE95C4",
+    "#DAD4EF",
+    "#ECBEB4",
+    "#EBCFB2",
   ];
 
   return (
@@ -55,16 +62,16 @@ const styles = StyleSheet.create({
   group: {
     width: "100%",
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: constants.s,
+    marginVertical: constants.l,
   },
   circle: {
     width: circle_size + circle_ringsize * 4,
     height: circle_size + circle_ringsize * 4,
     borderRadius: 100,
     marginRight: 2,
-
     borderWidth: circle_ringsize,
     borderColor: "transparent",
   },
