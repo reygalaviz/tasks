@@ -22,15 +22,10 @@ import { Portal, PortalHost } from "@gorhom/portal";
 import ModalSheetHeader from "../components/ModalSheetHeader";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
-function SettingsScreen({
-  isOpen,
-  setIsOpen,
-  sheetRef,
-  mode,
-  setMode,
-  navigation,
-}) {
+function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
+  const navigation = useNavigation();
   const theme = useContext(themeContext);
   const snapPoints = ["100%"];
 
@@ -64,80 +59,82 @@ function SettingsScreen({
   });
 
   return (
-    <>
-      <Portal>
-        <ModalSheet
-          sheetRef={sheetRef}
-          snapPoints={snapPoints}
-          index={-1}
-          onChange={handleSnapPress}
-          style={{ backgroundColor: theme.background }}
-        >
-          <ModalSheetHeader
-            title="Settings"
-            onPress={onCancelPress}
-            iconColor={theme.color}
-            style={{ color: theme.color }}
-          />
-          <BottomSheetScrollView style={{}}>
-            {sections.map(({ header, items }) => (
-              <View key={header} style={styles.section}>
-                <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionHeaderText}>{header}</Text>
-                </View>
-                <View style={styles.sectionBody}>
-                  {items.map(({ label, id, type }, index) => (
-                    <View
-                      style={[
-                        styles.rowWrapper,
-                        // index === 0 && { borderTopWidth: 0 },
-                      ]}
-                      key={id}
-                    >
-                      <Pressable>
-                        <View style={styles.row}>
-                          <Text
-                            style={[styles.rowLabel, { color: theme.color }]}
-                          >
-                            {label}
-                          </Text>
-                          <View style={styles.rowSpacer} />
-                          {type === "select" && <Text>{form[id]}</Text>}
-                          {["select", "link"].includes(type) && (
-                            <Feather
-                              name="chevron-right"
-                              size={24}
-                              color="#ababab"
-                            />
-                          )}
-                          {type === "toggle" && (
-                            <Switch
-                              value={form[id]}
-                              onValueChange={(value) => {
-                                setForm({ ...form, [id]: value });
+    <ModalSheet
+      sheetRef={sheetRef}
+      snapPoints={snapPoints}
+      index={-1}
+      onChange={handleSnapPress}
+      style={{ backgroundColor: theme.background }}
+    >
+      <ModalSheetHeader
+        title="Settings"
+        onPress={onCancelPress}
+        cancel
+        iconColor={theme.color}
+        style={{ color: theme.color }}
+      />
 
-                                {
-                                  id === "darkMode" &&
-                                    EventRegister.emit("changeTheme", value);
-                                }
-                              }}
-                              style={{
-                                transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
-                              }}
-                            />
-                          )}
-                        </View>
-                      </Pressable>
+      <BottomSheetScrollView style={{}}>
+        {sections.map(({ header, items }) => (
+          <View key={header} style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Text style={styles.sectionHeaderText}>{header}</Text>
+            </View>
+            <View style={styles.sectionBody}>
+              {items.map(({ label, id, type }, index) => (
+                <View
+                  style={[
+                    styles.rowWrapper,
+                    // index === 0 && { borderTopWidth: 0 },
+                  ]}
+                  key={id}
+                >
+                  <Pressable
+                    onPress={() => {
+                      {
+                        id === "deletedTask" &&
+                          navigation.navigate("DeletedTasksScreen");
+                      }
+                    }}
+                  >
+                    <View style={styles.row}>
+                      <Text style={[styles.rowLabel, { color: theme.color }]}>
+                        {label}
+                      </Text>
+                      <View style={styles.rowSpacer} />
+                      {/* {type === "select" && <Text>{form[id]}</Text>} */}
+                      {["select", "link"].includes(type) && (
+                        <Feather
+                          name="chevron-right"
+                          size={24}
+                          color="#ababab"
+                        />
+                      )}
+                      {type === "toggle" && (
+                        <Switch
+                          value={form[id]}
+                          onValueChange={(value) => {
+                            setForm({ ...form, [id]: value });
+
+                            {
+                              id === "darkMode" &&
+                                EventRegister.emit("changeTheme", value);
+                            }
+                          }}
+                          style={{
+                            transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+                          }}
+                        />
+                      )}
                     </View>
-                  ))}
+                  </Pressable>
                 </View>
-              </View>
-            ))}
-          </BottomSheetScrollView>
-        </ModalSheet>
-      </Portal>
-      <PortalHost name="host" />
-    </>
+              ))}
+            </View>
+          </View>
+        ))}
+      </BottomSheetScrollView>
+    </ModalSheet>
   );
 }
 

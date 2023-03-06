@@ -6,15 +6,7 @@ import React, {
   useRef,
   useEffect,
 } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Platform,
-  SafeAreaView,
-} from "react-native";
-import { EventRegister } from "react-native-event-listeners";
+import { View, Text, StyleSheet, StatusBar, Platform } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
 import Greeting from "../components/Greeting";
@@ -26,22 +18,13 @@ import SettingsScreen from "./SettingsScreen";
 import NotificationsButton from "../components/NotificationsButton";
 import SettingsButton from "../components/SettingsButton";
 import themeContext from "../theme/themeContext";
-import Animated, {
-  SlideInDown,
-  SlideInUp,
-  FadeInUp,
-  withDecay,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 import TabBar from "../components/TabBar";
-import ModalSheet from "../components/ModalSheet";
-import TaskDetailsScreen from "./TaskDetailsScreen";
+import PendingTasksScreen from "./PendingTasksScreen";
+import CompletedTasksScreen from "./CompletedTasksScreen";
 
 function HomeScreen({ navigation, ...props }) {
   const theme = useContext(themeContext);
-
-  const onOpenCalendar = () => {
-    navigation.navigate("CalendarScreen");
-  };
 
   //recoil
   const todoList = useRecoilValue(todoItem);
@@ -52,12 +35,6 @@ function HomeScreen({ navigation, ...props }) {
   const sheetSettingsRef = useRef();
   const onOpenSettings = () => {
     sheetSettingsRef.current?.expand();
-  };
-
-  //add task
-  const addTask = (task) => {
-    props.setTasks((prev) => [...prev, task]);
-    console.log(props.tasks);
   };
 
   //animated header
@@ -85,20 +62,32 @@ function HomeScreen({ navigation, ...props }) {
           <NotificationsButton />
           <SettingsButton onOpenSettings={onOpenSettings} />
         </HeaderBar>
-        <Greeting OnCalendarPress={onOpenCalendar} />
-        <TabBar />
+        <Greeting OnCalendarPress={() => console.log(props.tasks)} />
+        <TabBar
+          tasks={props.tasks}
+          setTasks={props.setTasks}
+          deleteTask={props.deleteTask}
+          updateStatus={props.updateStatus}
+        />
+        {/* <PendingTasksScreen
+          tasks={props.tasks}
+          setTasks={props.setTasks}
+          deleteTask={props.deleteTask}
+          updateStatus={props.updateStatus}
+        />
 
-        {props.tasks && (
-          <TaskFlatList tasks={props.tasks} deleteTask={props.deleteTask} />
-        )}
+        <CompletedTasksScreen
+          tasks={props.tasks}
+          setTasks={props.setTasks}
+          deleteTask={props.deleteTask}
+          updateStatus={props.updateStatus}
+        /> */}
 
-        <AddTaskScreen addTask={addTask} />
+        <AddTaskScreen addTask={props.addTask} />
         <SettingsScreen
           isOpen={isSettingsOpen}
           setIsOpen={setIsSettingsOpen}
           sheetRef={sheetSettingsRef}
-          mode={mode}
-          setMode={setMode}
         />
       </View>
     </>

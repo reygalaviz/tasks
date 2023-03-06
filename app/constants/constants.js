@@ -63,6 +63,9 @@ export default {
   cardPriority: RFValue(12),
   cardHeight: verticalScale(125),
 
+  //completed-task-card
+  completedCardHeight: verticalScale(100),
+
   //modal-sheet-top-padding
   sheetTopPadding: Platform.OS === "ios" ? verticalScale(40) : 60,
 

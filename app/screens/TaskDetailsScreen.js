@@ -9,8 +9,8 @@ import TimePicker from "../components/TimePicker";
 import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
-import RBSheet from "react-native-raw-bottom-sheet";
 import themeContext from "../theme/themeContext";
+import RBottomSheet from "../components/RBottomSheet";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
   const theme = useContext(themeContext);
@@ -33,32 +33,16 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     selectedTaskData.priority
   );
   const [updatedColor, setUpdatedColor] = useState(selectedTaskData.color);
-  console.log(selectedTaskData);
 
-  const updateTask = (task) => {
-    props.setTasks((prev) =>
-      prev.map((t) =>
-        t.id === task.id
-          ? {
-              ...t,
-              name: task.name,
-              details: task.details,
-              priority: task.priority,
-              color: task.color,
-            }
-          : t
-      )
-    );
-  };
   const handleEditTask = (e) => {
-    updateTask({
+    props.updateTask({
       ...selectedTaskData,
       name: updatedTask,
       details: updatedTaskDetails,
       priority: updatedPriority,
       color: updatedColor,
     });
-    console.log(updatedTaskDetails);
+
     navigation.navigate("HomeScreen");
   };
   const handleDeleteTask = () => {
@@ -72,49 +56,18 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <RBSheet
-        ref={rbSheetRef}
-        customStyles={{
-          container: {
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-            backgroundColor: theme.background,
-          },
-        }}
-        openDuration={200}
+      <RBottomSheet
+        rbSheetRef={rbSheetRef}
+        handleCancelDelete={handleCancelDelete}
+        handleDeleteTask={handleDeleteTask}
+        selectedTaskData={selectedTaskData}
+      />
+      <HeaderBar
+        onBackPress={onBackPress}
+        back
+        header={selectedTaskData.name}
+        style={{}}
       >
-        <View style={styles.sheetHeader}>
-          <Text
-            numberOfLines={1}
-            style={[styles.sheetTitle, { color: theme.color }]}
-          >
-            {selectedTaskData.name !== ""
-              ? selectedTaskData.name
-              : selectedTaskData.details}
-          </Text>
-        </View>
-        <View style={styles.sheetBody}>
-          <Text
-            numberOfLines={1}
-            style={[styles.bodyText, { color: theme.color }]}
-          >
-            Are you sure tou want to delete?
-          </Text>
-          <CustomButton
-            bgColor="#ED6A5E"
-            title="Delete"
-            onPress={() => handleDeleteTask()}
-          />
-          <CustomButton
-            type="SECONDARY"
-            title="Cancel"
-            onPress={handleCancelDelete}
-            fgColor={theme.color}
-          />
-        </View>
-      </RBSheet>
-
-      <HeaderBar onBackPress={onBackPress} back header="Home" style={{}}>
         <DeleteButton onPress={() => modalVisible()} />
       </HeaderBar>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -153,7 +106,8 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             onPress={handleEditTask}
             title="Update"
             style={[styles.button]}
-            bgColor={theme.buttonBarColor}
+            bgColor={theme.buttonColor}
+            fgColor={theme.buttonText}
           />
         </View>
       </ScrollView>
@@ -164,34 +118,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  sheet: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  sheetHeader: {
-    paddingTop: constants.m,
-    paddingHorizontal: constants.m,
-    borderBottomWidth: 1,
-    borderColor: "#a7a7a7",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  sheetTitle: {
-    fontSize: constants.sectionHeader,
-    fontWeight: "600",
-  },
-  sheetBody: {
-    paddingHorizontal: constants.m,
 
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bodyText: {
-    fontSize: 16,
-    fontWeight: "400",
-    marginVertical: constants.m,
-    textAlign: "center",
-  },
   form: {
     paddingHorizontal: constants.m,
     marginTop: constants.m,

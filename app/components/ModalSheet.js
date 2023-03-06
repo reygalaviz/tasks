@@ -1,10 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import "react-native-gesture-handler";
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 function ModalSheet({
   children,

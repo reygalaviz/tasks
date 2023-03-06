@@ -27,13 +27,10 @@ import ModalSheetHeader from "../components/ModalSheetHeader";
 import themeContext from "../theme/themeContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { Portal, PortalHost } from "@gorhom/portal";
 
-function AddTaskScreen({ ...props }) {
+function AddTaskScreen({ addTask, ...props }) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
-  const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState(moment());
   const [priority, setPriority] = useState("");
   const [color, setColor] = useState("");
 
@@ -54,19 +51,17 @@ function AddTaskScreen({ ...props }) {
   const onCancelPress = () => {
     setTask("");
     setTaskDetails("");
-    setDate("");
-    setTime("");
+    // setDate("");
+    // setTime("");
     setPriority(""), setColor("");
     sheetRef?.current?.close();
     Keyboard.dismiss();
   };
 
   const handleAddTask = (e) => {
-    props.addTask({
+    addTask({
       name: task,
       details: taskDetails,
-      // date: date,
-      // time: moment(time).format("LT"),
       priority: priority,
       color: color,
       completed: false,
@@ -74,11 +69,8 @@ function AddTaskScreen({ ...props }) {
     });
     setTask("");
     setTaskDetails("");
-    setDate("");
-    setTime("");
     setPriority(""), setColor("");
     sheetRef?.current?.close();
-    console.log(task);
   };
 
   return (
@@ -94,6 +86,7 @@ function AddTaskScreen({ ...props }) {
       >
         <ModalSheetHeader
           title="Create your task"
+          cancel
           onPress={onCancelPress}
           iconColor={theme.color}
           style={{ color: theme.color }}
@@ -126,8 +119,8 @@ function AddTaskScreen({ ...props }) {
             onPress={handleAddTask}
             title="Submit"
             style={[styles.button]}
-            bgColor={theme.buttonBarColor}
-            fgColor={theme.color}
+            bgColor={theme.buttonColor}
+            fgColor={theme.buttonText}
           />
         </BottomSheetScrollView>
       </ModalSheet>

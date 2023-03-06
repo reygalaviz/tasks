@@ -9,6 +9,7 @@ import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { RecoilRoot } from "recoil";
 import StackNavigation from "./app/navigation/StackNavigation";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [mode, setMode] = useState(false);
@@ -29,11 +30,13 @@ export default function App() {
     <PortalProvider>
       <RecoilRoot>
         <BottomSheetModalProvider>
-          <themeContext.Provider
-            value={mode === true ? theme.dark : theme.light}
-          >
-            <StackNavigation />
-          </themeContext.Provider>
+          <NavigationContainer>
+            <themeContext.Provider
+              value={mode === true ? theme.dark : theme.light}
+            >
+              <StackNavigation />
+            </themeContext.Provider>
+          </NavigationContainer>
         </BottomSheetModalProvider>
       </RecoilRoot>
     </PortalProvider>

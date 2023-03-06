@@ -5,6 +5,9 @@ import CalendarScreen from "./CalendarScreen";
 import NotificationScreen from "./NotificationScreen";
 import TaskDetailsScreen from "./TaskDetailsScreen";
 import DeletedTasksScreen from "./DeletedTasksScreen";
+import CompletedTasksScreen from "./CompletedTasksScreen";
+import PendingTasksScreen from "./PendingTasksScreen";
+import UpcomingTasksScreen from "./UpcomingTasksScreen";
 
 export {
   HomeScreen,
@@ -14,4 +17,7 @@ export {
   NotificationScreen,
   TaskDetailsScreen,
   DeletedTasksScreen,
+  CompletedTasksScreen,
+  PendingTasksScreen,
+  UpcomingTasksScreen,
 };
