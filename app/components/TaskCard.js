@@ -11,7 +11,7 @@ import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
 import { useNavigation } from "@react-navigation/native";
 
-function TaskCard({ task, onPress, children, style }) {
+function TaskCard({ task, onPress, children, style, styleContainer }) {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
 
@@ -21,7 +21,10 @@ function TaskCard({ task, onPress, children, style }) {
   const remainingTasks = Object.values(task).length - completedTasks;
 
   return (
-    <Pressable onPress={onPress} style={[, styles.taskContainer]}>
+    <Pressable
+      onPress={onPress}
+      style={[, styles.taskContainer, styleContainer]}
+    >
       <View style={[styles.task, style, { backgroundColor: task.color }]}>
         {children}
       </View>
@@ -33,7 +36,8 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: constants.s + 1,
+    marginBottom: constants.s,
+    height: constants.cardHeight,
   },
   task: {
     height: constants.cardHeight,

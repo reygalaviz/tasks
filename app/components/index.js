@@ -21,6 +21,7 @@ import DeleteConfirm from "./DeleteConfirm";
 import TaskFlatList from "./TaskFlatList";
 import PendingTaskCardContent from "./PendingTaskCardContent";
 import CompletedTaskCardContent from "./CompletedTaskCardContent";
+import DeletedTaskCardContent from "./DeletedTaskCardContent";
 
 export {
   TabBar,
@@ -46,4 +47,5 @@ export {
   TaskFlatList,
   PendingTaskCardContent,
   CompletedTaskCardContent,
+  DeletedTaskCardContent,
 };

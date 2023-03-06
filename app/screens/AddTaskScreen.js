@@ -65,6 +65,7 @@ function AddTaskScreen({ addTask, ...props }) {
       priority: priority,
       color: color,
       completed: false,
+      trash: false,
       id: Date.now(),
     });
     setTask("");

@@ -58,13 +58,14 @@ export default {
   taskFontDateTime: RFValue(13),
 
   //task-card
-  cardTitle: RFValue(14),
+  cardTitle: RFValue(12),
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
-  cardHeight: verticalScale(125),
+  cardHeight: verticalScale(130),
+  iconSize: verticalScale(20),
 
   //completed-task-card
-  completedCardHeight: verticalScale(100),
+  deletedCardHeight: verticalScale(115),
 
   //modal-sheet-top-padding
   sheetTopPadding: Platform.OS === "ios" ? verticalScale(40) : 60,

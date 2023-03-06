@@ -9,6 +9,8 @@ const theme = {
     buttonBarColor: "black",
     buttonText: "white",
     divider: "#a7a7a7",
+    activeTabColor: "black",
+    inactiveTabColor: "gray",
   },
   dark: {
     theme: "dark",
@@ -20,6 +22,8 @@ const theme = {
     buttonBarColor: "#282828",
     buttonText: "black",
     divider: "#a7a7a7",
+    activeTabColor: "white",
+    inactiveTabColor: "gray",
   },
 };
 

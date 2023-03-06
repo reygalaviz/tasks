@@ -62,12 +62,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
         handleDeleteTask={handleDeleteTask}
         selectedTaskData={selectedTaskData}
       />
-      <HeaderBar
-        onBackPress={onBackPress}
-        back
-        header={selectedTaskData.name}
-        style={{}}
-      >
+      <HeaderBar onBackPress={onBackPress} back header="Home" style={{}}>
         <DeleteButton onPress={() => modalVisible()} />
       </HeaderBar>
       <ScrollView showsVerticalScrollIndicator={false}>

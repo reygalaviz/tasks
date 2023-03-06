@@ -45,6 +45,17 @@ function StackNavigation(props) {
     setTasks(allItems);
   };
 
+  const moveToTrashBin = (id, newStatus) => {
+    let allItems = tasks;
+    allItems = allItems.map((item) => {
+      if (item.id === id) {
+        item.trash = newStatus;
+      }
+      return item;
+    });
+    setTasks(allItems);
+  };
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -61,6 +72,7 @@ function StackNavigation(props) {
             deleteTask={deleteTask}
             addTask={addTask}
             updateStatus={updateStatus}
+            moveToTrashBin={moveToTrashBin}
           />
         )}
       </Stack.Screen>
@@ -77,7 +89,13 @@ function StackNavigation(props) {
       </Stack.Screen>
       <Stack.Screen name="DeletedTasksScreen">
         {(props) => (
-          <DeletedTasksScreen {...props} tasks={tasks} setTasks={setTasks} />
+          <DeletedTasksScreen
+            {...props}
+            tasks={tasks}
+            setTasks={setTasks}
+            moveToTrashBin={moveToTrashBin}
+            deleteTask={deleteTask}
+          />
         )}
       </Stack.Screen>
     </Stack.Navigator>

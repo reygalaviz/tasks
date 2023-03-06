@@ -8,7 +8,12 @@ import Priority from "./Priority";
 import { useNavigation } from "@react-navigation/native";
 import Animated, { SlideInLeft } from "react-native-reanimated";
 
-function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
+function PendingTaskCardContent({
+  task,
+  updateStatus,
+  deleteTask,
+  moveToTrashBin,
+}) {
   const navigation = useNavigation();
 
   const onDetailsScreen = () => {
@@ -20,7 +25,7 @@ function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
   const rightSwipeActions = () => {
     return (
       <Pressable
-        onPress={() => deleteTask(task.id)}
+        onPress={() => moveToTrashBin(task.id, true)}
         style={{
           borderRadius: 10,
           height: constants.cardHeight,
@@ -45,14 +50,15 @@ function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
 
   const leftSwipeActions = () => {
     return (
-      <View
+      <Pressable
+        onPress={() => updateStatus(task.id, true)}
         style={{
           borderRadius: 10,
           height: constants.cardHeight,
-          marginHorizontal: constants.m,
+          marginLeft: constants.m,
+          marginRight: "-4%",
           backgroundColor: "#77DD77",
           justifyContent: "center",
-          flex: 1,
         }}
       >
         <Octicons
@@ -64,7 +70,7 @@ function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
             paddingHorizontal: constants.l,
           }}
         />
-      </View>
+      </Pressable>
     );
   };
   return (
@@ -78,14 +84,15 @@ function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
             <Text style={[styles.title, {}]} numberOfLines={3}>
               {task.name}
             </Text>
-            <Pressable onPress={() => updateStatus(task.id, true)}>
-              <Text>complete me</Text>
-            </Pressable>
           </View>
 
           <View>
             <View style={styles.dateContainer}>
-              <MaterialIcons name="calendar-today" size={20} color="black" />
+              <MaterialIcons
+                name="calendar-today"
+                size={constants.iconSize}
+                color="black"
+              />
               <Text style={styles.date}>{task.date}</Text>
             </View>
             <View style={styles.timeContainer}>
@@ -95,7 +102,11 @@ function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
                   alignItems: "center",
                 }}
               >
-                <MaterialIcons name="access-time" size={20} color="black" />
+                <MaterialIcons
+                  name="access-time"
+                  size={constants.iconSize}
+                  color="black"
+                />
                 <Text style={styles.date}>{task.time}</Text>
               </View>
               <Priority priorityTitle={task.priority} />
@@ -108,7 +119,6 @@ function PendingTaskCardContent({ task, updateStatus, deleteTask }) {
 }
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
     flexWrap: "wrap",
@@ -133,7 +143,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "space-between",
-    // backgroundColor: "red",
   },
   iconContainer: {
     backgroundColor: "#ED6A5E",

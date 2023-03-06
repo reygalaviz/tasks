@@ -6,8 +6,9 @@ import TaskCard from "../components/TaskCard";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { useNavigation } from "@react-navigation/native";
+import Animated, { SlideInLeft } from "react-native-reanimated";
 
-function CompletedTaskCardContent({
+function DeletedTaskCardContent({
   task,
   updateStatus,
   deleteTask,
@@ -18,7 +19,7 @@ function CompletedTaskCardContent({
   const rightSwipeActions = () => {
     return (
       <Pressable
-        onPress={() => moveToTrashBin(task.id, true)}
+        onPress={() => moveToTrashBin(task.id, false)}
         style={{
           borderRadius: 10,
           height: constants.cardHeight,
@@ -40,38 +41,42 @@ function CompletedTaskCardContent({
       </Pressable>
     );
   };
-  return (
-    <Swipeable renderRightActions={rightSwipeActions}>
-      <TaskCard task={task} style={styles.container}>
-        <View style={[styles.titleContainer]}>
-          <Text style={[styles.title]} numberOfLines={2}>
-            {task.name}
-          </Text>
-          <Pressable onPress={() => updateStatus(task.id, false)}>
-            <Text>uncomplete me</Text>
-          </Pressable>
-        </View>
 
-        <View>
-          <View style={styles.timeContainer}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={styles.date}>completed on {task.time}</Text>
-            </View>
-            <Priority priorityTitle={task.priority} />
+  return (
+    <Animated.View entering={SlideInLeft}>
+      <Swipeable renderRightActions={rightSwipeActions}>
+        <TaskCard
+          task={task}
+          style={{
+            height: constants.cardHeight,
+          }}
+        >
+          <View style={[styles.titleContainer]}>
+            <Text style={[styles.title, {}]} numberOfLines={3}>
+              {task.name}
+            </Text>
           </View>
-        </View>
-      </TaskCard>
-    </Swipeable>
+
+          <View>
+            <View style={styles.timeContainer}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.date}>deleted on{task.time}</Text>
+              </View>
+              <Priority priorityTitle={task.priority} />
+            </View>
+          </View>
+        </TaskCard>
+      </Swipeable>
+    </Animated.View>
   );
 }
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
     flexWrap: "wrap",
@@ -96,16 +101,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     justifyContent: "space-between",
   },
-  iconContainer: {
-    backgroundColor: "#ED6A5E",
-    width: constants.cardHeight,
-    height: constants.cardHeight,
-    position: "absolute",
-    right: constants.m,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-  },
 });
 
-export default CompletedTaskCardContent;
+export default DeletedTaskCardContent;

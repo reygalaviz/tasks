@@ -1,11 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import HeaderBar from "../components/HeaderBar";
+import TaskFlatList from "../components/TaskFlatList";
+import constants from "../constants/constants";
+import DeletedTaskCardContent from "../components/DeletedTaskCardContent";
 
 function DeletedTasksScreen({ navigation, ...props }) {
   const onBackPress = () => {
     navigation.goBack();
   };
+
   return (
     <View style={styles.container}>
       <HeaderBar
@@ -14,23 +18,42 @@ function DeletedTasksScreen({ navigation, ...props }) {
         onBackPress={onBackPress}
         style={{}}
       ></HeaderBar>
+
       <View style={styles.buttons}>
-        <Pressable
-          onPress={() => console.log(props.tasks)}
-          style={{ marginVertical: 50 }}
-        >
+        <Pressable>
           <Text>Undo All</Text>
         </Pressable>
         <Pressable>
           <Text>Delete All</Text>
         </Pressable>
       </View>
-      <ScrollView></ScrollView>
+      <View style={{ flex: 1 }}>
+        <TaskFlatList
+          tasks={props.tasks}
+          renderItem={({ item }) => {
+            if (item && item.trash == true) {
+              return (
+                <DeletedTaskCardContent
+                  task={item}
+                  updateStatus={props.updateStatus}
+                  deleteTask={props.deleteTask}
+                  moveToTrashBin={props.moveToTrashBin}
+                />
+              );
+            }
+          }}
+        />
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  container: { flex: 1 },
+  buttons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: constants.m,
+  },
 });
 
 export default DeletedTasksScreen;

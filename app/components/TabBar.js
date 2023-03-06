@@ -11,28 +11,47 @@ import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
 
 const tabs = ["Today", "Upcoming", "Completed"];
 
-function TabBar({ tasks, setTasks, deleteTask, updateStatus }) {
+function TabBar({ tasks, setTasks, deleteTask, updateStatus, moveToTrashBin }) {
   const Tab = createMaterialTopTabNavigator();
   const theme = useContext(themeContext);
 
   const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const [dataList, setDataList] = useState(tasks);
+  const setStatusTab = (selectedTab) => {
+    if (selectedTab !== "Today") {
+      setDataList([...tasks.filter((e) => e.completed == selectedTab)]);
+    } else {
+      setDataList(tasks);
+    }
+    setSelectedTab(selectedTab);
+  };
+
   return (
     <Tab.Navigator
+      style={{ marginTop: constants.s }}
       screenOptions={{
         tabBarIndicator: () => null,
+        tabBarInactiveTintColor: theme.inactiveTabColor,
+        tabBarActiveTintColor: theme.activeTabColor,
         tabBarContentContainerStyle: {
           borderRadius: 10,
+          justifyContent: "space-between",
         },
         tabBarStyle: {
           marginHorizontal: constants.m,
           borderRadius: 10,
+          backgroundColor: "transparent",
         },
         tabBarItemStyle: {
           alignItems: "center",
-          borderRadius: 10,
+          borderRadius: 20,
+        },
+        tabBarLabelStyle: {
+          fontWeight: "700",
+          fontSize: constants.tabText,
         },
       }}
-      sceneContainerStyle={{ backgroundColor: "white" }}
+      sceneContainerStyle={{ backgroundColor: theme.background }}
     >
       <Tab.Screen name="Today">
         {(props) => (
@@ -42,6 +61,7 @@ function TabBar({ tasks, setTasks, deleteTask, updateStatus }) {
             setTasks={setTasks}
             deleteTask={deleteTask}
             updateStatus={updateStatus}
+            moveToTrashBin={moveToTrashBin}
           />
         )}
       </Tab.Screen>
@@ -54,10 +74,12 @@ function TabBar({ tasks, setTasks, deleteTask, updateStatus }) {
             setTasks={setTasks}
             deleteTask={deleteTask}
             updateStatus={updateStatus}
+            moveToTrashBin={moveToTrashBin}
           />
         )}
       </Tab.Screen>
     </Tab.Navigator>
+
     // <View
     //   style={{
     //     alignItems: "center",

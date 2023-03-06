@@ -68,20 +68,8 @@ function HomeScreen({ navigation, ...props }) {
           setTasks={props.setTasks}
           deleteTask={props.deleteTask}
           updateStatus={props.updateStatus}
+          moveToTrashBin={props.moveToTrashBin}
         />
-        {/* <PendingTasksScreen
-          tasks={props.tasks}
-          setTasks={props.setTasks}
-          deleteTask={props.deleteTask}
-          updateStatus={props.updateStatus}
-        />
-
-        <CompletedTasksScreen
-          tasks={props.tasks}
-          setTasks={props.setTasks}
-          deleteTask={props.deleteTask}
-          updateStatus={props.updateStatus}
-        /> */}
 
         <AddTaskScreen addTask={props.addTask} />
         <SettingsScreen
