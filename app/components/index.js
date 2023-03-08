@@ -11,7 +11,6 @@ import Priority from "./Priority";
 import SettingsButton from "./SettingsButton";
 import PriorityBar from "./PriorityBar";
 import CustomDatePicker from "./CustomDatePicker";
-import TimePicker from "./TimePicker";
 import ColorBar from "./ColorBar";
 import NotificationsButton from "./NotificationsButton";
 import HeaderBar from "./HeaderBar";
@@ -37,7 +36,6 @@ export {
   SettingsButton,
   PriorityBar,
   CustomDatePicker,
-  TimePicker,
   ColorBar,
   NotificationsButton,
   HeaderBar,

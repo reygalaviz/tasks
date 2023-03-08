@@ -2,24 +2,25 @@ import React, { useRef, useContext, useState } from "react";
 import themeContext from "../theme/themeContext";
 import { Pressable, Text, View } from "react-native";
 import constants from "../constants/constants";
+import { format } from "date-fns";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
-import { format } from "date-fns";
-function CustomDatePicker({ date, setDate }) {
+
+function CustomTimePicker({ time, setTime }) {
   const theme = useContext(themeContext);
-  const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
 
-  const showDatePicker = () => {
-    setDatePickerVisible(true);
+  const showTimePicker = () => {
+    setTimePickerVisible(true);
   };
 
-  const hideDatePicker = () => {
-    setDatePickerVisible(false);
+  const hideTimePicker = () => {
+    setTimePickerVisible(false);
   };
 
-  const handleConfirm = (date) => {
-    setDate(date);
-    hideDatePicker();
+  const handleConfirm = (time) => {
+    setTime(time);
+    hideTimePicker();
   };
 
   return (
@@ -30,14 +31,14 @@ function CustomDatePicker({ date, setDate }) {
       }}
     >
       <Pressable
-        onPress={showDatePicker}
+        onPress={showTimePicker}
         style={{
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
         }}
       >
-        <Feather name="calendar" size={24} color="black" />
+        <Feather name="clock" size={24} color="black" />
         <Text
           style={{
             color: theme.color,
@@ -46,19 +47,17 @@ function CustomDatePicker({ date, setDate }) {
             fontWeight: "600",
           }}
         >
-          {format(date, "MMMM dd, yyyy")}
+          {format(time, "hh:mm a")}
         </Text>
       </Pressable>
       <DateTimePickerModal
-        isVisible={datePickerVisible}
-        mode="date"
-        minimumDate={new Date()}
-        maximumDate={new Date("2300-06-15")}
+        isVisible={timePickerVisible}
+        mode="time"
         onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
+        onCancel={hideTimePicker}
       />
     </View>
   );
 }
 
-export default CustomDatePicker;
+export default CustomTimePicker;

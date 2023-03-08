@@ -19,7 +19,7 @@ function DeletedTaskCardContent({
   const rightSwipeActions = () => {
     return (
       <Pressable
-        onPress={() => moveToTrashBin(task.id, false)}
+        onPress={() => deleteTask(task.id)}
         style={{
           borderRadius: 10,
           height: constants.cardHeight,
@@ -43,7 +43,7 @@ function DeletedTaskCardContent({
   };
 
   return (
-    <Animated.View entering={SlideInLeft}>
+    <Animated.View>
       <Swipeable renderRightActions={rightSwipeActions}>
         <TaskCard
           task={task}

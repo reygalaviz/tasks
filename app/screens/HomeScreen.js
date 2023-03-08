@@ -70,7 +70,6 @@ function HomeScreen({ navigation, ...props }) {
           updateStatus={props.updateStatus}
           moveToTrashBin={props.moveToTrashBin}
         />
-
         <AddTaskScreen addTask={props.addTask} />
         <SettingsScreen
           isOpen={isSettingsOpen}

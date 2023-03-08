@@ -6,6 +6,7 @@ import TaskCard from "../components/TaskCard";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { useNavigation } from "@react-navigation/native";
+import Animated, { SlideOutLeft } from "react-native-reanimated";
 
 function CompletedTaskCardContent({
   task,
@@ -41,32 +42,34 @@ function CompletedTaskCardContent({
     );
   };
   return (
-    <Swipeable renderRightActions={rightSwipeActions}>
-      <TaskCard task={task} style={styles.container}>
-        <View style={[styles.titleContainer]}>
-          <Text style={[styles.title]} numberOfLines={2}>
-            {task.name}
-          </Text>
-          <Pressable onPress={() => updateStatus(task.id, false)}>
-            <Text>uncomplete me</Text>
-          </Pressable>
-        </View>
-
-        <View>
-          <View style={styles.timeContainer}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={styles.date}>completed on {task.time}</Text>
-            </View>
-            <Priority priorityTitle={task.priority} />
+    <Animated.View>
+      <Swipeable renderRightActions={rightSwipeActions}>
+        <TaskCard task={task} style={styles.container}>
+          <View style={[styles.titleContainer]}>
+            <Text style={[styles.title]} numberOfLines={2}>
+              {task.name}
+            </Text>
+            <Pressable onPress={() => updateStatus(task.id, false)}>
+              <Text>uncomplete me</Text>
+            </Pressable>
           </View>
-        </View>
-      </TaskCard>
-    </Swipeable>
+
+          <View>
+            <View style={styles.timeContainer}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={styles.date}>completed on {task.time}</Text>
+              </View>
+              <Priority priorityTitle={task.priority} />
+            </View>
+          </View>
+        </TaskCard>
+      </Swipeable>
+    </Animated.View>
   );
 }
 const styles = StyleSheet.create({

@@ -1,12 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  useWindowDimensions,
+} from "react-native";
 import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
 import constants from "../constants/constants";
 import TaskCard from "../components/TaskCard";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { useNavigation } from "@react-navigation/native";
-import Animated, { SlideInLeft } from "react-native-reanimated";
+import Animated, {
+  SlideInLeft,
+  SlideOutRight,
+  SlideOutUp,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 function PendingTaskCardContent({
   task,
@@ -73,50 +89,60 @@ function PendingTaskCardContent({
       </Pressable>
     );
   };
-  return (
-    <Animated.View entering={SlideInLeft}>
-      <Swipeable
-        renderLeftActions={leftSwipeActions}
-        renderRightActions={rightSwipeActions}
-      >
-        <TaskCard task={task} onPress={onDetailsScreen}>
-          <View style={[styles.titleContainer]}>
-            <Text style={[styles.title, {}]} numberOfLines={3}>
-              {task.name}
-            </Text>
-          </View>
 
-          <View>
-            <View style={styles.dateContainer}>
+  const InnerCard = () => {
+    return (
+      <>
+        <View style={[styles.titleContainer]}>
+          <Text style={[styles.title, {}]} numberOfLines={3}>
+            {task.name}
+          </Text>
+        </View>
+
+        <View>
+          <View style={styles.dateContainer}>
+            <MaterialIcons
+              name="calendar-today"
+              size={constants.iconSize}
+              color="black"
+            />
+            <Text style={styles.date}>{task.date}</Text>
+          </View>
+          <View style={styles.timeContainer}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
               <MaterialIcons
-                name="calendar-today"
+                name="access-time"
                 size={constants.iconSize}
                 color="black"
               />
-              <Text style={styles.date}>{task.date}</Text>
+              <Text style={styles.date}>{task.time}</Text>
             </View>
-            <View style={styles.timeContainer}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <MaterialIcons
-                  name="access-time"
-                  size={constants.iconSize}
-                  color="black"
-                />
-                <Text style={styles.date}>{task.time}</Text>
-              </View>
-              <Priority priorityTitle={task.priority} />
-            </View>
+            <Priority priorityTitle={task.priority} />
           </View>
+        </View>
+      </>
+    );
+  };
+
+  return (
+    <Animated.View>
+      <Swipeable
+        renderRightActions={rightSwipeActions}
+        renderLeftActions={leftSwipeActions}
+      >
+        <TaskCard task={task} onPress={onDetailsScreen}>
+          <InnerCard />
         </TaskCard>
       </Swipeable>
     </Animated.View>
   );
 }
+
 const styles = StyleSheet.create({
   titleContainer: {
     justifyContent: "space-between",

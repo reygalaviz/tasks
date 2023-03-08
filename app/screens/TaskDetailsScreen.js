@@ -5,12 +5,12 @@ import CustomButton from "../components/CustomButton";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
 import CustomDatePicker from "../components/CustomDatePicker";
-import TimePicker from "../components/TimePicker";
 import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
 import themeContext from "../theme/themeContext";
 import RBottomSheet from "../components/RBottomSheet";
+import CustomTimePicker from "../components/CustomTimePicker";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
   const theme = useContext(themeContext);
@@ -27,8 +27,8 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
   const [updatedTaskDetails, setUpdatedTaskDetails] = useState(
     selectedTaskData.details
   );
-  // const [updatedDate, setUpdatedDate] = useState(selectedTask.date);
-  // const [updatedTime, setUpdatedTime] = useState(selectedTask.time);
+  // const [updatedDate, setUpdatedDate] = useState(selectedTaskData.date);
+  // const [updatedTime, setUpdatedTime] = useState(selectedTaskData.time);
   const [updatedPriority, setUpdatedPriority] = useState(
     selectedTaskData.priority
   );
@@ -39,6 +39,8 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       ...selectedTaskData,
       name: updatedTask,
       details: updatedTaskDetails,
+      // date: updatedDate,
+      // time: updatedTime,
       priority: updatedPriority,
       color: updatedColor,
     });
@@ -91,6 +93,8 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
                 : selectedTaskData.details
             }
           />
+          {/* <CustomDatePicker date={updatedDate} setDate={setUpdatedDate} /> */}
+          {/* <CustomTimePicker time={updatedTime} setTime={setUpdatedTime} /> */}
           <PriorityBar
             priority={updatedPriority}
             setPriority={setUpdatedPriority}

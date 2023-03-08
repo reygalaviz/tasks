@@ -16,8 +16,7 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
 import PriorityBar from "../components/PriorityBar";
 import CustomDatePicker from "../components/CustomDatePicker";
-import TimePicker from "../components/TimePicker";
-import moment from "moment";
+import CustomTimePicker from "../components/CustomTimePicker";
 import ColorBar from "../components/ColorBar";
 import constants from "../constants/constants";
 import AddTaskButton from "../components/AddTaskButton";
@@ -31,6 +30,8 @@ import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 function AddTaskScreen({ addTask, ...props }) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
+  // const [date, setDate] = useState(new Date());
+  // const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState("");
   const [color, setColor] = useState("");
 
@@ -51,8 +52,8 @@ function AddTaskScreen({ addTask, ...props }) {
   const onCancelPress = () => {
     setTask("");
     setTaskDetails("");
-    // setDate("");
-    // setTime("");
+    // setDate(new Date());
+    // setTime(new Date());
     setPriority(""), setColor("");
     sheetRef?.current?.close();
     Keyboard.dismiss();
@@ -62,6 +63,8 @@ function AddTaskScreen({ addTask, ...props }) {
     addTask({
       name: task,
       details: taskDetails,
+      // date: date.toDateString(),
+      // time: time.toTimeString(),
       priority: priority,
       color: color,
       completed: false,
@@ -70,6 +73,8 @@ function AddTaskScreen({ addTask, ...props }) {
     });
     setTask("");
     setTaskDetails("");
+    // setDate(new Date());
+    // setTime(new Date());
     setPriority(""), setColor("");
     sheetRef?.current?.close();
   };
@@ -109,6 +114,12 @@ function AddTaskScreen({ addTask, ...props }) {
             value={taskDetails}
             setValue={(value) => setTaskDetails(value)}
           />
+          {/* <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <CustomDatePicker date={date} setDate={setDate} />
+            <CustomTimePicker time={time} setTime={setTime} />
+          </View> */}
 
           <PriorityBar
             priority={priority}
