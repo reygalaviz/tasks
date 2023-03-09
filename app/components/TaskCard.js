@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
     width: "90%",
     justifyContent: "center",
     borderRadius: 10,
+    borderWidth: 1,
+    borderBottomWidth: 5,
     paddingVertical: constants.s,
     paddingHorizontal: constants.m,
     flexDirection: "column",
