@@ -65,7 +65,7 @@ function DeletedTaskCardContent({
                   alignItems: "center",
                 }}
               >
-                <Text style={styles.date}>deleted on{task.time}</Text>
+                <Text style={styles.date}>Deleted on {task.date}</Text>
               </View>
               <Priority priorityTitle={task.priority} />
             </View>

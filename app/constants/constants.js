@@ -54,8 +54,8 @@ export default {
 
   //add-task
   taskFont: RFValue(16),
-  taskDetailsFont: RFValue(13),
-  taskFontDateTime: RFValue(13),
+  taskDetailsFont: RFValue(12),
+  taskFontDateTime: RFValue(12),
 
   //task-card
   cardTitle: RFValue(12),
@@ -68,7 +68,8 @@ export default {
   deletedCardHeight: verticalScale(115),
 
   //modal-sheet-top-padding
-  sheetTopPadding: Platform.OS === "ios" ? verticalScale(40) : 60,
+  sheetTopPadding:
+    Platform.OS === "ios" ? verticalScale(40) : verticalScale(10),
 
   //tab-bar
   tabWidth: horizontalScale(100),

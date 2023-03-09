@@ -15,17 +15,23 @@ function TaskCard({ task, onPress, children, style, styleContainer }) {
   const theme = useContext(themeContext);
   const navigation = useNavigation();
 
-  const completedTasks = Object.values(task).filter(
-    (task) => task.completed
-  ).length;
-  const remainingTasks = Object.values(task).length - completedTasks;
+  // const completedTasks = Object.values(task).filter(
+  //   (task) => task.completed
+  // ).length;
+  // const remainingTasks = Object.values(task).length - completedTasks;
 
   return (
     <Pressable
       onPress={onPress}
       style={[, styles.taskContainer, styleContainer]}
     >
-      <View style={[styles.task, style, { backgroundColor: task.color }]}>
+      <View
+        style={[
+          styles.task,
+          style,
+          { backgroundColor: task.color, borderColor: "#333333" },
+        ]}
+      >
         {children}
       </View>
     </Pressable>
@@ -46,6 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderBottomWidth: 5,
+
     paddingVertical: constants.s,
     paddingHorizontal: constants.m,
     flexDirection: "column",

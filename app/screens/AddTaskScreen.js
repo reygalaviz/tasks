@@ -30,9 +30,9 @@ import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 function AddTaskScreen({ addTask, ...props }) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
-  // const [date, setDate] = useState(new Date());
-  // const [time, setTime] = useState(new Date());
-  const [priority, setPriority] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+  const [priority, setPriority] = useState("High");
   const [color, setColor] = useState("");
 
   const theme = useContext(themeContext);
@@ -52,9 +52,9 @@ function AddTaskScreen({ addTask, ...props }) {
   const onCancelPress = () => {
     setTask("");
     setTaskDetails("");
-    // setDate(new Date());
-    // setTime(new Date());
-    setPriority(""), setColor("");
+    setDate(new Date());
+    setTime(new Date());
+    setPriority("High"), setColor("");
     sheetRef?.current?.close();
     Keyboard.dismiss();
   };
@@ -63,8 +63,8 @@ function AddTaskScreen({ addTask, ...props }) {
     addTask({
       name: task,
       details: taskDetails,
-      // date: date.toDateString(),
-      // time: time.toTimeString(),
+      date: date.toString().slice(0, 15),
+      time: time.getTime(),
       priority: priority,
       color: color,
       completed: false,
@@ -73,10 +73,11 @@ function AddTaskScreen({ addTask, ...props }) {
     });
     setTask("");
     setTaskDetails("");
-    // setDate(new Date());
-    // setTime(new Date());
-    setPriority(""), setColor("");
+    setDate(new Date());
+    setTime(new Date());
+    setPriority("High"), setColor("");
     sheetRef?.current?.close();
+    console.log(date);
   };
 
   return (
@@ -88,7 +89,9 @@ function AddTaskScreen({ addTask, ...props }) {
         snapPoints={snapPoints}
         index={-1}
         onChange={handleSnapPress}
-        style={{ backgroundColor: theme.background }}
+        style={{
+          backgroundColor: theme.background,
+        }}
       >
         <ModalSheetHeader
           title="Create your task"
@@ -97,36 +100,39 @@ function AddTaskScreen({ addTask, ...props }) {
           iconColor={theme.color}
           style={{ color: theme.color }}
         />
-        <CustomInput
-          style={{ paddingHorizontal: constants.m }}
-          maxLength={200}
-          textStyle={styles.titleText}
-          placeholder="e.g, Take my dog to the vet"
-          value={task}
-          setValue={(value) => setTask(value)}
-        />
-        <BottomSheetScrollView style={{ paddingHorizontal: constants.m }}>
+
+        <BottomSheetScrollView
+          style={{ paddingHorizontal: constants.m, marginBottom: constants.m }}
+        >
           <CustomInput
-            style={{ marginBottom: constants.xl }}
+            maxLength={200}
+            textStyle={styles.titleText}
+            placeholder="e.g, Take my dog to the vet"
+            value={task}
+            setValue={(value) => setTask(value)}
+          />
+          <CustomInput
             maxLength={500}
             textStyle={styles.detailsText}
-            placeholder="add notes"
+            placeholder="Additional Notes"
             value={taskDetails}
             setValue={(value) => setTaskDetails(value)}
           />
-          {/* <View
+
+          <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <CustomDatePicker date={date} setDate={setDate} />
             <CustomTimePicker time={time} setTime={setTime} />
-          </View> */}
+          </View>
+          <ColorBar color={color} setColor={setColor} />
 
           <PriorityBar
             priority={priority}
             setPriority={setPriority}
             buttons={["High", "Medium", "Low"]}
           />
-          <ColorBar color={color} setColor={setColor} />
+
           <CustomButton
             onPress={handleAddTask}
             title="Submit"
@@ -143,6 +149,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: constants.m,
     marginTop: constants.sheetTopPadding,
+    paddingBottom: constants.l,
   },
   titleText: {
     fontSize: constants.taskFont,

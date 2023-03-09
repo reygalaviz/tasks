@@ -21,7 +21,13 @@ const CustomInput = ({
   const theme = useContext(themeContext);
 
   return (
-    <View style={[styles.container, { borderColor: theme.textBorder }, style]}>
+    <View
+      style={[
+        styles.container,
+        style,
+        { backgroundColor: theme.textBoxBGColor },
+      ]}
+    >
       <TextInput
         value={value}
         onChangeText={setValue}
@@ -34,7 +40,7 @@ const CustomInput = ({
           },
           textStyle,
         ]}
-        placeholderTextColor="#b0b3b8"
+        placeholderTextColor={theme.color}
         maxLength={maxLength}
         numberOfLines={3}
         multiline={true}
@@ -47,6 +53,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderRadius: 10,
     marginVertical: 10,
+    padding: 15,
   },
 });
 

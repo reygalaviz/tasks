@@ -11,11 +11,12 @@ const theme = {
     divider: "#a7a7a7",
     activeTabColor: "black",
     inactiveTabColor: "gray",
+    textBoxBGColor: "#F5F5F5",
   },
   dark: {
     theme: "dark",
     color: "white",
-    background: "#121212",
+    background: "black",
     textBorder: "gray",
     active: "black",
     buttonColor: "white",
@@ -24,6 +25,7 @@ const theme = {
     divider: "#a7a7a7",
     activeTabColor: "white",
     inactiveTabColor: "gray",
+    textBoxBGColor: "#333333",
   },
 };
 

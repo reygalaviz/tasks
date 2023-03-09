@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: constants.l,
+    marginVertical: constants.m,
   },
   circle: {
     width: circle_size + circle_ringsize * 4,

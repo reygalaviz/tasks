@@ -26,6 +26,8 @@ function StackNavigation(props) {
               ...t,
               name: task.name,
               details: task.details,
+              date: task.date,
+              time: task.time,
               priority: task.priority,
               color: task.color,
             }
@@ -84,6 +86,7 @@ function StackNavigation(props) {
             tasks={tasks}
             setTasks={setTasks}
             updateTask={updateTask}
+            deleteTask={deleteTask}
           />
         )}
       </Stack.Screen>

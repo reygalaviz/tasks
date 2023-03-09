@@ -12,17 +12,7 @@ import TaskCard from "../components/TaskCard";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { useNavigation } from "@react-navigation/native";
-import Animated, {
-  SlideInLeft,
-  SlideOutRight,
-  SlideOutUp,
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  withTiming,
-} from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { format } from "date-fns";
 
 function PendingTaskCardContent({
   task,
@@ -45,6 +35,9 @@ function PendingTaskCardContent({
         style={{
           borderRadius: 10,
           height: constants.cardHeight,
+          borderWidth: 1,
+          borderBottomWidth: 5,
+          borderColor: "#333333",
           backgroundColor: "#ED6A5E",
           justifyContent: "center",
           alignItems: "flex-end",
@@ -70,6 +63,9 @@ function PendingTaskCardContent({
         onPress={() => updateStatus(task.id, true)}
         style={{
           borderRadius: 10,
+          borderWidth: 1,
+          borderBottomWidth: 5,
+          borderColor: "#333333",
           height: constants.cardHeight,
           marginLeft: constants.m,
           marginRight: "-4%",
@@ -120,7 +116,7 @@ function PendingTaskCardContent({
                 size={constants.iconSize}
                 color="black"
               />
-              <Text style={styles.date}>{task.time}</Text>
+              <Text style={styles.date}>{format(task.time, "hh:mm a")}</Text>
             </View>
             <Priority priorityTitle={task.priority} />
           </View>
@@ -130,16 +126,14 @@ function PendingTaskCardContent({
   };
 
   return (
-    <Animated.View>
-      <Swipeable
-        renderRightActions={rightSwipeActions}
-        renderLeftActions={leftSwipeActions}
-      >
-        <TaskCard task={task} onPress={onDetailsScreen}>
-          <InnerCard />
-        </TaskCard>
-      </Swipeable>
-    </Animated.View>
+    <Swipeable
+      renderRightActions={rightSwipeActions}
+      renderLeftActions={leftSwipeActions}
+    >
+      <TaskCard task={task} onPress={onDetailsScreen}>
+        <InnerCard />
+      </TaskCard>
+    </Swipeable>
   );
 }
 

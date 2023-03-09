@@ -24,13 +24,21 @@ function CustomTimePicker({ time, setTime }) {
   };
 
   return (
-    <View
+    <Pressable
+      onPress={() => showTimePicker()}
       style={{
-        paddingVertical: constants.s,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 15,
+        borderRadius: 10,
+        marginVertical: 10,
         marginTop: constants.s,
+        backgroundColor: theme.textBoxBGColor,
+        marginLeft: 1,
+        width: "45%",
       }}
     >
-      <Pressable
+      <View
         onPress={showTimePicker}
         style={{
           width: "100%",
@@ -38,7 +46,7 @@ function CustomTimePicker({ time, setTime }) {
           alignItems: "center",
         }}
       >
-        <Feather name="clock" size={24} color="black" />
+        <Feather name="clock" size={18} color={theme.color} />
         <Text
           style={{
             color: theme.color,
@@ -49,14 +57,14 @@ function CustomTimePicker({ time, setTime }) {
         >
           {format(time, "hh:mm a")}
         </Text>
-      </Pressable>
+      </View>
       <DateTimePickerModal
         isVisible={timePickerVisible}
         mode="time"
         onConfirm={handleConfirm}
         onCancel={hideTimePicker}
       />
-    </View>
+    </Pressable>
   );
 }
 

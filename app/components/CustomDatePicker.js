@@ -23,21 +23,26 @@ function CustomDatePicker({ date, setDate }) {
   };
 
   return (
-    <View
+    <Pressable
+      onPress={() => showDatePicker()}
       style={{
-        paddingVertical: constants.s,
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 15,
+        borderRadius: 10,
+        marginVertical: 10,
         marginTop: constants.s,
+        backgroundColor: theme.textBoxBGColor,
       }}
     >
-      <Pressable
-        onPress={showDatePicker}
+      <View
         style={{
           width: "100%",
           flexDirection: "row",
           alignItems: "center",
         }}
       >
-        <Feather name="calendar" size={24} color="black" />
+        <Feather name="calendar" size={18} color={theme.color} />
         <Text
           style={{
             color: theme.color,
@@ -46,9 +51,9 @@ function CustomDatePicker({ date, setDate }) {
             fontWeight: "600",
           }}
         >
-          {format(date, "MMMM dd, yyyy")}
+          {date.toString().slice(0, 15)}
         </Text>
-      </Pressable>
+      </View>
       <DateTimePickerModal
         isVisible={datePickerVisible}
         mode="date"
@@ -57,7 +62,7 @@ function CustomDatePicker({ date, setDate }) {
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
-    </View>
+    </Pressable>
   );
 }
 

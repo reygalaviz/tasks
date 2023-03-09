@@ -10,93 +10,68 @@ function PriorityBar({ priority, setPriority, buttons }) {
     setPriority(label);
   };
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={[styles.headerText, { color: theme.color }]}>
-          Priority
-        </Text>
-      </View>
-      <View style={styles.buttonContainer}>
-        {buttons.map((buttonLabel) => {
-          return (
-            <Pressable
-              onPress={(item) => handleClick(item, buttonLabel)}
-              key={buttonLabel}
+    <View
+      style={{
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: constants.m,
+        marginVertical: constants.s,
+      }}
+    >
+      {buttons.map((buttonLabel) => {
+        return (
+          <Pressable
+            onPress={(item) => handleClick(item, buttonLabel)}
+            key={buttonLabel}
+            style={[
+              buttonLabel === "High" && buttonLabel === priority
+                ? [styles.activeTab, { backgroundColor: "#F76C5E" }]
+                : null,
+              buttonLabel === "Medium" && buttonLabel === priority
+                ? [styles.activeTab, { backgroundColor: "#FFA552" }]
+                : null,
+              buttonLabel === "Low" && buttonLabel === priority
+                ? [styles.activeTab, { backgroundColor: "#B6EEA6" }]
+                : null,
+              styles.container,
+            ]}
+          >
+            <Text
               style={[
-                buttonLabel === priority
-                  ? [styles.buttonActive, { backgroundColor: theme.color }]
-                  : styles.button,
-                buttonLabel === "High"
-                  ? { borderRightWidth: 0, borderColor: theme.textBorder }
-                  : null,
-                buttonLabel === "Medium"
-                  ? { borderRightWidth: 0, borderColor: theme.textBorder }
-                  : null,
-                buttonLabel === "High"
-                  ? { borderTopLeftRadius: 10, borderBottomLeftRadius: 10 }
-                  : null,
-                buttonLabel === "Low"
-                  ? {
-                      borderTopRightRadius: 10,
-                      borderBottomRightRadius: 10,
-                      borderColor: theme.textBorder,
-                    }
-                  : null,
+                styles.text,
+                {
+                  color: buttonLabel === priority ? theme.color : theme.color,
+                },
               ]}
             >
-              <Text
-                style={[
-                  buttonLabel === priority
-                    ? [styles.textActive, { color: theme.active }]
-                    : [styles.text, { color: theme.color }],
-                ]}
-              >
-                {buttonLabel}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
+              {buttonLabel}
+            </Text>
+          </Pressable>
+        );
+      })}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginVertical: constants.s,
-  },
-  headerText: {
-    fontSize: constants.sectionHeader,
-    fontWeight: "600",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-  },
-  button: {
-    alignItems: "center",
+    paddingHorizontal: constants.s,
+    borderRadius: 20,
     justifyContent: "center",
-    borderWidth: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  buttonActive: {
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "black",
-    borderWidth: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
+    width: constants.tabWidth,
+    height: constants.tabHeight,
   },
-  // text: {
-  //   color: "black",
-  // },
-  // textActive: {
-  //   color: "white",
-  // },
+  text: {
+    fontWeight: "700",
+    fontSize: constants.tabText,
+  },
+  activeTab: {
+    borderWidth: 1,
+    borderBottomWidth: 4,
+    borderColor: "#333333",
+  },
 });
 
 export default PriorityBar;

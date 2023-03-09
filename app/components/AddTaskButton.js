@@ -7,23 +7,22 @@ function AddTaskButton({ onOpenAddTask }) {
   const theme = useContext(themeContext);
   return (
     <Pressable
-      style={[styles.container, { backgroundColor: theme.buttonColor }]}
+      style={[styles.container, { backgroundColor: "#2E5077" }]}
       onPress={onOpenAddTask}
     >
-      <Ionicons name="add" size={24} color={theme.buttonText} />
+      <Ionicons name="add" size={35} color="white" />
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
     borderRadius: 50,
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
     top: "90%",
-    left: "84%",
+    left: "81%",
     height: 50,
     width: 50,
     zIndex: 50,

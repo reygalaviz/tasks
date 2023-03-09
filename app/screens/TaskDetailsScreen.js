@@ -27,20 +27,21 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
   const [updatedTaskDetails, setUpdatedTaskDetails] = useState(
     selectedTaskData.details
   );
-  // const [updatedDate, setUpdatedDate] = useState(selectedTaskData.date);
-  // const [updatedTime, setUpdatedTime] = useState(selectedTaskData.time);
+  const [updatedDate, setUpdatedDate] = useState(selectedTaskData.date);
+  const [updatedTime, setUpdatedTime] = useState(selectedTaskData.time);
   const [updatedPriority, setUpdatedPriority] = useState(
     selectedTaskData.priority
   );
   const [updatedColor, setUpdatedColor] = useState(selectedTaskData.color);
 
   const handleEditTask = (e) => {
+    console.log(updatedDate);
     props.updateTask({
       ...selectedTaskData,
       name: updatedTask,
       details: updatedTaskDetails,
-      // date: updatedDate,
-      // time: updatedTime,
+      date: updatedDate.toString().slice(0, 15),
+      time: updatedTime.getTime(),
       priority: updatedPriority,
       color: updatedColor,
     });
@@ -70,7 +71,6 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
           <CustomInput
-            style={styles.textbox}
             maxLength={200}
             textStyle={styles.titleText}
             value={updatedTask.toString()}
@@ -82,7 +82,6 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             }
           />
           <CustomInput
-            style={[styles.textbox, { marginBottom: constants.xl }]}
             maxLength={500}
             textStyle={styles.detailsText}
             value={updatedTaskDetails.toString()}
@@ -93,14 +92,19 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
                 : selectedTaskData.details
             }
           />
-          {/* <CustomDatePicker date={updatedDate} setDate={setUpdatedDate} /> */}
-          {/* <CustomTimePicker time={updatedTime} setTime={setUpdatedTime} /> */}
+          <View
+            style={{ flexDirection: "row", justifyContent: "space-between" }}
+          >
+            <CustomDatePicker date={updatedDate} setDate={setUpdatedDate} />
+            <CustomTimePicker time={updatedTime} setTime={setUpdatedTime} />
+          </View>
+          <ColorBar color={updatedColor} setColor={setUpdatedColor} />
           <PriorityBar
             priority={updatedPriority}
             setPriority={setUpdatedPriority}
             buttons={["High", "Medium", "Low"]}
           />
-          <ColorBar color={updatedColor} setColor={setUpdatedColor} />
+
           <CustomButton
             onPress={handleEditTask}
             title="Update"
@@ -117,7 +121,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-
+  button: {
+    marginTop: 20,
+  },
   form: {
     paddingHorizontal: constants.m,
     marginTop: constants.m,
