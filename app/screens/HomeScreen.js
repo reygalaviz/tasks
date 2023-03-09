@@ -70,6 +70,7 @@ function HomeScreen({ navigation, ...props }) {
           <Greeting OnCalendarPress={() => console.log(props.tasks)} />
 
           <CustomInput
+            style={{ marginVertical: constants.s }}
             textStyle={{ height: 20 }}
             placeholder="Search Notes"
             value={search}

@@ -34,7 +34,6 @@ function AddTaskScreen({ addTask, ...props }) {
   const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState("High");
   const [color, setColor] = useState("#586BA4");
-
   const theme = useContext(themeContext);
 
   const sheetRef = useRef();
@@ -57,26 +56,37 @@ function AddTaskScreen({ addTask, ...props }) {
     setPriority("High"), setColor("#586BA4");
     sheetRef?.current?.close();
     Keyboard.dismiss();
+    setError({});
+  };
+  //error
+  const [error, setError] = useState({});
+  const handleError = (err, input) => {
+    setError((prev) => ({ ...prev, [input]: err }));
   };
 
   const handleAddTask = (e) => {
-    addTask({
-      name: task,
-      details: taskDetails,
-      date: date.toString().slice(0, 15),
-      time: time.getTime(),
-      priority: priority,
-      color: color,
-      completed: false,
-      trash: false,
-      id: Date.now(),
-    });
-    setTask("");
-    setTaskDetails("");
-    setDate(new Date());
-    setTime(new Date());
-    setPriority("High"), setColor("#586BA4");
-    sheetRef?.current?.close();
+    if (task === "") {
+      handleError("Please input title", "task");
+    } else {
+      addTask({
+        name: task,
+        details: taskDetails,
+        date: date.toString().slice(0, 15),
+        time: time.getTime(),
+        priority: priority,
+        color: color,
+        completed: false,
+        trash: false,
+        id: Date.now(),
+      });
+      setTask("");
+      setTaskDetails("");
+      setDate(new Date());
+      setTime(new Date());
+      setPriority("High"), setColor("#586BA4");
+      setError({});
+      sheetRef?.current?.close();
+    }
   };
 
   return (
@@ -104,13 +114,19 @@ function AddTaskScreen({ addTask, ...props }) {
           style={{ paddingHorizontal: constants.m, marginBottom: constants.m }}
         >
           <CustomInput
+            style={{ marginBottom: constants.s }}
             maxLength={200}
             textStyle={styles.titleText}
             placeholder="e.g, Take my dog to the vet"
+            error={error.task}
+            onFocus={() => {
+              handleError(null, "task");
+            }}
             value={task}
             setValue={(value) => setTask(value)}
           />
           <CustomInput
+            style={{ marginVertical: constants.s }}
             maxLength={500}
             textStyle={styles.detailsText}
             placeholder="Additional Notes"

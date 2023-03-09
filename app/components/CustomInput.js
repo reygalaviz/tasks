@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   TextInput,
   StyleSheet,
+  Text,
   KeyboardAvoidingView,
 } from "react-native";
 import constants from "../constants/constants";
@@ -19,42 +20,67 @@ const CustomInput = ({
   maxLength,
   numberOfLines,
   multiline = true,
+  error,
+  onFocus = () => {},
 }) => {
   const theme = useContext(themeContext);
+  const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View
-      style={[
-        styles.container,
-        style,
-        { backgroundColor: theme.textBoxBGColor },
-      ]}
-    >
-      <TextInput
-        value={value}
-        onChangeText={setValue}
-        placeholder={placeholder}
+    <>
+      <View
         style={[
+          styles.container,
+          style,
           {
-            color: theme.color,
-            maxHeight: maxHeight,
-            minHeight: minHeight,
+            backgroundColor: theme.textBoxBGColor,
+            borderWidth: error ? 1 : 0,
+            borderColor: error ? "#ED6A5E" : isFocused ? "blue" : "gray",
           },
-          textStyle,
         ]}
-        placeholderTextColor={theme.color}
-        maxLength={maxLength}
-        numberOfLines={numberOfLines}
-        multiline={multiline}
-      />
-    </View>
+      >
+        <TextInput
+          onFocus={() => {
+            onFocus();
+            setIsFocused(false);
+          }}
+          value={value}
+          onChangeText={setValue}
+          placeholder={placeholder}
+          style={[
+            {
+              color: theme.color,
+              maxHeight: maxHeight,
+              minHeight: minHeight,
+            },
+            textStyle,
+          ]}
+          placeholderTextColor={theme.placeholderColor}
+          maxLength={maxLength}
+          numberOfLines={numberOfLines}
+          multiline={multiline}
+        />
+      </View>
+      {error && (
+        <Text
+          style={{
+            color: "#ED6A5E",
+            paddingLeft: constants.s,
+            fontWeight: "700",
+            fontSize: constants.errorFontSize,
+          }}
+        >
+          {error}
+        </Text>
+      )}
+    </>
   );
 };
 const styles = StyleSheet.create({
   container: {
     width: "100%",
     borderRadius: 10,
-    marginVertical: 10,
+
     padding: 15,
   },
 });

@@ -16,7 +16,6 @@ function PendingTasksScreen({
   setSearch,
 }) {
   const [today, setToday] = useState([]);
-  console.log(new Date().toString().slice(0, 15));
 
   return (
     <View style={{ flex: 1 }}>

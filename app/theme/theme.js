@@ -12,6 +12,7 @@ const theme = {
     activeTabColor: "black",
     inactiveTabColor: "gray",
     textBoxBGColor: "#F5F5F5",
+    placeholderColor: "#909090",
   },
   dark: {
     theme: "dark",
@@ -26,6 +27,7 @@ const theme = {
     activeTabColor: "white",
     inactiveTabColor: "gray",
     textBoxBGColor: "#333333",
+    placeholderColor: "#909090",
   },
 };
 

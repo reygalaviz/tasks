@@ -32,18 +32,27 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
   const [updatedPriority, setUpdatedPriority] = useState(selectedTask.priority);
   const [updatedColor, setUpdatedColor] = useState(selectedTask.color);
 
-  const handleEditTask = (e) => {
-    props.updateTask({
-      ...selectedTask,
-      name: updatedTask,
-      details: updatedTaskDetails,
-      date: updatedDate.toString().slice(0, 15),
-      time: updatedTime,
-      priority: updatedPriority,
-      color: updatedColor,
-    });
+  const [error, setError] = useState({});
+  const handleError = (err, input) => {
+    setError((prev) => ({ ...prev, [input]: err }));
+  };
 
-    navigation.navigate("HomeScreen");
+  const handleEditTask = (e) => {
+    if (updatedTask === "") {
+      handleError("Please input title", "task");
+    } else {
+      props.updateTask({
+        ...selectedTask,
+        name: updatedTask,
+        details: updatedTaskDetails,
+        date: updatedDate.toString().slice(0, 15),
+        time: updatedTime,
+        priority: updatedPriority,
+        color: updatedColor,
+      });
+
+      navigation.navigate("HomeScreen");
+    }
   };
   const handleDeleteTask = () => {
     props.deleteTask(selectedTask.id);
@@ -72,6 +81,11 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
           <CustomInput
+            style={{ marginBottom: constants.s }}
+            error={error.task}
+            onFocus={() => {
+              handleError(null, "task");
+            }}
             maxLength={200}
             textStyle={styles.titleText}
             value={updatedTask}
@@ -83,12 +97,15 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             }
           />
           <CustomInput
+            style={{ marginVertical: constants.s }}
             maxLength={500}
             textStyle={styles.detailsText}
             value={updatedTaskDetails}
             setValue={(value) => setUpdatedTaskDetails(value)}
             placeholder={
-              selectedTask.details == "" ? "add notes" : selectedTask.details
+              selectedTask.details == ""
+                ? "Additional Notes"
+                : selectedTask.details
             }
           />
           <View
