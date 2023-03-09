@@ -22,6 +22,9 @@ function CompletedTaskCardContent({
         onPress={() => moveToTrashBin(task.id, true)}
         style={{
           borderRadius: 10,
+          borderWidth: 1,
+          borderBottomWidth: 5,
+          borderColor: "#333333",
           height: constants.cardHeight,
           backgroundColor: "#ED6A5E",
           justifyContent: "center",

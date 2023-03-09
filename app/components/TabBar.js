@@ -9,8 +9,6 @@ import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
 import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
 
-const tabs = ["Today", "Upcoming", "Completed"];
-
 function TabBar({
   tasks,
   setTasks,
@@ -20,17 +18,13 @@ function TabBar({
   scrolling,
   search,
   setSearch,
+  tabs,
+  selectedTab,
+  setSelectedTab,
 }) {
-  const Tab = createMaterialTopTabNavigator();
   const theme = useContext(themeContext);
 
-  const [selectedTab, setSelectedTab] = useState(tabs[0]);
-  const [sortedT, setSortedT] = useState([]);
-
   const setTabFilter = (selectedTab) => {
-    let today = tasks;
-    today = today.sort((a, b) => (a.name > b.name ? 1 : -1));
-    setSortedT(today);
     setSelectedTab(selectedTab);
   };
 

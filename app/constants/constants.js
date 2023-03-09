@@ -27,6 +27,9 @@ export default {
   white: "#FFFFFF",
   gray: "#799496",
 
+  //search-bar
+  searchFontSize: RFValue(13),
+
   //priority-colors
   high: "#F76C5E",
   medium: "#FFA552",

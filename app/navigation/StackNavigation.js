@@ -10,6 +10,8 @@ const Stack = createNativeStackNavigator();
 
 function StackNavigation(props) {
   const [tasks, setTasks] = useState([]);
+  const tabs = ["Today", "Upcoming", "Completed"];
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
 
   const addTask = (task) => {
     setTasks((prev) => [...prev, task]);
@@ -75,6 +77,9 @@ function StackNavigation(props) {
             addTask={addTask}
             updateStatus={updateStatus}
             moveToTrashBin={moveToTrashBin}
+            tabs={tabs}
+            selectedTab={selectedTab}
+            setSelectedTab={setSelectedTab}
           />
         )}
       </Stack.Screen>

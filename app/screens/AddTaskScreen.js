@@ -27,7 +27,13 @@ import themeContext from "../theme/themeContext";
 import { ScrollView } from "react-native-gesture-handler";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-function AddTaskScreen({ addTask, ...props }) {
+function AddTaskScreen({
+  tabs,
+  selectedTab,
+  setSelectedTab,
+  addTask,
+  ...props
+}) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
   const [date, setDate] = useState(new Date());

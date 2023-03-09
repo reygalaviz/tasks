@@ -71,7 +71,11 @@ function HomeScreen({ navigation, ...props }) {
 
           <CustomInput
             style={{ marginVertical: constants.s }}
-            textStyle={{ height: 20 }}
+            textStyle={{
+              height: 20,
+              fontSize: constants.searchFontSize,
+              fontWeight: "600",
+            }}
             placeholder="Search Notes"
             value={search}
             setValue={(value) => setSearch(value)}
@@ -89,9 +93,17 @@ function HomeScreen({ navigation, ...props }) {
           deleteTask={props.deleteTask}
           updateStatus={props.updateStatus}
           moveToTrashBin={props.moveToTrashBin}
+          tabs={props.tabs}
+          selectedTab={props.selectedTab}
+          setSelectedTab={props.setSelectedTab}
           scrolling={scrolling}
         />
-        <AddTaskScreen addTask={props.addTask} />
+        <AddTaskScreen
+          addTask={props.addTask}
+          tabs={props.tabs}
+          selectedTab={props.selectedTab}
+          setSelectedTab={props.setSelectedTab}
+        />
         <SettingsScreen
           isOpen={isSettingsOpen}
           setIsOpen={setIsSettingsOpen}
