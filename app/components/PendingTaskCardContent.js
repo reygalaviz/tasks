@@ -20,6 +20,7 @@ function PendingTaskCardContent({
   deleteTask,
   moveToTrashBin,
 }) {
+  console.log(task.date);
   const navigation = useNavigation();
 
   const onDetailsScreen = () => {

@@ -5,12 +5,7 @@ import CustomButton from "./CustomButton";
 import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
 
-function RBottomSheet({
-  rbSheetRef,
-  handleCancelDelete,
-  handleDeleteTask,
-  selectedTaskData,
-}) {
+function RBottomSheet({ rbSheetRef, handleCancelDelete, handleDeleteTask }) {
   const theme = useContext(themeContext);
 
   return (
@@ -25,16 +20,7 @@ function RBottomSheet({
       }}
       openDuration={200}
     >
-      <View style={styles.sheetHeader}>
-        <Text
-          numberOfLines={1}
-          style={[styles.sheetTitle, { color: theme.color }]}
-        >
-          {selectedTaskData.name !== ""
-            ? selectedTaskData.name
-            : selectedTaskData.details}
-        </Text>
-      </View>
+      <View style={styles.sheetHeader}></View>
       <View style={styles.sheetBody}>
         <Text
           numberOfLines={1}

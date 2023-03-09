@@ -7,6 +7,7 @@ import {
   StatusBar,
   Platform,
   TextInput,
+  Keyboard,
 } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
@@ -32,7 +33,6 @@ function HomeScreen({ navigation, ...props }) {
 
   //search
   const [search, setSearch] = useState("");
-  console.log(search);
 
   //settings screen
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);

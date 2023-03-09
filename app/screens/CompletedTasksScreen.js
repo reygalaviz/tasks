@@ -1,8 +1,8 @@
 import React from "react";
 import { View, FlatList, Text, Pressable } from "react-native";
 import TaskFlatList from "../components/TaskFlatList";
-import TaskCard from "../components/TaskCard";
 import CompletedTaskCardContent from "../components/CompletedTaskCardContent";
+import NoTaskFound from "../components/NoTaskFound";
 
 function CompletedTasksScreen({
   tasks,
@@ -19,7 +19,7 @@ function CompletedTasksScreen({
         <TaskFlatList
           tasks={tasks}
           renderItem={({ item }) => {
-            if (item && item.completed == true && item && item.trash == false) {
+            if (item && item.completed == true && item.trash == false) {
               if (search === "") {
                 return (
                   <CompletedTaskCardContent
@@ -39,6 +39,8 @@ function CompletedTasksScreen({
                     moveToTrashBin={moveToTrashBin}
                   />
                 );
+              } else {
+                return <NoTaskFound search={search} />;
               }
             }
           }}

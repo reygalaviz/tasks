@@ -21,6 +21,7 @@ import TaskFlatList from "./TaskFlatList";
 import PendingTaskCardContent from "./PendingTaskCardContent";
 import CompletedTaskCardContent from "./CompletedTaskCardContent";
 import DeletedTaskCardContent from "./DeletedTaskCardContent";
+import NoTaskFound from "./NoTaskFound";
 
 export {
   TabBar,
@@ -46,4 +47,5 @@ export {
   PendingTaskCardContent,
   CompletedTaskCardContent,
   DeletedTaskCardContent,
+  NoTaskFound,
 };

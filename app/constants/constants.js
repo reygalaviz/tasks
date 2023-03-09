@@ -83,4 +83,9 @@ export default {
   //pop-up-window
   modalWidth: width,
   modalHeight: height * 0.25,
+
+  //no-tasks display
+  noTasksHeight: height * 0.4,
+  noTaskFontSize: RFValue(15),
+  noTaskSubFontSize: RFValue(13),
 };

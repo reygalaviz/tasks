@@ -18,30 +18,27 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
   const modalVisible = () => {
     rbSheetRef.current.open();
   };
-  const selectedTaskData = route.params.selectedTask;
+  const { selectedTask, id } = route.params;
   const onBackPress = () => {
     navigation.goBack();
   };
 
-  const [updatedTask, setUpdatedTask] = useState(selectedTaskData.name);
+  const [updatedTask, setUpdatedTask] = useState(selectedTask.name);
   const [updatedTaskDetails, setUpdatedTaskDetails] = useState(
-    selectedTaskData.details
+    selectedTask.details
   );
-  const [updatedDate, setUpdatedDate] = useState(selectedTaskData.date);
-  const [updatedTime, setUpdatedTime] = useState(selectedTaskData.time);
-  const [updatedPriority, setUpdatedPriority] = useState(
-    selectedTaskData.priority
-  );
-  const [updatedColor, setUpdatedColor] = useState(selectedTaskData.color);
+  const [updatedDate, setUpdatedDate] = useState(selectedTask.date);
+  const [updatedTime, setUpdatedTime] = useState(selectedTask.time);
+  const [updatedPriority, setUpdatedPriority] = useState(selectedTask.priority);
+  const [updatedColor, setUpdatedColor] = useState(selectedTask.color);
 
   const handleEditTask = (e) => {
-    console.log(updatedDate);
     props.updateTask({
-      ...selectedTaskData,
+      ...selectedTask,
       name: updatedTask,
       details: updatedTaskDetails,
       date: updatedDate.toString().slice(0, 15),
-      time: updatedTime.getTime(),
+      time: updatedTime,
       priority: updatedPriority,
       color: updatedColor,
     });
@@ -49,7 +46,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     navigation.navigate("HomeScreen");
   };
   const handleDeleteTask = () => {
-    props.deleteTask(selectedTaskData.id);
+    props.deleteTask(selectedTask.id);
     rbSheetRef.current.close();
     navigation.navigate("HomeScreen");
   };
@@ -63,7 +60,6 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
         rbSheetRef={rbSheetRef}
         handleCancelDelete={handleCancelDelete}
         handleDeleteTask={handleDeleteTask}
-        selectedTaskData={selectedTaskData}
       />
       <HeaderBar
         onBackPress={onBackPress}
@@ -78,23 +74,21 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
           <CustomInput
             maxLength={200}
             textStyle={styles.titleText}
-            value={updatedTask.toString()}
+            value={updatedTask}
             setValue={(value) => setUpdatedTask(value)}
             placeholder={
-              selectedTaskData.name == ""
+              selectedTask.name == ""
                 ? "e.g, Take my dog to the vet"
-                : selectedTaskData.name
+                : selectedTask.name
             }
           />
           <CustomInput
             maxLength={500}
             textStyle={styles.detailsText}
-            value={updatedTaskDetails.toString()}
+            value={updatedTaskDetails}
             setValue={(value) => setUpdatedTaskDetails(value)}
             placeholder={
-              selectedTaskData.details == ""
-                ? "add notes"
-                : selectedTaskData.details
+              selectedTask.details == "" ? "add notes" : selectedTask.details
             }
           />
           <View

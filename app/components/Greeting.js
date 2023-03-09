@@ -14,9 +14,6 @@ import Animated, {
 
 function Greeting({ OnCalendarPress }) {
   const theme = useContext(themeContext);
-  const onSearchPressed = () => {
-    console.warn("search");
-  };
 
   let myDate = new Date();
   let hours = myDate.getHours();
@@ -56,9 +53,6 @@ function Greeting({ OnCalendarPress }) {
           }}
         >
           <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
-          <Pressable onPress={OnCalendarPress}>
-            <Ionicons name="ios-search-outline" size={24} color={theme.color} />
-          </Pressable>
         </View>
 
         <Text style={[styles.subHeader, { color: theme.color }]}>

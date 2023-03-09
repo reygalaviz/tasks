@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, FlatList, Text, Pressable } from "react-native";
+import { View, FlatList, Text, Pressable, StyleSheet } from "react-native";
 import PendingTaskCardContent from "../components/PendingTaskCardContent";
-import TaskCard from "../components/TaskCard";
 import TaskFlatList from "../components/TaskFlatList";
+import constants from "../constants/constants";
+import NoTaskFound from "../components/NoTaskFound";
 
 function PendingTasksScreen({
   tasks,
@@ -14,13 +15,21 @@ function PendingTasksScreen({
   search,
   setSearch,
 }) {
+  const [today, setToday] = useState([]);
+  console.log(new Date().toString().slice(0, 15));
+
   return (
     <View style={{ flex: 1 }}>
       <TaskFlatList
         scrolling={scrolling}
         tasks={tasks}
         renderItem={({ item }) => {
-          if (item.completed == false && item && item.trash == false) {
+          if (
+            item &&
+            item.completed == false &&
+            item.trash == false &&
+            item.date == new Date().toString().slice(0, 15)
+          ) {
             if (search === "") {
               return (
                 <PendingTaskCardContent
@@ -40,6 +49,8 @@ function PendingTasksScreen({
                   moveToTrashBin={moveToTrashBin}
                 />
               );
+            } else {
+              return <NoTaskFound search={search} />;
             }
           }
         }}

@@ -7,6 +7,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
+import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
 
 const tabs = ["Today", "Upcoming", "Completed"];
 
@@ -41,8 +42,7 @@ function TabBar({
           flexDirection: "row",
           justifyContent: "space-between",
           paddingHorizontal: constants.m,
-          marginTop: constants.m,
-          marginBottom: constants.s,
+          marginVertical: constants.s,
         }}
       >
         {tabs.map((tab, index) => {
@@ -75,6 +75,19 @@ function TabBar({
 
       {selectedTab == "Today" && (
         <PendingTasksScreen
+          search={search}
+          setSearch={setSearch}
+          tasks={tasks}
+          setTasks={setTasks}
+          deleteTask={deleteTask}
+          updateStatus={updateStatus}
+          moveToTrashBin={moveToTrashBin}
+          scrolling={scrolling}
+        />
+      )}
+
+      {selectedTab == "Upcoming" && (
+        <UpcomingTasksScreen
           search={search}
           setSearch={setSearch}
           tasks={tasks}
