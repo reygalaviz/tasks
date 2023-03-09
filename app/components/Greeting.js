@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
     marginTop: constants.m,
-    marginHorizontal: constants.m,
   },
   header: {
     fontSize: constants.daygreeting,

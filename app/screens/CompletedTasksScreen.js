@@ -10,6 +10,8 @@ function CompletedTasksScreen({
   updateStatus,
   deleteTask,
   moveToTrashBin,
+  search,
+  setSearch,
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -17,15 +19,28 @@ function CompletedTasksScreen({
         <TaskFlatList
           tasks={tasks}
           renderItem={({ item }) => {
-            if (item && item.completed == true && item && item.trash == false)
-              return (
-                <CompletedTaskCardContent
-                  task={item}
-                  updateStatus={updateStatus}
-                  deleteTask={deleteTask}
-                  moveToTrashBin={moveToTrashBin}
-                />
-              );
+            if (item && item.completed == true && item && item.trash == false) {
+              if (search === "") {
+                return (
+                  <CompletedTaskCardContent
+                    task={item}
+                    updateStatus={updateStatus}
+                    deleteTask={deleteTask}
+                    moveToTrashBin={moveToTrashBin}
+                  />
+                );
+              }
+              if (item.name.toLowerCase().includes(search.toLowerCase())) {
+                return (
+                  <CompletedTaskCardContent
+                    task={item}
+                    updateStatus={updateStatus}
+                    deleteTask={deleteTask}
+                    moveToTrashBin={moveToTrashBin}
+                  />
+                );
+              }
+            }
           }}
         />
       )}

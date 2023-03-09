@@ -1,16 +1,16 @@
 import "react-native-gesture-handler";
-import React, {
-  useState,
-  useContext,
-  useCallback,
-  useRef,
-  useEffect,
-} from "react";
-import { View, Text, StyleSheet, StatusBar, Platform } from "react-native";
+import React, { useState, useContext, useSharedValue, useRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  TextInput,
+} from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
 import Greeting from "../components/Greeting";
-import TaskFlatList from "../components/TaskFlatList";
 import AddTaskScreen from "./AddTaskScreen";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
@@ -20,8 +20,8 @@ import SettingsButton from "../components/SettingsButton";
 import themeContext from "../theme/themeContext";
 import Animated from "react-native-reanimated";
 import TabBar from "../components/TabBar";
-import PendingTasksScreen from "./PendingTasksScreen";
-import CompletedTasksScreen from "./CompletedTasksScreen";
+import CustomInput from "../components/CustomInput";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 function HomeScreen({ navigation, ...props }) {
   const theme = useContext(themeContext);
@@ -29,6 +29,10 @@ function HomeScreen({ navigation, ...props }) {
   //recoil
   const todoList = useRecoilValue(todoItem);
   const [mode, setMode] = useState(false);
+
+  //search
+  const [search, setSearch] = useState("");
+  console.log(search);
 
   //settings screen
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -45,12 +49,12 @@ function HomeScreen({ navigation, ...props }) {
     outputRange: [0, -100],
   });
 
-  const headermax = 150;
-  const headermin = 50;
+  const startHeaderHeight = constants.startHeaderHeight;
+  const endHeaderHeight = constants.endHeaderHeight;
 
   const animatedHeaderHeight = scrolling.interpolate({
-    inputRange: [0, headermax - headermin],
-    outputRange: [headermax, headermin],
+    inputRange: [0, 50],
+    outputRange: [startHeaderHeight, endHeaderHeight],
     extrapolate: "clamp",
   });
 
@@ -58,17 +62,33 @@ function HomeScreen({ navigation, ...props }) {
     <>
       <StatusBar barStyle={mode === false ? "dark-content" : "light-content"} />
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <HeaderBar reminder>
-          <NotificationsButton />
-          <SettingsButton onOpenSettings={onOpenSettings} />
-        </HeaderBar>
-        <Greeting OnCalendarPress={() => console.log(props.tasks)} />
+        <Animated.View style={{ paddingHorizontal: constants.m }}>
+          <HeaderBar reminder>
+            <NotificationsButton />
+            <SettingsButton onOpenSettings={onOpenSettings} />
+          </HeaderBar>
+          <Greeting OnCalendarPress={() => console.log(props.tasks)} />
+
+          <CustomInput
+            textStyle={{ height: 20 }}
+            placeholder="Search Notes"
+            value={search}
+            setValue={(value) => setSearch(value)}
+            numberOfLines={1}
+            maxLength={50}
+            multiline={false}
+          />
+        </Animated.View>
+
         <TabBar
+          search={search}
+          setSearch={setSearch}
           tasks={props.tasks}
           setTasks={props.setTasks}
           deleteTask={props.deleteTask}
           updateStatus={props.updateStatus}
           moveToTrashBin={props.moveToTrashBin}
+          scrolling={scrolling}
         />
         <AddTaskScreen addTask={props.addTask} />
         <SettingsScreen
@@ -82,9 +102,7 @@ function HomeScreen({ navigation, ...props }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: { flex: 1 },
 });
 
 export default HomeScreen;

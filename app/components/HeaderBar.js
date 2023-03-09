@@ -45,7 +45,6 @@ function HeaderBar({
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: constants.m,
     marginTop: constants.marginTopHeader,
     alignItems: "center",
     justifyContent: "space-between",

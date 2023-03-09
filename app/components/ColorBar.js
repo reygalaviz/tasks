@@ -43,7 +43,9 @@ function ColorBar({ color, setColor }) {
               <View
                 style={[
                   styles.circle,
-                  isActive && { borderColor: theme.color },
+                  isActive && {
+                    borderColor: theme.color,
+                  },
                 ]}
               >
                 <View
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
     height: circle_size + circle_ringsize * 4,
     borderRadius: 100,
     marginRight: 2,
+    marginBottom: constants.s,
     borderWidth: circle_ringsize,
     borderColor: "transparent",
   },

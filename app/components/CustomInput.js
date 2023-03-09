@@ -17,6 +17,8 @@ const CustomInput = ({
   maxHeight,
   minHeight,
   maxLength,
+  numberOfLines,
+  multiline = true,
 }) => {
   const theme = useContext(themeContext);
 
@@ -42,8 +44,8 @@ const CustomInput = ({
         ]}
         placeholderTextColor={theme.color}
         maxLength={maxLength}
-        numberOfLines={3}
-        multiline={true}
+        numberOfLines={numberOfLines}
+        multiline={multiline}
       />
     </View>
   );

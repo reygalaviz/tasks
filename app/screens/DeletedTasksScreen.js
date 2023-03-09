@@ -16,7 +16,7 @@ function DeletedTasksScreen({ navigation, ...props }) {
         back
         header="Deleted Tasks"
         onBackPress={onBackPress}
-        style={{}}
+        style={{ paddingHorizontal: constants.m }}
       ></HeaderBar>
 
       <View style={styles.buttons}>

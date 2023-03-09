@@ -45,6 +45,10 @@ export default {
   //header-bar
   marginTopHeader:
     Platform.OS === "ios" ? verticalScale(60) : 10 + StatusBar.currentHeight,
+  startHeaderHeight:
+    Platform.OS === "ios" ? verticalScale(160) : 10 + StatusBar.currentHeight,
+  endHeaderHeight:
+    Platform.OS === "ios" ? verticalScale(100) : 10 + StatusBar.currentHeight,
 
   //text-input
   titleMaxHeight: verticalScale(100),

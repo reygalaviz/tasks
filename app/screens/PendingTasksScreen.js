@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, FlatList, Text, Pressable } from "react-native";
 import PendingTaskCardContent from "../components/PendingTaskCardContent";
 import TaskCard from "../components/TaskCard";
@@ -10,21 +10,37 @@ function PendingTasksScreen({
   updateStatus,
   deleteTask,
   moveToTrashBin,
+  scrolling,
+  search,
+  setSearch,
 }) {
   return (
     <View style={{ flex: 1 }}>
       <TaskFlatList
+        scrolling={scrolling}
         tasks={tasks}
         renderItem={({ item }) => {
-          if (item && item.completed == false && item && item.trash == false) {
-            return (
-              <PendingTaskCardContent
-                task={item}
-                updateStatus={updateStatus}
-                deleteTask={deleteTask}
-                moveToTrashBin={moveToTrashBin}
-              />
-            );
+          if (item.completed == false && item && item.trash == false) {
+            if (search === "") {
+              return (
+                <PendingTaskCardContent
+                  task={item}
+                  updateStatus={updateStatus}
+                  deleteTask={deleteTask}
+                  moveToTrashBin={moveToTrashBin}
+                />
+              );
+            }
+            if (item.name.toLowerCase().includes(search.toLowerCase())) {
+              return (
+                <PendingTaskCardContent
+                  task={item}
+                  updateStatus={updateStatus}
+                  deleteTask={deleteTask}
+                  moveToTrashBin={moveToTrashBin}
+                />
+              );
+            }
           }
         }}
       />

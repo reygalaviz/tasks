@@ -33,7 +33,7 @@ function AddTaskScreen({ addTask, ...props }) {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState("High");
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#586BA4");
 
   const theme = useContext(themeContext);
 
@@ -54,7 +54,7 @@ function AddTaskScreen({ addTask, ...props }) {
     setTaskDetails("");
     setDate(new Date());
     setTime(new Date());
-    setPriority("High"), setColor("");
+    setPriority("High"), setColor("#586BA4");
     sheetRef?.current?.close();
     Keyboard.dismiss();
   };
@@ -75,9 +75,8 @@ function AddTaskScreen({ addTask, ...props }) {
     setTaskDetails("");
     setDate(new Date());
     setTime(new Date());
-    setPriority("High"), setColor("");
+    setPriority("High"), setColor("#586BA4");
     sheetRef?.current?.close();
-    console.log(date);
   };
 
   return (

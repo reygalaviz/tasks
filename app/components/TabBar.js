@@ -10,19 +10,26 @@ import CompletedTasksScreen from "../screens/CompletedTasksScreen";
 
 const tabs = ["Today", "Upcoming", "Completed"];
 
-function TabBar({ tasks, setTasks, deleteTask, updateStatus, moveToTrashBin }) {
+function TabBar({
+  tasks,
+  setTasks,
+  deleteTask,
+  updateStatus,
+  moveToTrashBin,
+  scrolling,
+  search,
+  setSearch,
+}) {
   const Tab = createMaterialTopTabNavigator();
   const theme = useContext(themeContext);
 
-  const [selectedTab, setSelectedTab] = useState("Today");
-  const [dataList, setDataList] = useState(tasks);
+  const [selectedTab, setSelectedTab] = useState(tabs[0]);
+  const [sortedT, setSortedT] = useState([]);
 
   const setTabFilter = (selectedTab) => {
-    if (selectedTab !== "Today") {
-      setDataList([...tasks.filter((e) => (e.selectedTab = selectedTab))]);
-    } else {
-      setDataList(tasks);
-    }
+    let today = tasks;
+    today = today.sort((a, b) => (a.name > b.name ? 1 : -1));
+    setSortedT(today);
     setSelectedTab(selectedTab);
   };
 
@@ -68,15 +75,21 @@ function TabBar({ tasks, setTasks, deleteTask, updateStatus, moveToTrashBin }) {
 
       {selectedTab == "Today" && (
         <PendingTasksScreen
+          search={search}
+          setSearch={setSearch}
           tasks={tasks}
           setTasks={setTasks}
           deleteTask={deleteTask}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
+          scrolling={scrolling}
         />
       )}
+
       {selectedTab == "Completed" && (
         <CompletedTasksScreen
+          search={search}
+          setSearch={setSearch}
           tasks={tasks}
           setTasks={setTasks}
           deleteTask={deleteTask}
