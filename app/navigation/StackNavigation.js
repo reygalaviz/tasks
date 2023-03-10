@@ -1,10 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
 import HomeScreen from "../screens/HomeScreen";
-import CalendarScreen from "../screens/CalendarScreen";
 import TaskDetailsScreen from "../screens/TaskDetailsScreen";
 import DeletedTasksScreen from "../screens/DeletedTasksScreen";
+import { enableScreens } from "react-native-screens";
+import { NavigationContainer } from "@react-navigation/native";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+
+enableScreens();
 
 const Stack = createNativeStackNavigator();
 
@@ -61,52 +64,53 @@ function StackNavigation(props) {
   };
 
   return (
-    <Stack.Navigator
-      screenOptions={{
-        contentStyle: { backgroundColor: "white" },
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="HomeScreen">
-        {(props) => (
-          <HomeScreen
-            {...props}
-            tasks={tasks}
-            setTasks={setTasks}
-            deleteTask={deleteTask}
-            addTask={addTask}
-            updateStatus={updateStatus}
-            moveToTrashBin={moveToTrashBin}
-            tabs={tabs}
-            selectedTab={selectedTab}
-            setSelectedTab={setSelectedTab}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
-      <Stack.Screen name="DetailsScreen">
-        {(props) => (
-          <TaskDetailsScreen
-            {...props}
-            tasks={tasks}
-            setTasks={setTasks}
-            updateTask={updateTask}
-            deleteTask={deleteTask}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen name="DeletedTasksScreen">
-        {(props) => (
-          <DeletedTasksScreen
-            {...props}
-            tasks={tasks}
-            setTasks={setTasks}
-            moveToTrashBin={moveToTrashBin}
-            deleteTask={deleteTask}
-          />
-        )}
-      </Stack.Screen>
-    </Stack.Navigator>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          contentStyle: { backgroundColor: "white" },
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="HomeScreen">
+          {(props) => (
+            <HomeScreen
+              {...props}
+              tasks={tasks}
+              setTasks={setTasks}
+              deleteTask={deleteTask}
+              addTask={addTask}
+              updateStatus={updateStatus}
+              moveToTrashBin={moveToTrashBin}
+              tabs={tabs}
+              selectedTab={selectedTab}
+              setSelectedTab={setSelectedTab}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="DetailsScreen">
+          {(props) => (
+            <TaskDetailsScreen
+              {...props}
+              tasks={tasks}
+              setTasks={setTasks}
+              updateTask={updateTask}
+              deleteTask={deleteTask}
+            />
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="DeletedTasksScreen">
+          {(props) => (
+            <DeletedTasksScreen
+              {...props}
+              tasks={tasks}
+              setTasks={setTasks}
+              moveToTrashBin={moveToTrashBin}
+              deleteTask={deleteTask}
+            />
+          )}
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

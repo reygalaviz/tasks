@@ -13,6 +13,7 @@ import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { useNavigation } from "@react-navigation/native";
 import { format } from "date-fns";
+import { SharedElement } from "react-navigation-shared-element";
 
 function PendingTaskCardContent({
   task,
@@ -23,10 +24,7 @@ function PendingTaskCardContent({
   const navigation = useNavigation();
 
   const onDetailsScreen = () => {
-    navigation.navigate("DetailsScreen", {
-      selectedTask: task,
-      id: task.id,
-    });
+    navigation.navigate("DetailsScreen", { task });
   };
   const rightSwipeActions = () => {
     return (
@@ -90,9 +88,11 @@ function PendingTaskCardContent({
     return (
       <>
         <View style={[styles.titleContainer]}>
-          <Text style={[styles.title, {}]} numberOfLines={3}>
-            {task.name}
-          </Text>
+          <SharedElement id={task.id}>
+            <Text style={[styles.title, {}]} numberOfLines={3}>
+              {task.name}
+            </Text>
+          </SharedElement>
         </View>
 
         <View>

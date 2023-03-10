@@ -53,6 +53,9 @@ function Greeting({ OnCalendarPress }) {
           }}
         >
           <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
+          <Pressable onPress={OnCalendarPress}>
+            <Text>press</Text>
+          </Pressable>
         </View>
 
         <Text style={[styles.subHeader, { color: theme.color }]}>

@@ -22,7 +22,6 @@ import themeContext from "../theme/themeContext";
 import Animated from "react-native-reanimated";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 function HomeScreen({ navigation, ...props }) {
   const theme = useContext(themeContext);
@@ -62,7 +61,7 @@ function HomeScreen({ navigation, ...props }) {
     <>
       <StatusBar barStyle={mode === false ? "dark-content" : "light-content"} />
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Animated.View style={{ paddingHorizontal: constants.m }}>
+        <View style={{ paddingHorizontal: constants.m }}>
           <HeaderBar reminder>
             <NotificationsButton />
             <SettingsButton onOpenSettings={onOpenSettings} />
@@ -83,7 +82,7 @@ function HomeScreen({ navigation, ...props }) {
             maxLength={50}
             multiline={false}
           />
-        </Animated.View>
+        </View>
 
         <TabBar
           search={search}

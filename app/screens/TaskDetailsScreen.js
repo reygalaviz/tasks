@@ -11,6 +11,7 @@ import DeleteButton from "../components/DeleteButton";
 import themeContext from "../theme/themeContext";
 import RBottomSheet from "../components/RBottomSheet";
 import CustomTimePicker from "../components/CustomTimePicker";
+import { SharedElement } from "react-navigation-shared-element";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
   const theme = useContext(themeContext);
@@ -18,19 +19,17 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
   const modalVisible = () => {
     rbSheetRef.current.open();
   };
-  const { selectedTask, id } = route.params;
+  const { task } = route.params;
   const onBackPress = () => {
     navigation.goBack();
   };
 
-  const [updatedTask, setUpdatedTask] = useState(selectedTask.name);
-  const [updatedTaskDetails, setUpdatedTaskDetails] = useState(
-    selectedTask.details
-  );
-  const [updatedDate, setUpdatedDate] = useState(selectedTask.date);
-  const [updatedTime, setUpdatedTime] = useState(selectedTask.time);
-  const [updatedPriority, setUpdatedPriority] = useState(selectedTask.priority);
-  const [updatedColor, setUpdatedColor] = useState(selectedTask.color);
+  const [updatedTask, setUpdatedTask] = useState(task.name);
+  const [updatedTaskDetails, setUpdatedTaskDetails] = useState(task.details);
+  const [updatedDate, setUpdatedDate] = useState(task.date);
+  const [updatedTime, setUpdatedTime] = useState(task.time);
+  const [updatedPriority, setUpdatedPriority] = useState(task.priority);
+  const [updatedColor, setUpdatedColor] = useState(task.color);
 
   const [error, setError] = useState({});
   const handleError = (err, input) => {
@@ -42,7 +41,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       handleError("Please input title", "task");
     } else {
       props.updateTask({
-        ...selectedTask,
+        ...task,
         name: updatedTask,
         details: updatedTaskDetails,
         date: updatedDate.toString().slice(0, 15),
@@ -55,7 +54,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     }
   };
   const handleDeleteTask = () => {
-    props.deleteTask(selectedTask.id);
+    props.deleteTask(task.id);
     rbSheetRef.current.close();
     navigation.navigate("HomeScreen");
   };
@@ -80,33 +79,29 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       </HeaderBar>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
-          <CustomInput
-            style={{ marginBottom: constants.s }}
-            error={error.task}
-            onFocus={() => {
-              handleError(null, "task");
-            }}
-            maxLength={200}
-            textStyle={styles.titleText}
-            value={updatedTask}
-            setValue={(value) => setUpdatedTask(value)}
-            placeholder={
-              selectedTask.name == ""
-                ? "e.g, Take my dog to the vet"
-                : selectedTask.name
-            }
-          />
+          <SharedElement id={task.id}>
+            <CustomInput
+              style={{ marginBottom: constants.s }}
+              error={error.task}
+              onFocus={() => {
+                handleError(null, "task");
+              }}
+              maxLength={200}
+              textStyle={styles.titleText}
+              value={updatedTask}
+              setValue={(value) => setUpdatedTask(value)}
+              placeholder={
+                task.name == "" ? "e.g, Take my dog to the vet" : task.name
+              }
+            />
+          </SharedElement>
           <CustomInput
             style={{ marginVertical: constants.s }}
             maxLength={500}
             textStyle={styles.detailsText}
             value={updatedTaskDetails}
             setValue={(value) => setUpdatedTaskDetails(value)}
-            placeholder={
-              selectedTask.details == ""
-                ? "Additional Notes"
-                : selectedTask.details
-            }
+            placeholder={task.details == "" ? "Additional Notes" : task.details}
           />
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}

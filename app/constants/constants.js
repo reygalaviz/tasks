@@ -60,7 +60,7 @@ export default {
   detailsMinHeight: verticalScale(20),
 
   //add-task
-  taskFont: RFValue(16),
+  taskFont: RFValue(14),
   taskDetailsFont: RFValue(12),
   taskFontDateTime: RFValue(12),
   errorFontSize: RFValue(11),

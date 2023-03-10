@@ -9,7 +9,7 @@ function CalendarScreen({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <HeaderBar back date onBackPress={onBackPress} />
+      <Text>calendar page</Text>
     </View>
   );
 }
@@ -17,6 +17,8 @@ function CalendarScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
