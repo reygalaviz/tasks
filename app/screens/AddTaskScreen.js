@@ -24,20 +24,12 @@ import ModalSheet from "../components/ModalSheet";
 import ModalSheetHeader from "../components/ModalSheetHeader";
 import themeContext from "../theme/themeContext";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import { firebase } from "../../firebaseConfig";
 
-function AddTaskScreen({
-  tabs,
-  selectedTab,
-  setSelectedTab,
-  addTask,
-  trash,
-  completed,
-}) {
+function AddTaskScreen({ addTask }) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
-  // const [date, setDate] = useState(new Date());
-  // const [time, setTime] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState("High");
   const [color, setColor] = useState("#586BA4");
 
@@ -58,8 +50,8 @@ function AddTaskScreen({
   const onCancelPress = () => {
     setTask("");
     setTaskDetails("");
-    // setDate(new Date());
-    // setTime(new Date());
+    setDate(new Date());
+    setTime(new Date());
     setPriority("High"), setColor("#586BA4");
     sheetRef?.current?.close();
     Keyboard.dismiss();
@@ -75,28 +67,22 @@ function AddTaskScreen({
     if (task === "") {
       handleError("Please input title", "task");
     } else {
-      firebase
-        .firestore()
-        .collection("tasks")
-        .add({
-          task,
-          taskDetails,
-          priority,
-          color,
-          completed: false,
-          trash: false,
-        })
-        .then(() => {
-          setTask("");
-          setTaskDetails("");
-          // setDate(new Date());
-          // setTime(new Date());
-          setPriority("High"), setColor("#586BA4");
-          sheetRef?.current?.close();
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      addTask({
+        name: task,
+        details: taskDetails,
+        date: date.toString().slice(0, 15),
+        time: time.getTime(),
+        priority: priority,
+        color: color,
+        completed: false,
+        trash: false,
+        id: Date.now(),
+      });
+      setTask("");
+      setTaskDetails("");
+      setPriority("High");
+      setColor("#586BA4");
+      sheetRef?.current?.close();
     }
   };
 
@@ -145,12 +131,12 @@ function AddTaskScreen({
             setValue={(value) => setTaskDetails(value)}
           />
 
-          {/* <View
+          <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <CustomDatePicker date={date} setDate={setDate} />
             <CustomTimePicker time={time} setTime={setTime} />
-          </View> */}
+          </View>
           <ColorBar color={color} setColor={setColor} />
 
           <PriorityBar

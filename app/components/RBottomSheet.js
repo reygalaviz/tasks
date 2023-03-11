@@ -5,7 +5,12 @@ import CustomButton from "./CustomButton";
 import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
 
-function RBottomSheet({ rbSheetRef, handleCancelDelete, handleDeleteTask }) {
+function RBottomSheet({
+  rbSheetRef,
+  handleCancelDelete,
+  handleDeleteTask,
+  message,
+}) {
   const theme = useContext(themeContext);
 
   return (
@@ -26,7 +31,7 @@ function RBottomSheet({ rbSheetRef, handleCancelDelete, handleDeleteTask }) {
           numberOfLines={1}
           style={[styles.bodyText, { color: theme.color }]}
         >
-          Are you sure you want to delete?
+          {message}
         </Text>
         <CustomButton
           bgColor="#ED6A5E"

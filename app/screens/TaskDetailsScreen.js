@@ -11,7 +11,6 @@ import DeleteButton from "../components/DeleteButton";
 import themeContext from "../theme/themeContext";
 import RBottomSheet from "../components/RBottomSheet";
 import CustomTimePicker from "../components/CustomTimePicker";
-import { firebase } from "../../firebaseConfig";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
   const theme = useContext(themeContext);
@@ -24,12 +23,10 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     navigation.goBack();
   };
 
-  const [updatedTask, setUpdatedTask] = useState(task.task);
-  const [updatedTaskDetails, setUpdatedTaskDetails] = useState(
-    task.taskDetails
-  );
-  // const [updatedDate, setUpdatedDate] = useState(task.date);
-  // const [updatedTime, setUpdatedTime] = useState(task.time);
+  const [updatedTask, setUpdatedTask] = useState(task.name);
+  const [updatedTaskDetails, setUpdatedTaskDetails] = useState(task.details);
+  const [updatedDate, setUpdatedDate] = useState(task.date);
+  const [updatedTime, setUpdatedTime] = useState(task.time);
   const [updatedPriority, setUpdatedPriority] = useState(task.priority);
   const [updatedColor, setUpdatedColor] = useState(task.color);
 
@@ -38,43 +35,30 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     setError((prev) => ({ ...prev, [input]: err }));
   };
 
-  const handleEditTask = () => {
+  const handleEditTask = (e) => {
     if (updatedTask === "") {
       handleError("Please input title", "task");
     } else {
-      firebase
-        .firestore()
-        .collection("tasks")
-        .doc(task.id)
-        .update({
-          task: updatedTask,
-          taskDetails: updatedTaskDetails,
-          priority: updatedPriority,
-          color: updatedColor,
-        })
-        .then(() => {
-          navigation.navigate("HomeScreen");
-        })
-        .catch((err) => {
-          alert(err);
-        });
+      props.updateTask({
+        ...task,
+        name: updatedTask,
+        details: updatedTaskDetails,
+        date: updatedDate.toString().slice(0, 15),
+        time: updatedTime,
+        priority: updatedPriority,
+        color: updatedColor,
+      });
+      navigation.navigate("HomeScreen");
     }
   };
   const handleDeleteTask = () => {
-    firebase
-      .firestore()
-      .collection("tasks")
-      .doc(task.id)
-      .delete()
-      .then(() => {
-        rbSheetRef.current.close();
-        navigation.navigate("HomeScreen");
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    props.deleteTask(task.id);
+    rbSheetRef.current.close();
+    navigation.navigate("HomeScreen");
   };
-  const handleCancelDelete = () => {};
+  const handleCancelDelete = () => {
+    rbSheetRef.current.close();
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -82,6 +66,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
         rbSheetRef={rbSheetRef}
         handleCancelDelete={handleCancelDelete}
         handleDeleteTask={handleDeleteTask}
+        message="Are you sure you want to delete task?"
       />
       <HeaderBar
         onBackPress={onBackPress}
@@ -103,9 +88,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             textStyle={styles.titleText}
             value={updatedTask}
             setValue={(value) => setUpdatedTask(value)}
-            placeholder={
-              task.task === "" ? "e.g, Take my dog to the vet" : task.task
-            }
+            placeholder={task.name}
           />
           <CustomInput
             style={{ marginVertical: constants.s }}
@@ -114,15 +97,15 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             value={updatedTaskDetails}
             setValue={(value) => setUpdatedTaskDetails(value)}
             placeholder={
-              task.taskDetails === "" ? "Additional Notes" : task.taskDetails
+              task.details === "" ? "Additional Notes" : task.details
             }
           />
-          {/* <View
+          <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <CustomDatePicker date={updatedDate} setDate={setUpdatedDate} />
             <CustomTimePicker time={updatedTime} setTime={setUpdatedTime} />
-          </View> */}
+          </View>
           <ColorBar color={updatedColor} setColor={setUpdatedColor} />
           <PriorityBar
             priority={updatedPriority}

@@ -22,33 +22,8 @@ import themeContext from "../theme/themeContext";
 import Animated from "react-native-reanimated";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
-import { firebase } from "../../firebaseConfig";
 
 function HomeScreen({ navigation, ...props }) {
-  //fetch data from database
-  useEffect(() => {
-    firebase
-      .firestore()
-      .collection("tasks")
-      .onSnapshot((querySnapshot) => {
-        const newTasks = [];
-        querySnapshot.forEach((doc) => {
-          const { task, taskDetails, priority, color, completed, trash } =
-            doc.data();
-          newTasks.push({
-            task,
-            taskDetails,
-            priority,
-            color,
-            completed,
-            trash,
-            id: doc.id,
-          });
-        });
-        props.setTasks(newTasks);
-      });
-  }, []);
-
   const theme = useContext(themeContext);
 
   //recoil
@@ -92,7 +67,7 @@ function HomeScreen({ navigation, ...props }) {
             <SettingsButton onOpenSettings={onOpenSettings} />
           </HeaderBar>
           <Greeting OnCalendarPress={() => console.log(props.tasks)} />
-
+          {/* <SettingsButton onOpenSettings={() => console.log(props.trash)} /> */}
           <CustomInput
             style={{ marginVertical: constants.s }}
             textStyle={{
@@ -121,7 +96,7 @@ function HomeScreen({ navigation, ...props }) {
           setSelectedTab={props.setSelectedTab}
           scrolling={scrolling}
         />
-        <AddTaskScreen />
+        <AddTaskScreen addTask={props.addTask} />
         <SettingsScreen
           isOpen={isSettingsOpen}
           setIsOpen={setIsSettingsOpen}

@@ -20,24 +20,26 @@ function UpcomingTasksScreen({
             if (
               item &&
               item.completed == false &&
-              item.trash == false
-              // item.date == new Date().toString().slice(0, 15)
+              item.trash == false &&
+              item.date !== new Date().toString().slice(0, 15)
             ) {
               if (search === "") {
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={updateStatus}
-                    moveToTrashBin={moveToTrashBin}
+                    updateStatus={() => updateStatus(item.id, true)}
+                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    pending
                   />
                 );
               }
-              if (item.task.toLowerCase().includes(search.toLowerCase())) {
+              if (item.name.toLowerCase().includes(search.toLowerCase())) {
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={updateStatus}
-                    moveToTrashBin={moveToTrashBin}
+                    updateStatus={() => updateStatus(item.id, true)}
+                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    pending
                   />
                 );
               }

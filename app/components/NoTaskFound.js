@@ -4,31 +4,22 @@ import constants from "../constants/constants";
 
 function NoTaskFound({ search }) {
   return (
-    <View style={styles.noTaskContainer}>
-      <Text style={styles.noTaskText}>"{search}"</Text>
-      <Text style={[styles.noTaskSubText]}>Not Found</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text
+        style={{
+          fontSize: constants.sectionHeader,
+          fontWeight: "700",
+          color: "#a7a7a7",
+          textTransform: "uppercase",
+          letterSpacing: 1,
+        }}
+      >
+        no tasks for today
+      </Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  noTaskContainer: {
-    height: constants.noTasksHeight,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: constants.m,
-  },
-  noTaskText: {
-    fontWeight: "bold",
-    fontSize: constants.noTaskFontSize,
-    textAlign: "center",
-  },
-  noTaskSubText: {
-    fontWeight: "500",
-    fontSize: constants.noTaskSubFontSize,
-    textAlign: "center",
-    marginTop: constants.s,
-  },
-});
+const styles = StyleSheet.create({});
 
 export default NoTaskFound;

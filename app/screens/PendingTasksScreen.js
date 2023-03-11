@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
+import NoTaskFound from "../components/NoTaskFound";
 import TaskCard from "../components/TaskCard";
 import TaskFlatList from "../components/TaskFlatList";
+import constants from "../constants/constants";
 
 function PendingTasksScreen({
   tasks,
@@ -15,37 +17,44 @@ function PendingTasksScreen({
 }) {
   return (
     <View style={{ flex: 1 }}>
-      <TaskFlatList
-        scrolling={scrolling}
-        tasks={tasks}
-        renderItem={({ item }) => {
-          if (
-            item &&
-            item.completed == false &&
-            item.trash == false
-            // item.date == new Date().toString().slice(0, 15)
-          ) {
-            if (search === "") {
-              return (
-                <TaskCard
-                  task={item}
-                  updateStatus={updateStatus}
-                  moveToTrashBin={moveToTrashBin}
-                />
-              );
-            }
-            if (item.task.toLowerCase().includes(search.toLowerCase())) {
-              return (
-                <TaskCard
-                  task={item}
-                  updateStatus={updateStatus}
-                  moveToTrashBin={moveToTrashBin}
-                />
-              );
-            }
-          }
-        }}
-      />
+      {tasks.length === 0 && <NoTaskFound />}
+      {tasks && (
+        <View style={{ flex: 1 }}>
+          <TaskFlatList
+            scrolling={scrolling}
+            tasks={tasks}
+            renderItem={({ item }) => {
+              if (
+                item &&
+                item.completed == false &&
+                item.trash == false &&
+                item.date === new Date().toString().slice(0, 15)
+              ) {
+                if (search === "") {
+                  return (
+                    <TaskCard
+                      task={item}
+                      updateStatus={() => updateStatus(item.id, true)}
+                      handleDelete={() => moveToTrashBin(item.id, true)}
+                      pending
+                    />
+                  );
+                }
+                if (item.name.toLowerCase().includes(search.toLowerCase())) {
+                  return (
+                    <TaskCard
+                      task={item}
+                      updateStatus={() => updateStatus(item.id, true)}
+                      handleDelete={() => moveToTrashBin(item.id, true)}
+                      pending
+                    />
+                  );
+                }
+              }
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }

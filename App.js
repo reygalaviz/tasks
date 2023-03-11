@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, StatusBar } from "react-native";
-import { HomeScreen, SettingsScreen } from "./app/screens";
+import { StyleSheet } from "react-native";
 import themeContext from "./app/theme/themeContext";
 import theme from "./app/theme/theme";
-import { storeData, getData } from "./app/asyncstorage/asyncStorage";
 import { EventRegister } from "react-native-event-listeners";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";

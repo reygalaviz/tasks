@@ -13,14 +13,16 @@ import themeContext from "../theme/themeContext";
 import { useNavigation } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
-import { firebase } from "../../firebaseConfig";
+import { format } from "date-fns";
 
 function TaskCard({
   task,
   style,
   styleContainer,
   updateStatus,
-  moveToTrashBin,
+  compDel,
+  pending,
+  handleDelete,
 }) {
   // const completedTasks = Object.values(task).filter(
   //   (task) => task.completed
@@ -29,24 +31,13 @@ function TaskCard({
 
   const navigation = useNavigation();
 
-  const handleDeleteTask = () => {
-    firebase
-      .firestore()
-      .collection("tasks")
-      .doc(task.id)
-      .delete()
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
   const onDetailsScreen = () => {
     navigation.navigate("DetailsScreen", { task });
   };
   const rightSwipeActions = () => {
     return (
       <Pressable
-        onPress={() => moveToTrashBin(task.id, true)}
+        onPress={handleDelete}
         style={{
           borderRadius: 10,
           height: constants.cardHeight,
@@ -75,7 +66,7 @@ function TaskCard({
   const leftSwipeActions = () => {
     return (
       <Pressable
-        onPress={() => updateStatus(task.id, true)}
+        onPress={updateStatus}
         style={{
           borderRadius: 10,
           borderWidth: 1,
@@ -101,11 +92,8 @@ function TaskCard({
     );
   };
 
-  return (
-    <Swipeable
-      renderRightActions={rightSwipeActions}
-      renderLeftActions={leftSwipeActions}
-    >
+  const Card = () => {
+    return (
       <Pressable
         onPress={onDetailsScreen}
         style={[, styles.taskContainer, styleContainer]}
@@ -119,7 +107,7 @@ function TaskCard({
         >
           <View style={[styles.titleContainer]}>
             <Text style={[styles.title, {}]} numberOfLines={3}>
-              {task.task}
+              {task.name}
             </Text>
           </View>
 
@@ -130,7 +118,7 @@ function TaskCard({
                 size={constants.iconSize}
                 color="black"
               />
-              {/* <Text style={styles.date}>{task.date}</Text> */}
+              <Text style={styles.date}>{task.date}</Text>
             </View>
             <View style={styles.timeContainer}>
               <View
@@ -144,14 +132,33 @@ function TaskCard({
                   size={constants.iconSize}
                   color="black"
                 />
-                {/* <Text style={styles.date}>{format(task.time, "hh:mm a")}</Text> */}
+                <Text style={styles.date}>{format(task.time, "HH:mm a")}</Text>
               </View>
               <Priority priorityTitle={task.priority} />
             </View>
           </View>
         </View>
       </Pressable>
-    </Swipeable>
+    );
+  };
+
+  return (
+    <View>
+      {pending && (
+        <Swipeable
+          renderRightActions={rightSwipeActions}
+          renderLeftActions={leftSwipeActions}
+        >
+          <Card />
+        </Swipeable>
+      )}
+
+      {compDel && (
+        <Swipeable renderRightActions={rightSwipeActions}>
+          <Card />
+        </Swipeable>
+      )}
+    </View>
   );
 }
 const styles = StyleSheet.create({

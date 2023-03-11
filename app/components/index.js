@@ -18,9 +18,6 @@ import CheckBox from "./CheckBox";
 import DeleteButton from "./DeleteButton";
 import DeleteConfirm from "./DeleteConfirm";
 import TaskFlatList from "./TaskFlatList";
-import PendingTaskCardContent from "./PendingTaskCardContent";
-import CompletedTaskCardContent from "./CompletedTaskCardContent";
-import DeletedTaskCardContent from "./DeletedTaskCardContent";
 import NoTaskFound from "./NoTaskFound";
 
 export {
@@ -44,8 +41,5 @@ export {
   DeleteButton,
   DeleteConfirm,
   TaskFlatList,
-  PendingTaskCardContent,
-  CompletedTaskCardContent,
-  DeletedTaskCardContent,
   NoTaskFound,
 };

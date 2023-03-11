@@ -1,17 +1,34 @@
-import React from "react";
+import React, { useRef } from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import TaskFlatList from "../components/TaskFlatList";
 import constants from "../constants/constants";
+import RBottomSheet from "../components/RBottomSheet";
 import TaskCard from "../components/TaskCard";
 
 function DeletedTasksScreen({ navigation, ...props }) {
   const onBackPress = () => {
     navigation.goBack();
   };
+  const rbSheetRef = useRef();
+  const modalVisible = () => {
+    rbSheetRef.current.open();
+  };
+  const handleDeleteTask = () => {
+    rbSheetRef.current.close();
+  };
+  const handleCancelDelete = () => {
+    rbSheetRef.current.close();
+  };
 
   return (
     <View style={styles.container}>
+      <RBottomSheet
+        rbSheetRef={rbSheetRef}
+        handleCancelDelete={handleCancelDelete}
+        handleDeleteTask={handleDeleteTask}
+        message="Are you sure you want to delete all tasks?"
+      />
       <HeaderBar
         back
         header="Deleted Tasks"
@@ -23,7 +40,7 @@ function DeletedTasksScreen({ navigation, ...props }) {
         <Pressable>
           <Text>Undo All</Text>
         </Pressable>
-        <Pressable>
+        <Pressable onPress={() => modalVisible()}>
           <Text>Delete All</Text>
         </Pressable>
       </View>
@@ -37,6 +54,8 @@ function DeletedTasksScreen({ navigation, ...props }) {
                   task={item}
                   updateStatus={props.updateStatus}
                   moveToTrashBin={props.moveToTrashBin}
+                  handleDelete={() => props.deleteTask(item.id)}
+                  compDel
                 />
               );
             }

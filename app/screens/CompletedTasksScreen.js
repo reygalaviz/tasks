@@ -22,17 +22,19 @@ function CompletedTasksScreen({
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={updateStatus}
-                    moveToTrashBin={moveToTrashBin}
+                    updateStatus={() => updateStatus(item.id, false)}
+                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    compDel
                   />
                 );
               }
-              if (item.task.toLowerCase().includes(search.toLowerCase())) {
+              if (item.name.toLowerCase().includes(search.toLowerCase())) {
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={updateStatus}
-                    moveToTrashBin={moveToTrashBin}
+                    updateStatus={() => updateStatus(item.id, false)}
+                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    compDel
                   />
                 );
               } else {
