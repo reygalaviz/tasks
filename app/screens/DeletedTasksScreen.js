@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import TaskFlatList from "../components/TaskFlatList";
 import constants from "../constants/constants";
-import DeletedTaskCardContent from "../components/DeletedTaskCardContent";
+import TaskCard from "../components/TaskCard";
 
 function DeletedTasksScreen({ navigation, ...props }) {
   const onBackPress = () => {
@@ -33,10 +33,9 @@ function DeletedTasksScreen({ navigation, ...props }) {
           renderItem={({ item }) => {
             if (item && item.trash == true) {
               return (
-                <DeletedTaskCardContent
+                <TaskCard
                   task={item}
                   updateStatus={props.updateStatus}
-                  deleteTask={props.deleteTask}
                   moveToTrashBin={props.moveToTrashBin}
                 />
               );

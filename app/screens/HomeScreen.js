@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React, { useState, useContext, useSharedValue, useRef } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -22,8 +22,33 @@ import themeContext from "../theme/themeContext";
 import Animated from "react-native-reanimated";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
+import { firebase } from "../../firebaseConfig";
 
 function HomeScreen({ navigation, ...props }) {
+  //fetch data from database
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection("tasks")
+      .onSnapshot((querySnapshot) => {
+        const newTasks = [];
+        querySnapshot.forEach((doc) => {
+          const { task, taskDetails, priority, color, completed, trash } =
+            doc.data();
+          newTasks.push({
+            task,
+            taskDetails,
+            priority,
+            color,
+            completed,
+            trash,
+            id: doc.id,
+          });
+        });
+        props.setTasks(newTasks);
+      });
+  }, []);
+
   const theme = useContext(themeContext);
 
   //recoil
@@ -89,7 +114,6 @@ function HomeScreen({ navigation, ...props }) {
           setSearch={setSearch}
           tasks={props.tasks}
           setTasks={props.setTasks}
-          deleteTask={props.deleteTask}
           updateStatus={props.updateStatus}
           moveToTrashBin={props.moveToTrashBin}
           tabs={props.tabs}
@@ -97,12 +121,7 @@ function HomeScreen({ navigation, ...props }) {
           setSelectedTab={props.setSelectedTab}
           scrolling={scrolling}
         />
-        <AddTaskScreen
-          addTask={props.addTask}
-          tabs={props.tabs}
-          selectedTab={props.selectedTab}
-          setSelectedTab={props.setSelectedTab}
-        />
+        <AddTaskScreen />
         <SettingsScreen
           isOpen={isSettingsOpen}
           setIsOpen={setIsSettingsOpen}

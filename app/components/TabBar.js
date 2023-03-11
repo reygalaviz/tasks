@@ -12,7 +12,6 @@ import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
 function TabBar({
   tasks,
   setTasks,
-  deleteTask,
   updateStatus,
   moveToTrashBin,
   scrolling,
@@ -73,7 +72,6 @@ function TabBar({
           setSearch={setSearch}
           tasks={tasks}
           setTasks={setTasks}
-          deleteTask={deleteTask}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
           scrolling={scrolling}
@@ -86,7 +84,6 @@ function TabBar({
           setSearch={setSearch}
           tasks={tasks}
           setTasks={setTasks}
-          deleteTask={deleteTask}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
           scrolling={scrolling}
@@ -99,7 +96,6 @@ function TabBar({
           setSearch={setSearch}
           tasks={tasks}
           setTasks={setTasks}
-          deleteTask={deleteTask}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
         />

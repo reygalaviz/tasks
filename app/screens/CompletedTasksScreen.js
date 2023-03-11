@@ -1,14 +1,12 @@
 import React from "react";
 import { View, FlatList, Text, Pressable } from "react-native";
 import TaskFlatList from "../components/TaskFlatList";
-import CompletedTaskCardContent from "../components/CompletedTaskCardContent";
-import NoTaskFound from "../components/NoTaskFound";
+import TaskCard from "../components/TaskCard";
 
 function CompletedTasksScreen({
   tasks,
   setTasks,
   updateStatus,
-  deleteTask,
   moveToTrashBin,
   search,
   setSearch,
@@ -22,20 +20,18 @@ function CompletedTasksScreen({
             if (item && item.completed == true && item.trash == false) {
               if (search === "") {
                 return (
-                  <CompletedTaskCardContent
+                  <TaskCard
                     task={item}
                     updateStatus={updateStatus}
-                    deleteTask={deleteTask}
                     moveToTrashBin={moveToTrashBin}
                   />
                 );
               }
-              if (item.name.toLowerCase().includes(search.toLowerCase())) {
+              if (item.task.toLowerCase().includes(search.toLowerCase())) {
                 return (
-                  <CompletedTaskCardContent
+                  <TaskCard
                     task={item}
                     updateStatus={updateStatus}
-                    deleteTask={deleteTask}
                     moveToTrashBin={moveToTrashBin}
                   />
                 );

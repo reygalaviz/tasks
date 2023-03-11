@@ -11,7 +11,7 @@ import DeleteButton from "../components/DeleteButton";
 import themeContext from "../theme/themeContext";
 import RBottomSheet from "../components/RBottomSheet";
 import CustomTimePicker from "../components/CustomTimePicker";
-import { SharedElement } from "react-navigation-shared-element";
+import { firebase } from "../../firebaseConfig";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
   const theme = useContext(themeContext);
@@ -24,10 +24,12 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     navigation.goBack();
   };
 
-  const [updatedTask, setUpdatedTask] = useState(task.name);
-  const [updatedTaskDetails, setUpdatedTaskDetails] = useState(task.details);
-  const [updatedDate, setUpdatedDate] = useState(task.date);
-  const [updatedTime, setUpdatedTime] = useState(task.time);
+  const [updatedTask, setUpdatedTask] = useState(task.task);
+  const [updatedTaskDetails, setUpdatedTaskDetails] = useState(
+    task.taskDetails
+  );
+  // const [updatedDate, setUpdatedDate] = useState(task.date);
+  // const [updatedTime, setUpdatedTime] = useState(task.time);
   const [updatedPriority, setUpdatedPriority] = useState(task.priority);
   const [updatedColor, setUpdatedColor] = useState(task.color);
 
@@ -36,31 +38,43 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
     setError((prev) => ({ ...prev, [input]: err }));
   };
 
-  const handleEditTask = (e) => {
+  const handleEditTask = () => {
     if (updatedTask === "") {
       handleError("Please input title", "task");
     } else {
-      props.updateTask({
-        ...task,
-        name: updatedTask,
-        details: updatedTaskDetails,
-        date: updatedDate.toString().slice(0, 15),
-        time: updatedTime,
-        priority: updatedPriority,
-        color: updatedColor,
-      });
-
-      navigation.navigate("HomeScreen");
+      firebase
+        .firestore()
+        .collection("tasks")
+        .doc(task.id)
+        .update({
+          task: updatedTask,
+          taskDetails: updatedTaskDetails,
+          priority: updatedPriority,
+          color: updatedColor,
+        })
+        .then(() => {
+          navigation.navigate("HomeScreen");
+        })
+        .catch((err) => {
+          alert(err);
+        });
     }
   };
   const handleDeleteTask = () => {
-    props.deleteTask(task.id);
-    rbSheetRef.current.close();
-    navigation.navigate("HomeScreen");
+    firebase
+      .firestore()
+      .collection("tasks")
+      .doc(task.id)
+      .delete()
+      .then(() => {
+        rbSheetRef.current.close();
+        navigation.navigate("HomeScreen");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
-  const handleCancelDelete = () => {
-    rbSheetRef.current.close();
-  };
+  const handleCancelDelete = () => {};
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -79,36 +93,36 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       </HeaderBar>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
-          <SharedElement id={task.id}>
-            <CustomInput
-              style={{ marginBottom: constants.s }}
-              error={error.task}
-              onFocus={() => {
-                handleError(null, "task");
-              }}
-              maxLength={200}
-              textStyle={styles.titleText}
-              value={updatedTask}
-              setValue={(value) => setUpdatedTask(value)}
-              placeholder={
-                task.name == "" ? "e.g, Take my dog to the vet" : task.name
-              }
-            />
-          </SharedElement>
+          <CustomInput
+            style={{ marginBottom: constants.s }}
+            error={error.task}
+            onFocus={() => {
+              handleError(null, "task");
+            }}
+            maxLength={200}
+            textStyle={styles.titleText}
+            value={updatedTask}
+            setValue={(value) => setUpdatedTask(value)}
+            placeholder={
+              task.task === "" ? "e.g, Take my dog to the vet" : task.task
+            }
+          />
           <CustomInput
             style={{ marginVertical: constants.s }}
             maxLength={500}
             textStyle={styles.detailsText}
             value={updatedTaskDetails}
             setValue={(value) => setUpdatedTaskDetails(value)}
-            placeholder={task.details == "" ? "Additional Notes" : task.details}
+            placeholder={
+              task.taskDetails === "" ? "Additional Notes" : task.taskDetails
+            }
           />
-          <View
+          {/* <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
             <CustomDatePicker date={updatedDate} setDate={setUpdatedDate} />
             <CustomTimePicker time={updatedTime} setTime={setUpdatedTime} />
-          </View>
+          </View> */}
           <ColorBar color={updatedColor} setColor={setUpdatedColor} />
           <PriorityBar
             priority={updatedPriority}
