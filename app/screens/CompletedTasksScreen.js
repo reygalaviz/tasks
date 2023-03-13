@@ -11,6 +11,7 @@ function CompletedTasksScreen({
   search,
   setSearch,
   filteredNotes,
+  deleteTask,
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -24,8 +25,8 @@ function CompletedTasksScreen({
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={() => updateStatus(item.id, false)}
-                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    updateStatus={() => updateStatus(item.id)}
+                    handleDelete={() => moveToTrashBin(item.id)}
                     compDel
                   />
                 );
@@ -34,8 +35,8 @@ function CompletedTasksScreen({
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={() => updateStatus(item.id, false)}
-                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    updateStatus={() => updateStatus(item.id)}
+                    handleDelete={() => moveToTrashBin(item.id)}
                     compDel
                   />
                 );

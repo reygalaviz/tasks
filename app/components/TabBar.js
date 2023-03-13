@@ -172,6 +172,7 @@ function TabBar({
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
           scrolling={scrolling}
+          deleteTask={deleteTask}
         />
       )}
 
@@ -184,6 +185,7 @@ function TabBar({
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
+          deleteTask={deleteTask}
         />
       )}
     </>

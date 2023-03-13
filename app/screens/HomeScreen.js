@@ -63,7 +63,9 @@ function HomeScreen({ navigation, ...props }) {
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={{ paddingHorizontal: constants.m }}>
           <HeaderBar date>
-            <NotificationsButton />
+            <NotificationsButton
+              onOpenNotifications={() => console.log(props.tasks)}
+            />
             <SettingsButton onOpenSettings={onOpenSettings} />
           </HeaderBar>
 

@@ -11,6 +11,7 @@ function UpcomingTasksScreen({
   search,
   setSearch,
   filteredNotes,
+  deleteTask,
 }) {
   return (
     <View style={{ fleX: 1 }}>
@@ -29,8 +30,8 @@ function UpcomingTasksScreen({
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={() => updateStatus(item.id, true)}
-                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    updateStatus={() => updateStatus(item.id)}
+                    handleDelete={() => moveToTrashBin(item.id)}
                     pending
                   />
                 );
@@ -39,8 +40,8 @@ function UpcomingTasksScreen({
                 return (
                   <TaskCard
                     task={item}
-                    updateStatus={() => updateStatus(item.id, true)}
-                    handleDelete={() => moveToTrashBin(item.id, true)}
+                    updateStatus={() => updateStatus(item.id)}
+                    handleDelete={() => moveToTrashBin(item.id)}
                     pending
                   />
                 );

@@ -36,8 +36,8 @@ function PendingTasksScreen({
                   return (
                     <TaskCard
                       task={item}
-                      updateStatus={() => updateStatus(item.id, true)}
-                      handleDelete={() => deleteTask(item.id)}
+                      updateStatus={() => updateStatus(item.id)}
+                      handleDelete={() => moveToTrashBin(item.id)}
                       pending
                     />
                   );
@@ -46,8 +46,8 @@ function PendingTasksScreen({
                   return (
                     <TaskCard
                       task={item}
-                      updateStatus={() => updateStatus(item.id, true)}
-                      handleDelete={() => deleteTask(item.id)}
+                      updateStatus={() => updateStatus(item.id)}
+                      handleDelete={() => moveToTrashBin(item.id)}
                       pending
                     />
                   );

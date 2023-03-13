@@ -84,26 +84,26 @@ function StackNavigation(props) {
     }
   };
 
-  const updateStatus = (id, newStatus) => {
-    let allItems = tasks;
-    allItems = allItems.map((item) => {
+  const updateStatus = async (id) => {
+    const allitems = tasks.map((item) => {
       if (item.id === id) {
-        item.completed = newStatus;
+        return { ...item, completed: !item.completed };
       }
       return item;
     });
-    setTasks(allItems);
+    setTasks(allitems);
+    await AsyncStorage.setItem("tasks", JSON.stringify(allitems));
   };
 
-  const moveToTrashBin = (id, newStatus) => {
-    let allItems = tasks;
-    allItems = allItems.map((item) => {
+  const moveToTrashBin = async (id) => {
+    const allitems = tasks.map((item) => {
       if (item.id === id) {
-        item.trash = newStatus;
+        return { ...item, trash: !item.trash };
       }
       return item;
     });
-    setTasks(allItems);
+    setTasks(allitems);
+    await AsyncStorage.setItem("tasks", JSON.stringify(allitems));
   };
 
   return (
