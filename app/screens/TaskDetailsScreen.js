@@ -9,8 +9,8 @@ import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
 import themeContext from "../theme/themeContext";
-import RBottomSheet from "../components/RBottomSheet";
 import CustomTimePicker from "../components/CustomTimePicker";
+import DeleteConfirm from "../components/DeleteConfirm";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
   const theme = useContext(themeContext);
@@ -62,7 +62,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <RBottomSheet
+      <DeleteConfirm
         rbSheetRef={rbSheetRef}
         handleCancelDelete={handleCancelDelete}
         handleDeleteTask={handleDeleteTask}

@@ -10,12 +10,14 @@ function CompletedTasksScreen({
   moveToTrashBin,
   search,
   setSearch,
+  filteredNotes,
 }) {
   return (
     <View style={{ flex: 1 }}>
+      {tasks.length === 0 && <Text>completed</Text>}
       {tasks && (
         <TaskFlatList
-          tasks={tasks}
+          tasks={filteredNotes}
           renderItem={({ item }) => {
             if (item && item.completed == true && item.trash == false) {
               if (search === "") {
@@ -37,8 +39,6 @@ function CompletedTasksScreen({
                     compDel
                   />
                 );
-              } else {
-                return <NoTaskFound search={search} />;
               }
             }
           }}

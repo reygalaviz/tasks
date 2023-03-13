@@ -80,57 +80,52 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
             <View style={styles.sectionHeader}>
               <Text style={styles.sectionHeaderText}>{header}</Text>
             </View>
-            <View style={styles.sectionBody}>
-              {items.map(({ label, id, type }, index) => (
-                <View
-                  style={[
-                    styles.rowWrapper,
-                    // index === 0 && { borderTopWidth: 0 },
-                  ]}
-                  key={id}
-                >
-                  <Pressable
-                    onPress={() => {
-                      {
-                        id === "deletedTask" &&
-                          navigation.navigate("DeletedTasksScreen");
-                      }
-                    }}
-                  >
-                    <View style={styles.row}>
-                      <Text style={[styles.rowLabel, { color: theme.color }]}>
-                        {label}
-                      </Text>
-                      <View style={styles.rowSpacer} />
-                      {/* {type === "select" && <Text>{form[id]}</Text>} */}
-                      {["select", "link"].includes(type) && (
-                        <Feather
-                          name="chevron-right"
-                          size={24}
-                          color="#ababab"
-                        />
-                      )}
-                      {type === "toggle" && (
-                        <Switch
-                          value={form[id]}
-                          onValueChange={(value) => {
-                            setForm({ ...form, [id]: value });
 
-                            {
-                              id === "darkMode" &&
-                                EventRegister.emit("changeTheme", value);
-                            }
-                          }}
-                          style={{
-                            transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
-                          }}
-                        />
-                      )}
-                    </View>
-                  </Pressable>
-                </View>
-              ))}
-            </View>
+            {items.map(({ label, id, type }, index) => (
+              <View
+                style={[
+                  styles.rowWrapper,
+                  // index === 0 && { borderTopWidth: 0 },
+                ]}
+                key={id}
+              >
+                <Pressable
+                  onPress={() => {
+                    {
+                      id === "deletedTask" &&
+                        navigation.navigate("DeletedTasksScreen");
+                    }
+                  }}
+                >
+                  <View style={styles.row}>
+                    <Text style={[styles.rowLabel, { color: theme.color }]}>
+                      {label}
+                    </Text>
+                    <View style={styles.rowSpacer} />
+                    {/* {type === "select" && <Text>{form[id]}</Text>} */}
+                    {["select", "link"].includes(type) && (
+                      <Feather name="chevron-right" size={24} color="#ababab" />
+                    )}
+                    {type === "toggle" && (
+                      <Switch
+                        value={form[id]}
+                        onValueChange={(value) => {
+                          setForm({ ...form, [id]: value });
+
+                          {
+                            id === "darkMode" &&
+                              EventRegister.emit("changeTheme", value);
+                          }
+                        }}
+                        style={{
+                          transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
+                        }}
+                      />
+                    )}
+                  </View>
+                </Pressable>
+              </View>
+            ))}
           </View>
         ))}
       </BottomSheetScrollView>

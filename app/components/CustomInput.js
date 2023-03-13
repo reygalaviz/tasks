@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     borderRadius: 10,
-
-    padding: 15,
+    paddingHorizontal: constants.inputPaddingHor,
+    paddingVertical: constants.inputPaddingVertical,
   },
 });
 

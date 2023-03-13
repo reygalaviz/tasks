@@ -19,6 +19,11 @@ import DeleteButton from "./DeleteButton";
 import DeleteConfirm from "./DeleteConfirm";
 import TaskFlatList from "./TaskFlatList";
 import NoTaskFound from "./NoTaskFound";
+import Filters from "./Filters";
+import TasksTypeFilter from "./TasksTypeFilter";
+import TasksColorFilter from "./TasksColorFilter";
+import FilterModalButtons from "./FilterModalButtons";
+import TasksSortByFilter from "./TasksSortByFilter";
 
 export {
   TabBar,
@@ -42,4 +47,9 @@ export {
   DeleteConfirm,
   TaskFlatList,
   NoTaskFound,
+  Filters,
+  TasksTypeFilter,
+  TasksColorFilter,
+  FilterModalButtons,
+  TasksSortByFilter,
 };

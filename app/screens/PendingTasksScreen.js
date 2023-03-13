@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text } from "react-native";
+import { color } from "react-native-reanimated";
 import NoTaskFound from "../components/NoTaskFound";
 import TaskCard from "../components/TaskCard";
 import TaskFlatList from "../components/TaskFlatList";
@@ -9,11 +10,11 @@ function PendingTasksScreen({
   tasks,
   setTasks,
   updateStatus,
-  deleteTask,
   moveToTrashBin,
   scrolling,
   search,
   setSearch,
+  filteredNotes,
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -22,7 +23,7 @@ function PendingTasksScreen({
         <View style={{ flex: 1 }}>
           <TaskFlatList
             scrolling={scrolling}
-            tasks={tasks}
+            tasks={filteredNotes}
             renderItem={({ item }) => {
               if (
                 item &&

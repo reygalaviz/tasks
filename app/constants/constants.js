@@ -14,11 +14,11 @@ const moderateScale = (size, factor = 0.5) =>
 
 export default {
   //spacing
-  xs: 5,
-  s: 10,
-  m: 20,
-  l: 30,
-  xl: 40,
+  xs: moderateScale(5),
+  s: moderateScale(10),
+  m: moderateScale(20),
+  l: moderateScale(30),
+  xl: moderateScale(40),
 
   //card-colors
   blue: "#586BA4",
@@ -58,6 +58,8 @@ export default {
   titleMinHeight: verticalScale(20),
   detailsMaxHeight: "100%",
   detailsMinHeight: verticalScale(20),
+  inputPaddingVertical: verticalScale(15),
+  inputPaddingHor: horizontalScale(20),
 
   //add-task
   taskFont: RFValue(14),
@@ -83,6 +85,8 @@ export default {
   tabWidth: horizontalScale(100),
   tabHeight: verticalScale(40),
   tabText: RFValue(12),
+  iconTabSizeW: horizontalScale(20),
+  iconTabSizeH: verticalScale(20),
 
   //pop-up-window
   modalWidth: width,
@@ -92,4 +96,8 @@ export default {
   noTasksHeight: height * 0.4,
   noTaskFontSize: RFValue(15),
   noTaskSubFontSize: RFValue(13),
+
+  //filters
+  filterButtonsHeight: verticalScale(50),
+  filterModalHeight: verticalScale(600),
 };

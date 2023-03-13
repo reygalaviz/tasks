@@ -1,13 +1,25 @@
-import React, { useState, useContext } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import React, { useState, useContext, useRef, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  Text,
+  FlatList,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import Filters from "./Filters";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
 import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
+import TasksTypeFilter from "./TasksTypeFilter";
+import TasksColorFilter from "./TasksColorFilter";
+import TasksSortByFilter from "./TasksSortByFilter";
 
 function TabBar({
   tasks,
@@ -17,60 +29,131 @@ function TabBar({
   scrolling,
   search,
   setSearch,
-  tabs,
-  selectedTab,
-  setSelectedTab,
 }) {
   const theme = useContext(themeContext);
+  const tabs = ["filter", "Today", "Colors", "Sort by"];
+  const [selectedTab, setSelectedTab] = useState(tabs[1]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+  useEffect(() => {
+    setFilteredNotes(tasks);
+  }, [tasks]);
 
-  const setTabFilter = (selectedTab) => {
-    setSelectedTab(selectedTab);
+  const [filterTab, setFilterTab] = useState(0);
+  const [colorsPicked, setColorsPicked] = useState([]);
+  const [sortBy, setSortBy] = useState(0);
+
+  const colorSheetRef = useRef();
+  const colorModal = () => {
+    colorSheetRef.current.open();
+  };
+  const filterNotes = () => {
+    const filteredByColor =
+      colorsPicked.length > 0
+        ? tasks.filter((note) => colorsPicked.includes(note.color))
+        : tasks;
+    setFilteredNotes(filteredByColor);
+  };
+
+  const filterSheetRef = useRef();
+  const filterModal = () => {
+    filterSheetRef.current.open();
+  };
+
+  const sortBySheetRef = useRef();
+  const sortByModal = () => {
+    sortBySheetRef.current.open();
   };
 
   return (
     <>
-      <View
-        style={{
-          alignItems: "center",
-          flexDirection: "row",
-          justifyContent: "space-between",
+      <TasksTypeFilter
+        filterTab={filterTab}
+        setFilterTab={setFilterTab}
+        setSelectedTab={setSelectedTab}
+        filterModal={filterModal}
+        filterSheetRef={filterSheetRef}
+      />
+
+      <TasksColorFilter
+        colorSheetRef={colorSheetRef}
+        tasks={tasks}
+        colorsPicked={colorsPicked}
+        setColorsPicked={setColorsPicked}
+        filterNotes={filterNotes}
+        setTasks={setTasks}
+      />
+
+      <TasksSortByFilter
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        sortByModal={sortByModal}
+        sortBySheetRef={sortBySheetRef}
+      />
+
+      <FlatList
+        data={tabs}
+        horizontal
+        keyExtractor={(item, index) => `${item}-${index}`}
+        style={{ flexGrow: 0 }}
+        contentContainerStyle={{
           paddingHorizontal: constants.m,
-          marginVertical: constants.s,
+          marginVertical: constants.xs,
         }}
-      >
-        {tabs.map((tab, index) => {
+        showsHorizontalScrollIndicator={false}
+        renderItem={({ item: tab, index }) => {
           return (
             <Pressable
-              onPress={() => setTabFilter(tab)}
-              key={index}
+              index={index}
               style={[
                 styles.container,
                 {
                   backgroundColor:
-                    selectedTab === tab ? theme.buttonColor : null,
+                    index !== 1 ? theme.textBoxBGColor : theme.color,
                 },
               ]}
+              onPress={() => {
+                {
+                  index === 0 ? filterModal() : null;
+                }
+                {
+                  index === 2 ? colorModal() : null;
+                }
+                {
+                  index === 3 ? sortByModal() : null;
+                }
+              }}
             >
-              <Text
-                style={[
-                  styles.text,
-                  {
-                    color: selectedTab === tab ? theme.buttonText : theme.color,
-                  },
-                ]}
-              >
-                {tab}
-              </Text>
+              {index === 0 ? (
+                <Image
+                  source={require("../../assets/filter.png")}
+                  style={{
+                    width: constants.iconTabSizeW,
+                    height: constants.iconTabSizeH,
+                  }}
+                />
+              ) : (
+                <Text
+                  style={[
+                    styles.text,
+                    {
+                      color: index !== 1 ? theme.color : theme.background,
+                    },
+                  ]}
+                >
+                  {index !== 1 ? tab : selectedTab}
+                </Text>
+              )}
             </Pressable>
           );
-        })}
-      </View>
+        }}
+      />
 
-      {selectedTab == "Today" && (
+      {selectedTab === "Today" && (
         <PendingTasksScreen
           search={search}
           setSearch={setSearch}
           tasks={tasks}
+          filteredNotes={filteredNotes}
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
@@ -78,11 +161,12 @@ function TabBar({
         />
       )}
 
-      {selectedTab == "Upcoming" && (
+      {selectedTab === "Upcoming" && (
         <UpcomingTasksScreen
           search={search}
           setSearch={setSearch}
           tasks={tasks}
+          filteredNotes={filteredNotes}
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
@@ -90,10 +174,11 @@ function TabBar({
         />
       )}
 
-      {selectedTab == "Completed" && (
+      {selectedTab === "Completed" && (
         <CompletedTasksScreen
           search={search}
           setSearch={setSearch}
+          filteredNotes={filteredNotes}
           tasks={tasks}
           setTasks={setTasks}
           updateStatus={updateStatus}
@@ -106,12 +191,12 @@ function TabBar({
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: constants.s,
+    paddingHorizontal: constants.m,
+    paddingVertical: constants.s,
+    marginRight: constants.s,
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    width: constants.tabWidth,
-    height: constants.tabHeight,
   },
   text: {
     fontWeight: "700",

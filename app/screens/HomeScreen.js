@@ -91,9 +91,6 @@ function HomeScreen({ navigation, ...props }) {
           setTasks={props.setTasks}
           updateStatus={props.updateStatus}
           moveToTrashBin={props.moveToTrashBin}
-          tabs={props.tabs}
-          selectedTab={props.selectedTab}
-          setSelectedTab={props.setSelectedTab}
           scrolling={scrolling}
         />
         <AddTaskScreen addTask={props.addTask} />

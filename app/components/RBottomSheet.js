@@ -5,12 +5,7 @@ import CustomButton from "./CustomButton";
 import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
 
-function RBottomSheet({
-  rbSheetRef,
-  handleCancelDelete,
-  handleDeleteTask,
-  message,
-}) {
+function RBottomSheet({ rbSheetRef, children, height }) {
   const theme = useContext(themeContext);
 
   return (
@@ -18,63 +13,19 @@ function RBottomSheet({
       ref={rbSheetRef}
       customStyles={{
         container: {
-          borderTopLeftRadius: 10,
-          borderTopRightRadius: 10,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
           backgroundColor: theme.background,
         },
       }}
       openDuration={200}
+      height={height}
     >
-      <View style={styles.sheetHeader}></View>
-      <View style={styles.sheetBody}>
-        <Text
-          numberOfLines={1}
-          style={[styles.bodyText, { color: theme.color }]}
-        >
-          {message}
-        </Text>
-        <CustomButton
-          bgColor="#ED6A5E"
-          title="Delete"
-          onPress={() => handleDeleteTask()}
-        />
-        <CustomButton
-          type="SECONDARY"
-          title="Cancel"
-          onPress={() => handleCancelDelete()}
-          fgColor={theme.color}
-        />
-      </View>
+      {children}
     </RBSheet>
   );
 }
 
-const styles = StyleSheet.create({
-  sheet: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  sheetHeader: {
-    paddingTop: constants.m,
-    paddingHorizontal: constants.m,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  sheetTitle: {
-    fontSize: constants.sectionHeader,
-    fontWeight: "600",
-  },
-  sheetBody: {
-    paddingHorizontal: constants.m,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bodyText: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginVertical: constants.m,
-    textAlign: "center",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default RBottomSheet;

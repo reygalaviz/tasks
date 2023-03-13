@@ -10,12 +10,14 @@ function UpcomingTasksScreen({
   moveToTrashBin,
   search,
   setSearch,
+  filteredNotes,
 }) {
   return (
     <View style={{ fleX: 1 }}>
+      {tasks.length === 0 && <Text>upcoming</Text>}
       {tasks && (
         <TaskFlatList
-          tasks={tasks}
+          tasks={filteredNotes}
           renderItem={({ item }) => {
             if (
               item &&

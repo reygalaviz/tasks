@@ -3,8 +3,8 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import TaskFlatList from "../components/TaskFlatList";
 import constants from "../constants/constants";
-import RBottomSheet from "../components/RBottomSheet";
 import TaskCard from "../components/TaskCard";
+import DeleteConfirm from "../components/DeleteConfirm";
 
 function DeletedTasksScreen({ navigation, ...props }) {
   const onBackPress = () => {
@@ -23,7 +23,7 @@ function DeletedTasksScreen({ navigation, ...props }) {
 
   return (
     <View style={styles.container}>
-      <RBottomSheet
+      <DeleteConfirm
         rbSheetRef={rbSheetRef}
         handleCancelDelete={handleCancelDelete}
         handleDeleteTask={handleDeleteTask}
