@@ -101,7 +101,10 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             }
           />
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
           >
             <CustomDatePicker date={updatedDate} setDate={setUpdatedDate} />
             <CustomTimePicker time={updatedTime} setTime={setUpdatedTime} />

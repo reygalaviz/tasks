@@ -15,6 +15,7 @@ function PendingTasksScreen({
   search,
   setSearch,
   filteredNotes,
+  deleteTask,
 }) {
   return (
     <View style={{ flex: 1 }}>
@@ -36,7 +37,7 @@ function PendingTasksScreen({
                     <TaskCard
                       task={item}
                       updateStatus={() => updateStatus(item.id, true)}
-                      handleDelete={() => moveToTrashBin(item.id, true)}
+                      handleDelete={() => deleteTask(item.id)}
                       pending
                     />
                   );
@@ -46,7 +47,7 @@ function PendingTasksScreen({
                     <TaskCard
                       task={item}
                       updateStatus={() => updateStatus(item.id, true)}
-                      handleDelete={() => moveToTrashBin(item.id, true)}
+                      handleDelete={() => deleteTask(item.id)}
                       pending
                     />
                   );

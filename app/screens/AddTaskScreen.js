@@ -24,6 +24,7 @@ import ModalSheet from "../components/ModalSheet";
 import ModalSheetHeader from "../components/ModalSheetHeader";
 import themeContext from "../theme/themeContext";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function AddTaskScreen({ addTask }) {
   const [task, setTask] = useState("");

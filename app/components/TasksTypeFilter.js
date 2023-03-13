@@ -43,7 +43,7 @@ function TasksTypeFilter({
       title="Filters"
       height={400}
       donePressed={() => handleFilterClick()}
-      resetPressed={() => setFilterTab([])}
+      resetPressed={() => setFilterTab(0)}
     >
       {section.map(({ id, label }, index) => {
         const isActive = index == filterTab;

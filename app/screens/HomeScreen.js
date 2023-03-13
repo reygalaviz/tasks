@@ -91,6 +91,7 @@ function HomeScreen({ navigation, ...props }) {
           updateStatus={props.updateStatus}
           moveToTrashBin={props.moveToTrashBin}
           scrolling={scrolling}
+          deleteTask={props.deleteTask}
         />
         <AddTaskScreen addTask={props.addTask} />
         <SettingsScreen

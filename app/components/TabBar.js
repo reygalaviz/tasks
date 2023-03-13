@@ -27,6 +27,7 @@ function TabBar({
   scrolling,
   search,
   setSearch,
+  deleteTask,
 }) {
   const theme = useContext(themeContext);
   const tabs = ["filter", "Today", "Colors", "Sort by"];
@@ -157,6 +158,7 @@ function TabBar({
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
           scrolling={scrolling}
+          deleteTask={deleteTask}
         />
       )}
 
