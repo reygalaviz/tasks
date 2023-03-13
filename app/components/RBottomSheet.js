@@ -18,8 +18,9 @@ function RBottomSheet({ rbSheetRef, children, height }) {
           backgroundColor: theme.background,
         },
       }}
-      openDuration={200}
+      openDuration={275}
       height={height}
+      dragFromTopOnly={true}
     >
       {children}
     </RBSheet>

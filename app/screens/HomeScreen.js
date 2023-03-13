@@ -62,12 +62,11 @@ function HomeScreen({ navigation, ...props }) {
       <StatusBar barStyle={mode === false ? "dark-content" : "light-content"} />
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={{ paddingHorizontal: constants.m }}>
-          <HeaderBar reminder>
+          <HeaderBar date>
             <NotificationsButton />
             <SettingsButton onOpenSettings={onOpenSettings} />
           </HeaderBar>
-          <Greeting OnCalendarPress={() => console.log(props.tasks)} />
-          {/* <SettingsButton onOpenSettings={() => console.log(props.trash)} /> */}
+
           <CustomInput
             style={{ marginVertical: constants.s }}
             textStyle={{

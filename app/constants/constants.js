@@ -71,7 +71,7 @@ export default {
   cardTitle: RFValue(12),
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
-  cardHeight: verticalScale(130),
+  cardHeight: 140,
   iconSize: verticalScale(20),
 
   //completed-task-card
@@ -79,11 +79,11 @@ export default {
 
   //modal-sheet-top-padding
   sheetTopPadding:
-    Platform.OS === "ios" ? verticalScale(40) : verticalScale(10),
+    Platform.OS === "ios" ? moderateScale(50) : moderateScale(10),
 
   //tab-bar
-  tabWidth: horizontalScale(100),
-  tabHeight: verticalScale(40),
+  tabWidth: moderateScale(100),
+  tabHeight: moderateScale(40),
   tabText: RFValue(12),
   iconTabSizeW: horizontalScale(20),
   iconTabSizeH: verticalScale(20),
@@ -100,4 +100,9 @@ export default {
   //filters
   filterButtonsHeight: verticalScale(50),
   filterModalHeight: verticalScale(600),
+
+  //color-bar
+  circleSize: moderateScale(35),
+  circleRing: moderateScale(2),
+  spaceBetween: moderateScale(2),
 };

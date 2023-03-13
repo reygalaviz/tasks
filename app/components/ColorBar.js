@@ -10,9 +10,6 @@ import {
 import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
 
-const circle_size = 40;
-const circle_ringsize = 2;
-
 function ColorBar({ color, setColor }) {
   const theme = useContext(themeContext);
 
@@ -70,21 +67,21 @@ const styles = StyleSheet.create({
     marginVertical: constants.m,
   },
   circle: {
-    width: circle_size + circle_ringsize * 4,
-    height: circle_size + circle_ringsize * 4,
+    width: constants.circleSize + constants.circleRing * 4,
+    height: constants.circleSize + constants.circleRing * 4,
     borderRadius: 100,
-    marginRight: 2,
+    marginRight: constants.spaceBetween,
     marginBottom: constants.s,
-    borderWidth: circle_ringsize,
+    borderWidth: constants.circleRing,
     borderColor: "transparent",
   },
   circleInside: {
-    width: circle_size,
-    height: circle_size,
+    width: constants.circleSize,
+    height: constants.circleSize,
     borderRadius: 100,
     position: "absolute",
-    top: circle_ringsize,
-    left: circle_ringsize,
+    top: constants.circleRing,
+    left: constants.circleRing,
   },
 });
 

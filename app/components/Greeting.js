@@ -51,12 +51,7 @@ function Greeting({ OnCalendarPress }) {
             alignItems: "center",
             justifyContent: "space-between",
           }}
-        >
-          <Text style={[styles.header, { color: theme.color }]}>{greet}</Text>
-          <Pressable onPress={OnCalendarPress}>
-            <Text>press</Text>
-          </Pressable>
-        </View>
+        ></View>
 
         <Text style={[styles.subHeader, { color: theme.color }]}>
           {moment().format("dddd, MMMM D YYYY")}

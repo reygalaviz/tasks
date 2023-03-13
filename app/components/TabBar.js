@@ -11,8 +11,6 @@ import {
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
-import Filters from "./Filters";
-import { AntDesign, Entypo } from "@expo/vector-icons";
 
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
@@ -97,7 +95,8 @@ function TabBar({
         style={{ flexGrow: 0 }}
         contentContainerStyle={{
           paddingHorizontal: constants.m,
-          marginVertical: constants.xs,
+          marginTop: constants.xs,
+          marginBottom: constants.m,
         }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item: tab, index }) => {

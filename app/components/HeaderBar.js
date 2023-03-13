@@ -4,6 +4,7 @@ import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
 import moment from "moment";
 import { Entypo } from "@expo/vector-icons";
+import Greeting from "./Greeting";
 
 function HeaderBar({
   children,
@@ -13,6 +14,7 @@ function HeaderBar({
   header,
   onBackPress,
   style,
+  greeting,
 }) {
   const theme = useContext(themeContext);
   return (
@@ -32,11 +34,12 @@ function HeaderBar({
             </Text>
           </Pressable>
         )}
-        {reminder && (
-          <Text style={[styles.appName, { color: theme.color }]}>reminder</Text>
-        )}
 
-        {date && <Text style={styles.headerText}>{moment().format("LL")}</Text>}
+        {date && (
+          <Text style={styles.headerText}>
+            {moment().format("dddd, MMMM D YYYY")}
+          </Text>
+        )}
       </View>
       <View style={[styles.layout, styles.right]}>{children}</View>
     </View>
@@ -46,6 +49,7 @@ function HeaderBar({
 const styles = StyleSheet.create({
   container: {
     marginTop: constants.marginTopHeader,
+    marginBottom: constants.s,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
