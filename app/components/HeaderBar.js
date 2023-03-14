@@ -1,10 +1,16 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  useColorScheme,
+} from "react-native";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
 import moment from "moment";
 import { Entypo } from "@expo/vector-icons";
 import Greeting from "./Greeting";
+import { getTheme } from "../theme/theme";
 
 function HeaderBar({
   children,
@@ -16,7 +22,7 @@ function HeaderBar({
   style,
   greeting,
 }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
   return (
     <View style={[styles.container, style]}>
       <View style={styles.layout}>

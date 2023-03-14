@@ -1,6 +1,14 @@
 import React, { useContext } from "react";
-import { View, TextInput, StyleSheet, Pressable, Text } from "react-native";
+import {
+  View,
+  TextInput,
+  StyleSheet,
+  Pressable,
+  Text,
+  useColorScheme,
+} from "react-native";
 import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 
 const CustomButton = ({
   title,
@@ -10,7 +18,7 @@ const CustomButton = ({
   fgColor,
   style,
 }) => {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   return (
     <Pressable

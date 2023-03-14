@@ -1,13 +1,13 @@
 import React, { useRef, useContext, useState } from "react";
-import themeContext from "../theme/themeContext";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, useColorScheme } from "react-native";
 import constants from "../constants/constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
 import { format } from "date-fns";
+import { getTheme } from "../theme/theme";
 function CustomDatePicker({ date, setDate }) {
-  const theme = useContext(themeContext);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
+  const theme = getTheme(useColorScheme());
 
   const showDatePicker = () => {
     setDatePickerVisible(true);

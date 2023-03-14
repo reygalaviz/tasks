@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import { color } from "react-native-reanimated";
 import NoTaskFound from "../components/NoTaskFound";
@@ -17,42 +17,30 @@ function PendingTasksScreen({
   filteredNotes,
   deleteTask,
 }) {
+  const today = new Date().toString().slice(0, 15);
+  const tasksToday = filteredNotes.filter((item) => {
+    return (
+      item.date === today && item.completed == false && item.trash == false
+    );
+  });
+
   return (
     <View style={{ flex: 1 }}>
-      {tasks.length === 0 && <NoTaskFound />}
-      {tasks && (
+      {tasksToday.length === 0 && <NoTaskFound message="No tasks for today" />}
+      {tasksToday && (
         <View style={{ flex: 1 }}>
           <TaskFlatList
             scrolling={scrolling}
-            tasks={filteredNotes}
+            tasks={tasksToday}
             renderItem={({ item }) => {
-              if (
-                item &&
-                item.completed == false &&
-                item.trash == false &&
-                item.date === new Date().toString().slice(0, 15)
-              ) {
-                if (search === "") {
-                  return (
-                    <TaskCard
-                      task={item}
-                      updateStatus={() => updateStatus(item.id)}
-                      handleDelete={() => moveToTrashBin(item.id)}
-                      pending
-                    />
-                  );
-                }
-                if (item.name.toLowerCase().includes(search.toLowerCase())) {
-                  return (
-                    <TaskCard
-                      task={item}
-                      updateStatus={() => updateStatus(item.id)}
-                      handleDelete={() => moveToTrashBin(item.id)}
-                      pending
-                    />
-                  );
-                }
-              }
+              return (
+                <TaskCard
+                  task={item}
+                  updateStatus={() => updateStatus(item.id)}
+                  handleDelete={() => moveToTrashBin(item.id)}
+                  pending
+                />
+              );
             }}
           />
         </View>

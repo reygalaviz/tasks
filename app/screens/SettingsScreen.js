@@ -11,11 +11,11 @@ import {
   StyleSheet,
   StatusBar,
   Switch,
-  ScrollView,
+  useColorScheme,
   Pressable,
 } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 import ModalSheet from "../components/ModalSheet";
 import constants from "../constants/constants";
 import { Portal, PortalHost } from "@gorhom/portal";
@@ -26,7 +26,7 @@ import { useNavigation } from "@react-navigation/native";
 
 function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
   const navigation = useNavigation();
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
   const snapPoints = ["100%"];
 
   const handleSnapPress = useCallback((index) => {

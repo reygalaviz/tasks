@@ -1,14 +1,6 @@
 import "react-native-gesture-handler";
 import React, { useState, useContext, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  Platform,
-  TextInput,
-  Keyboard,
-} from "react-native";
+import { View, StyleSheet, useColorScheme } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
 import Greeting from "../components/Greeting";
@@ -22,9 +14,10 @@ import themeContext from "../theme/themeContext";
 import Animated from "react-native-reanimated";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
+import { getTheme } from "../theme/theme";
 
 function HomeScreen({ navigation, ...props }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   //recoil
   const todoList = useRecoilValue(todoItem);
@@ -58,51 +51,48 @@ function HomeScreen({ navigation, ...props }) {
   });
 
   return (
-    <>
-      <StatusBar barStyle={mode === false ? "dark-content" : "light-content"} />
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <View style={{ paddingHorizontal: constants.m }}>
-          <HeaderBar date>
-            <NotificationsButton
-              onOpenNotifications={() => console.log(props.tasks)}
-            />
-            <SettingsButton onOpenSettings={onOpenSettings} />
-          </HeaderBar>
-
-          <CustomInput
-            style={{ marginVertical: constants.s }}
-            textStyle={{
-              height: 20,
-              fontSize: constants.searchFontSize,
-              fontWeight: "600",
-            }}
-            placeholder="Search Notes"
-            value={search}
-            setValue={(value) => setSearch(value)}
-            numberOfLines={1}
-            maxLength={50}
-            multiline={false}
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View style={{ paddingHorizontal: constants.m }}>
+        <HeaderBar date>
+          <NotificationsButton
+            onOpenNotifications={() => console.log(props.tasks)}
           />
-        </View>
+          <SettingsButton onOpenSettings={onOpenSettings} />
+        </HeaderBar>
 
-        <TabBar
-          search={search}
-          setSearch={setSearch}
-          tasks={props.tasks}
-          setTasks={props.setTasks}
-          updateStatus={props.updateStatus}
-          moveToTrashBin={props.moveToTrashBin}
-          scrolling={scrolling}
-          deleteTask={props.deleteTask}
-        />
-        <AddTaskScreen addTask={props.addTask} />
-        <SettingsScreen
-          isOpen={isSettingsOpen}
-          setIsOpen={setIsSettingsOpen}
-          sheetRef={sheetSettingsRef}
+        <CustomInput
+          style={{ marginVertical: constants.s }}
+          textStyle={{
+            height: 20,
+            fontSize: constants.searchFontSize,
+            fontWeight: "600",
+          }}
+          placeholder="Search Notes"
+          value={search}
+          setValue={(value) => setSearch(value)}
+          numberOfLines={1}
+          maxLength={50}
+          multiline={false}
         />
       </View>
-    </>
+
+      <TabBar
+        search={search}
+        setSearch={setSearch}
+        tasks={props.tasks}
+        setTasks={props.setTasks}
+        updateStatus={props.updateStatus}
+        moveToTrashBin={props.moveToTrashBin}
+        scrolling={scrolling}
+        deleteTask={props.deleteTask}
+      />
+      <AddTaskScreen addTask={props.addTask} />
+      <SettingsScreen
+        isOpen={isSettingsOpen}
+        setIsOpen={setIsSettingsOpen}
+        sheetRef={sheetSettingsRef}
+      />
+    </View>
   );
 }
 

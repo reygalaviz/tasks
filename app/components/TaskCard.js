@@ -6,10 +6,11 @@ import {
   Pressable,
   useWindowDimensions,
   Dimensions,
+  useColorScheme,
 } from "react-native";
 import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
@@ -30,6 +31,7 @@ function TaskCard({
   // const remainingTasks = Object.values(task).length - completedTasks;
 
   const navigation = useNavigation();
+  const theme = getTheme(useColorScheme());
 
   const onDetailsScreen = () => {
     navigation.navigate("DetailsScreen", { task });

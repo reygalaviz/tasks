@@ -1,9 +1,14 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  useColorScheme,
+} from "react-native";
 import constants from "../constants/constants";
 import { Ionicons } from "@expo/vector-icons";
 import moment from "moment";
-import themeContext from "../theme/themeContext";
 import Animated, {
   useAnimatedStyle,
   withTiming,
@@ -11,9 +16,10 @@ import Animated, {
   withSequence,
   withDelay,
 } from "react-native-reanimated";
+import { getTheme } from "../theme/theme";
 
 function Greeting({ OnCalendarPress }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   let myDate = new Date();
   let hours = myDate.getHours();

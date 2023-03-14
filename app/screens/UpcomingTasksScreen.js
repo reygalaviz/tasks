@@ -2,6 +2,7 @@ import React from "react";
 import { View, FlatList, Text, Pressable } from "react-native";
 import TaskFlatList from "../components/TaskFlatList";
 import TaskCard from "../components/TaskCard";
+import NoTaskFound from "../components/NoTaskFound";
 
 function UpcomingTasksScreen({
   tasks,
@@ -13,42 +14,31 @@ function UpcomingTasksScreen({
   filteredNotes,
   deleteTask,
 }) {
+  const today = new Date().toString().slice(0, 15);
+  const futureTasks = filteredNotes.filter((item) => {
+    return (
+      item.date !== today && item.completed == false && item.trash == false
+    );
+  });
   return (
-    <View style={{ fleX: 1 }}>
-      {tasks.length === 0 && <Text>upcoming</Text>}
-      {tasks && (
-        <TaskFlatList
-          tasks={filteredNotes}
-          renderItem={({ item }) => {
-            if (
-              item &&
-              item.completed == false &&
-              item.trash == false &&
-              item.date !== new Date().toString().slice(0, 15)
-            ) {
-              if (search === "") {
-                return (
-                  <TaskCard
-                    task={item}
-                    updateStatus={() => updateStatus(item.id)}
-                    handleDelete={() => moveToTrashBin(item.id)}
-                    pending
-                  />
-                );
-              }
-              if (item.name.toLowerCase().includes(search.toLowerCase())) {
-                return (
-                  <TaskCard
-                    task={item}
-                    updateStatus={() => updateStatus(item.id)}
-                    handleDelete={() => moveToTrashBin(item.id)}
-                    pending
-                  />
-                );
-              }
-            }
-          }}
-        />
+    <View style={{ flex: 1 }}>
+      {futureTasks.length === 0 && <NoTaskFound message="No upcoming tasks" />}
+      {futureTasks && (
+        <View style={{ flex: 1 }}>
+          <TaskFlatList
+            tasks={futureTasks}
+            renderItem={({ item }) => {
+              return (
+                <TaskCard
+                  task={item}
+                  updateStatus={() => updateStatus(item.id)}
+                  handleDelete={() => moveToTrashBin(item.id)}
+                  pending
+                />
+              );
+            }}
+          />
+        </View>
       )}
     </View>
   );

@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import constants from "../constants/constants";
 import RBottomSheet from "./RBottomSheet";
-import themeContext from "../theme/themeContext";
 import CustomButton from "./CustomButton";
+import { getTheme } from "../theme/theme";
 
 function DeleteConfirm({
   handleCancelDelete,
@@ -11,7 +11,7 @@ function DeleteConfirm({
   message,
   rbSheetRef,
 }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   return (
     <RBottomSheet rbSheetRef={rbSheetRef}>

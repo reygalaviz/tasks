@@ -1,5 +1,11 @@
 import React, { useState, useRef, useContext } from "react";
-import { View, StyleSheet, Text, ScrollView, Modal } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  useColorScheme,
+} from "react-native";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import HeaderBar from "../components/HeaderBar";
@@ -8,12 +14,12 @@ import CustomDatePicker from "../components/CustomDatePicker";
 import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 import CustomTimePicker from "../components/CustomTimePicker";
 import DeleteConfirm from "../components/DeleteConfirm";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
   const rbSheetRef = useRef();
   const modalVisible = () => {
     rbSheetRef.current.open();

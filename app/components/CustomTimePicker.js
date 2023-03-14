@@ -1,13 +1,13 @@
 import React, { useRef, useContext, useState } from "react";
-import themeContext from "../theme/themeContext";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, useColorScheme } from "react-native";
 import constants from "../constants/constants";
 import { format } from "date-fns";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
+import { getTheme } from "../theme/theme";
 
 function CustomTimePicker({ time, setTime }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
   const [timePickerVisible, setTimePickerVisible] = useState(false);
 
   const showTimePicker = () => {

@@ -1,41 +1,30 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import themeContext from "./app/theme/themeContext";
-import theme from "./app/theme/theme";
-import { EventRegister } from "react-native-event-listeners";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { PortalProvider } from "@gorhom/portal";
 import { RecoilRoot } from "recoil";
 import StackNavigation from "./app/navigation/StackNavigation";
+import { Appearance, useColorScheme } from "react-native";
+import { getTheme } from "./app/theme/theme";
 
 export default function App() {
-  const [mode, setMode] = useState(false);
+  const [theme, setTheme] = useState(getTheme(Appearance.getColorScheme()));
 
   useEffect(() => {
-    let eventListener = EventRegister.addEventListener(
-      "changeTheme",
-      (data) => {
-        setMode(data);
-      }
-    );
-    return () => {
-      EventRegister.removeEventListener(eventListener);
-    };
-  });
+    const subscription = Appearance.addChangeListener(({ theme }) => {
+      console.log("add change listener is working");
+      setTheme(getTheme(theme));
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   return (
     <PortalProvider>
       <RecoilRoot>
         <BottomSheetModalProvider>
-          <themeContext.Provider
-            value={mode === true ? theme.dark : theme.light}
-          >
-            <StackNavigation />
-          </themeContext.Provider>
+          <StackNavigation />
         </BottomSheetModalProvider>
       </RecoilRoot>
     </PortalProvider>
   );
 }
-
-const styles = StyleSheet.create({});

@@ -1,10 +1,8 @@
-import React, { useRef, useState, useCallback, useContext } from "react";
+import React from "react";
 import { View, Pressable, StyleSheet, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import themeContext from "../theme/themeContext";
 
 function AddTaskButton({ onOpenAddTask }) {
-  const theme = useContext(themeContext);
   return (
     <Pressable
       style={[styles.container, { backgroundColor: "#DD6E42" }]}

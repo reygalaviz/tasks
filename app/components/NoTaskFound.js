@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import constants from "../constants/constants";
 
-function NoTaskFound({ search }) {
+function NoTaskFound({ message }) {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text
@@ -14,7 +14,7 @@ function NoTaskFound({ search }) {
           letterSpacing: 1,
         }}
       >
-        no tasks for today
+        {message}
       </Text>
     </View>
   );

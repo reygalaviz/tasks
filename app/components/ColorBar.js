@@ -6,12 +6,14 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  useColorScheme,
 } from "react-native";
 import constants from "../constants/constants";
 import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 
 function ColorBar({ color, setColor }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   const cardColors = [
     "#586BA4",

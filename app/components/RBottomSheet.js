@@ -1,12 +1,13 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 import CustomButton from "./CustomButton";
 import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
+import { getTheme } from "../theme/theme";
 
 function RBottomSheet({ rbSheetRef, children, height }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   return (
     <RBSheet

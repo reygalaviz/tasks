@@ -1,10 +1,16 @@
 import React, { useState, useContext } from "react";
-import { View, StyleSheet, Pressable, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Text,
+  useColorScheme,
+} from "react-native";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 
 function PriorityBar({ priority, setPriority, buttons }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   const handleClick = (item, label) => {
     setPriority(label);

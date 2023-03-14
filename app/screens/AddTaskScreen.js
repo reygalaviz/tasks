@@ -1,15 +1,5 @@
 import React, { useState, useRef, useCallback, useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import { View, Text, StyleSheet, Keyboard, useColorScheme } from "react-native";
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import { useSetRecoilState, useRecoilState } from "recoil";
@@ -22,9 +12,8 @@ import constants from "../constants/constants";
 import AddTaskButton from "../components/AddTaskButton";
 import ModalSheet from "../components/ModalSheet";
 import ModalSheetHeader from "../components/ModalSheetHeader";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function AddTaskScreen({ addTask }) {
   const [task, setTask] = useState("");
@@ -34,7 +23,7 @@ function AddTaskScreen({ addTask }) {
   const [priority, setPriority] = useState("High");
   const [color, setColor] = useState("#586BA4");
 
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   const sheetRef = useRef();
   const snapPoints = ["100%"];
@@ -83,6 +72,8 @@ function AddTaskScreen({ addTask }) {
       setTaskDetails("");
       setPriority("High");
       setColor("#586BA4");
+      setDate(new Date());
+      setTime(new Date());
       sheetRef?.current?.close();
     }
   };

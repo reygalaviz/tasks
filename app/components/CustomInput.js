@@ -5,9 +5,10 @@ import {
   StyleSheet,
   Text,
   KeyboardAvoidingView,
+  useColorScheme,
 } from "react-native";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 
 const CustomInput = ({
   placeholder,
@@ -23,7 +24,8 @@ const CustomInput = ({
   error,
   onFocus = () => {},
 }) => {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
+
   const [isFocused, setIsFocused] = useState(false);
 
   return (

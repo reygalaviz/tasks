@@ -11,6 +11,8 @@ function Filters({
   resetPressed,
   donePressed,
   height,
+  disabled,
+  opacity,
 }) {
   return (
     <RBottomSheet rbSheetRef={rbSheetRef} height={height}>
@@ -25,6 +27,8 @@ function Filters({
       <FilterModalButtons
         resetPressed={resetPressed}
         donePressed={donePressed}
+        disabled={disabled}
+        opacity={opacity}
       />
     </RBottomSheet>
   );

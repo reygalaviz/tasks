@@ -11,9 +11,6 @@ const Stack = createNativeStackNavigator();
 function StackNavigation(props) {
   const [tasks, setTasks] = useState([]);
 
-  // const addTask = (task) => {
-  //   setTasks((prev) => [...prev, task]);
-  // };
   const addTask = async (task) => {
     try {
       const newTasks = [...tasks, task];

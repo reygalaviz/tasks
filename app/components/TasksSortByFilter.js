@@ -5,13 +5,13 @@ import {
   Text,
   Pressable,
   StyleSheet,
+  useColorScheme,
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
-
+import { getTheme } from "../theme/theme";
 function TasksSortByFilter({ sortBy, setSortBy, sortByModal, sortBySheetRef }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   const section = [
     { id: "today", label: "Today" },

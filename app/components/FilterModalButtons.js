@@ -1,22 +1,33 @@
 import React, { useContext } from "react";
-import { View, Pressable, Text, StyleSheet } from "react-native";
+import {
+  View,
+  Pressable,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  useColorScheme,
+} from "react-native";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
+import { getTheme } from "../theme/theme";
 
-function FilterModalButtons({ resetPressed, donePressed }) {
-  const theme = useContext(themeContext);
+function FilterModalButtons({ resetPressed, donePressed, disabled, opacity }) {
+  const theme = getTheme(useColorScheme());
 
   return (
     <View style={styles.container}>
-      <Pressable
+      <TouchableOpacity
+        disabled={disabled}
         onPress={resetPressed}
-        style={[styles.resetButton, { backgroundColor: theme.background }]}
+        style={[
+          styles.resetButton,
+          { backgroundColor: theme.background, opacity: opacity },
+        ]}
       >
         <Text style={styles.text}>Reset</Text>
-      </Pressable>
-      <Pressable onPress={donePressed} style={styles.doneButton}>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={donePressed} style={styles.doneButton}>
         <Text style={[styles.text, { color: theme.background }]}>Done</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }

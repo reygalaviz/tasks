@@ -5,11 +5,11 @@ import {
   Text,
   Pressable,
   StyleSheet,
+  useColorScheme,
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
-
+import { getTheme } from "../theme/theme";
 function TasksTypeFilter({
   setSelectedTab,
   filterModal,
@@ -17,7 +17,7 @@ function TasksTypeFilter({
   filterTab,
   setFilterTab,
 }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   const section = [
     { id: "today", label: "Today" },
@@ -44,6 +44,8 @@ function TasksTypeFilter({
       height={400}
       donePressed={() => handleFilterClick()}
       resetPressed={() => setFilterTab(0)}
+      disabled={filterTab === 0 ? true : false}
+      opacity={filterTab === 0 ? 0.5 : 1}
     >
       {section.map(({ id, label }, index) => {
         const isActive = index == filterTab;

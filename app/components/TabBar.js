@@ -7,10 +7,11 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  useColorScheme,
 } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
+import { getTheme } from "../theme/theme";
 
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
@@ -29,7 +30,7 @@ function TabBar({
   setSearch,
   deleteTask,
 }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
   const tabs = ["filter", "Today", "Colors", "Sort by"];
   const [selectedTab, setSelectedTab] = useState(tabs[1]);
   const [filteredNotes, setFilteredNotes] = useState([]);
@@ -41,16 +42,22 @@ function TabBar({
   const [colorsPicked, setColorsPicked] = useState([]);
   const [sortBy, setSortBy] = useState(0);
 
+  const filterNotes = () => {
+    const filtered = tasks.filter((task) => {
+      const nameMatch = task.name.toLowerCase().includes(search.toLowerCase());
+      const colorMatch =
+        colorsPicked.length > 0 ? colorsPicked.includes(task.color) : task;
+      return nameMatch && colorMatch;
+    });
+    setFilteredNotes(filtered);
+  };
+  useEffect(() => {
+    filterNotes();
+  }, [search, colorsPicked]);
+
   const colorSheetRef = useRef();
   const colorModal = () => {
     colorSheetRef.current.open();
-  };
-  const filterNotes = () => {
-    const filteredByColor =
-      colorsPicked.length > 0
-        ? tasks.filter((note) => colorsPicked.includes(note.color))
-        : tasks;
-    setFilteredNotes(filteredByColor);
   };
 
   const filterSheetRef = useRef();

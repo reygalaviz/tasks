@@ -6,11 +6,11 @@ import {
   Pressable,
   StyleSheet,
   ScrollView,
+  useColorScheme,
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
-
+import { getTheme } from "../theme/theme";
 function TasksColorFilter({
   colorSheetRef,
   tasks,
@@ -19,7 +19,7 @@ function TasksColorFilter({
   setColorsPicked,
   filterNotes,
 }) {
-  const theme = useContext(themeContext);
+  const theme = getTheme(useColorScheme());
 
   const colorFilter = [
     { id: 1, label: "red", color: "#586BA4" },
@@ -57,6 +57,8 @@ function TasksColorFilter({
       height={constants.filterModalHeight}
       donePressed={() => handleSubmit()}
       resetPressed={() => setColorsPicked([])}
+      disabled={colorsPicked.length === 0 ? true : false}
+      opacity={colorsPicked.length === 0 ? 0.5 : 1}
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
