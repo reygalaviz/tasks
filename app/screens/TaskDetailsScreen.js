@@ -77,7 +77,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
       <HeaderBar
         onBackPress={onBackPress}
         back
-        header="Home"
+        header="Task Details"
         style={{ paddingHorizontal: constants.m }}
       >
         <DeleteButton onPress={() => modalVisible()} />
@@ -126,7 +126,6 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
             onPress={handleEditTask}
             title="Update"
             style={[styles.button]}
-            bgColor={theme.buttonColor}
             fgColor={theme.buttonText}
           />
         </View>

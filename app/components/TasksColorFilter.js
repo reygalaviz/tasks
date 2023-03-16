@@ -18,6 +18,7 @@ function TasksColorFilter({
   colorsPicked,
   setColorsPicked,
   filterNotes,
+  setActiveColorTab,
 }) {
   const theme = getTheme(useColorScheme());
 
@@ -47,7 +48,15 @@ function TasksColorFilter({
 
   const handleSubmit = () => {
     filterNotes();
+    if (colorsPicked.length !== 0) {
+      setActiveColorTab(true);
+    }
     colorSheetRef.current.close();
+  };
+
+  const handleReset = () => {
+    setActiveColorTab(false);
+    setColorsPicked([]);
   };
 
   return (
@@ -56,7 +65,7 @@ function TasksColorFilter({
       title="Colors"
       height={constants.filterModalHeight}
       donePressed={() => handleSubmit()}
-      resetPressed={() => setColorsPicked([])}
+      resetPressed={() => handleReset()}
       disabled={colorsPicked.length === 0 ? true : false}
       opacity={colorsPicked.length === 0 ? 0.5 : 1}
     >

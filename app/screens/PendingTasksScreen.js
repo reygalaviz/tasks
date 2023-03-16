@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import { View, Text } from "react-native";
 import { color } from "react-native-reanimated";
 import NoTaskFound from "../components/NoTaskFound";
@@ -11,11 +11,12 @@ function PendingTasksScreen({
   setTasks,
   updateStatus,
   moveToTrashBin,
-  scrolling,
   search,
   setSearch,
   filteredNotes,
   deleteTask,
+  onscroll,
+  flatListRef,
 }) {
   const today = new Date().toString().slice(0, 15);
   const tasksToday = filteredNotes.filter((item) => {
@@ -24,14 +25,18 @@ function PendingTasksScreen({
     );
   });
 
+  console.log(tasksToday);
+
   return (
     <View style={{ flex: 1 }}>
       {tasksToday.length === 0 && <NoTaskFound message="No tasks for today" />}
       {tasksToday && (
         <View style={{ flex: 1 }}>
           <TaskFlatList
-            scrolling={scrolling}
+            flatListRef={flatListRef}
+            oscroll={onscroll}
             tasks={tasksToday}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               return (
                 <TaskCard

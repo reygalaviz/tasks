@@ -12,6 +12,7 @@ import {
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import constants from "../constants/constants";
 import { getTheme } from "../theme/theme";
+import { Entypo } from "@expo/vector-icons";
 
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
@@ -19,50 +20,64 @@ import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
 import TasksTypeFilter from "./TasksTypeFilter";
 import TasksColorFilter from "./TasksColorFilter";
 import TasksSortByFilter from "./TasksSortByFilter";
+import TasksPriorityFilter from "./TasksPriorityFilter";
 
 function TabBar({
   tasks,
   setTasks,
   updateStatus,
   moveToTrashBin,
-  scrolling,
   search,
   setSearch,
   deleteTask,
+  filteredNotes,
+  setFilteredNotes,
+  onscroll,
+  flatListRef,
 }) {
   const theme = getTheme(useColorScheme());
-  const tabs = ["filter", "Today", "Colors", "Sort by"];
-  const [selectedTab, setSelectedTab] = useState(tabs[1]);
-  const [filteredNotes, setFilteredNotes] = useState([]);
-  useEffect(() => {
-    setFilteredNotes(tasks);
-  }, [tasks]);
+  const tabs = ["", "Today", "Colors", "Priority", "Sort by"];
 
-  const [filterTab, setFilterTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(tabs[1]);
+
+  const [activeColorTab, setActiveColorTab] = useState(0);
+  const [activePTab, setActivePTab] = useState(0);
+
+  const [filterTab, setFilterTab] = useState("Today");
   const [colorsPicked, setColorsPicked] = useState([]);
   const [sortBy, setSortBy] = useState(0);
+  const [priorityPicked, setPriorityPicked] = useState();
 
   const filterNotes = () => {
     const filtered = tasks.filter((task) => {
       const nameMatch = task.name.toLowerCase().includes(search.toLowerCase());
       const colorMatch =
         colorsPicked.length > 0 ? colorsPicked.includes(task.color) : task;
-      return nameMatch && colorMatch;
+      const priorityMatch = priorityPicked
+        ? priorityPicked === task.priority
+        : task;
+      return nameMatch && colorMatch && priorityMatch;
     });
     setFilteredNotes(filtered);
   };
+
   useEffect(() => {
     filterNotes();
-  }, [search, colorsPicked]);
+  }, [search]);
+
+  const filterSheetRef = useRef();
+  const filterModal = () => {
+    filterSheetRef.current.open();
+  };
 
   const colorSheetRef = useRef();
   const colorModal = () => {
     colorSheetRef.current.open();
   };
 
-  const filterSheetRef = useRef();
-  const filterModal = () => {
-    filterSheetRef.current.open();
+  const pSheetRef = useRef();
+  const priorityModal = () => {
+    pSheetRef.current.open();
   };
 
   const sortBySheetRef = useRef();
@@ -70,6 +85,16 @@ function TabBar({
     sortBySheetRef.current.open();
   };
 
+  const ref = useRef(null);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    ref.current?.scrollToIndex({
+      index,
+      animated: true,
+      viewPosition: 0.5,
+    });
+  }, [index]);
   return (
     <>
       <TasksTypeFilter
@@ -87,6 +112,17 @@ function TabBar({
         setColorsPicked={setColorsPicked}
         filterNotes={filterNotes}
         setTasks={setTasks}
+        setActiveColorTab={setActiveColorTab}
+      />
+
+      <TasksPriorityFilter
+        pSheetRef={pSheetRef}
+        priorityPicked={priorityPicked}
+        setPriorityPicked={setPriorityPicked}
+        filterNotes={filterNotes}
+        tasks={tasks}
+        setTasks={setTasks}
+        setActivePTab={setActivePTab}
       />
 
       <TasksSortByFilter
@@ -97,6 +133,9 @@ function TabBar({
       />
 
       <FlatList
+        ref={ref}
+        initialScrollIndex={index}
+        decelerationRate="fast"
         data={tabs}
         horizontal
         keyExtractor={(item, index) => `${item}-${index}`}
@@ -113,12 +152,18 @@ function TabBar({
               index={index}
               style={[
                 styles.container,
-                {
-                  backgroundColor:
-                    index !== 1 ? theme.textBoxBGColor : theme.color,
-                },
+                index === 1
+                  ? { backgroundColor: theme.color }
+                  : index === 2 && activeColorTab == true
+                  ? { backgroundColor: theme.color }
+                  : index === 3 && activePTab == true
+                  ? { backgroundColor: theme.color }
+                  : { backgroundColor: theme.textBoxBGColor },
+
+                ,
               ]}
               onPress={() => {
+                setIndex(index);
                 {
                   index === 0 ? filterModal() : null;
                 }
@@ -126,7 +171,7 @@ function TabBar({
                   index === 2 ? colorModal() : null;
                 }
                 {
-                  index === 3 ? sortByModal() : null;
+                  index === 3 ? priorityModal() : null;
                 }
               }}
             >
@@ -138,6 +183,36 @@ function TabBar({
                     height: constants.iconTabSizeH,
                   }}
                 />
+              ) : index !== 0 && index !== 1 ? (
+                <View style={[styles.fTabs]}>
+                  <Text
+                    style={[
+                      styles.text,
+
+                      {
+                        color:
+                          index === 2 && activeColorTab == true
+                            ? theme.background
+                            : index == 3 && activePTab == true
+                            ? theme.background
+                            : theme.color,
+                      },
+                    ]}
+                  >
+                    {index !== 1 ? tab : selectedTab}
+                  </Text>
+                  <Entypo
+                    name="chevron-small-down"
+                    size={24}
+                    color={
+                      index === 2 && activeColorTab == true
+                        ? theme.background
+                        : index == 3 && activePTab == true
+                        ? theme.background
+                        : theme.color
+                    }
+                  />
+                </View>
               ) : (
                 <Text
                   style={[
@@ -164,8 +239,9 @@ function TabBar({
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
-          scrolling={scrolling}
           deleteTask={deleteTask}
+          onscroll={onscroll}
+          flatListRef={flatListRef}
         />
       )}
 
@@ -178,7 +254,6 @@ function TabBar({
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
-          scrolling={scrolling}
           deleteTask={deleteTask}
         />
       )}
@@ -211,6 +286,11 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "700",
     fontSize: constants.tabText,
+  },
+  fTabs: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

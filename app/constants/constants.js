@@ -66,6 +66,8 @@ export default {
   taskDetailsFont: RFValue(12),
   taskFontDateTime: RFValue(12),
   errorFontSize: RFValue(11),
+  buttonsHeight: verticalScale(50),
+  buttonTextSize: RFValue(13),
 
   //task-card
   cardTitle: RFValue(12),

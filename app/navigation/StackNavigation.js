@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import TaskDetailsScreen from "../screens/TaskDetailsScreen";
@@ -10,6 +10,11 @@ const Stack = createNativeStackNavigator();
 
 function StackNavigation(props) {
   const [tasks, setTasks] = useState([]);
+  const [filteredNotes, setFilteredNotes] = useState([]);
+
+  useEffect(() => {
+    setFilteredNotes(tasks);
+  }, [tasks]);
 
   const addTask = async (task) => {
     try {
@@ -44,26 +49,6 @@ function StackNavigation(props) {
     };
     getTasks();
   }, []);
-  // const deleteTask = useCallback((id) => {
-  //   setTasks((prev) => prev.filter((t) => t.id !== id));
-  // });
-  // const updateTask = (task) => {
-  //   setTasks((prev) =>
-  //     prev.map((t) =>
-  //       t.id === task.id
-  //         ? {
-  //             ...t,
-  //             name: task.name,
-  //             details: task.details,
-  //             date: task.date,
-  //             time: task.time,
-  //             priority: task.priority,
-  //             color: task.color,
-  //           }
-  //         : t
-  //     )
-  //   );
-  // };
 
   const updateTask = async (task) => {
     try {
@@ -121,6 +106,8 @@ function StackNavigation(props) {
               updateStatus={updateStatus}
               moveToTrashBin={moveToTrashBin}
               deleteTask={deleteTask}
+              filteredNotes={filteredNotes}
+              setFilteredNotes={setFilteredNotes}
             />
           )}
         </Stack.Screen>

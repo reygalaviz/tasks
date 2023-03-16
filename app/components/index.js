@@ -1,7 +1,6 @@
 import TabBar from "./TabBar";
 import Greeting from "./Greeting";
 import TaskCard from "./TaskCard";
-import Checkmark from "./Checkmark";
 import AddTaskButton from "./AddTaskButton";
 import ModalSheet from "./ModalSheet";
 import SettingsButton from "./SettingsButton";
@@ -14,7 +13,6 @@ import CustomDatePicker from "./CustomDatePicker";
 import ColorBar from "./ColorBar";
 import NotificationsButton from "./NotificationsButton";
 import HeaderBar from "./HeaderBar";
-import CheckBox from "./CheckBox";
 import DeleteButton from "./DeleteButton";
 import DeleteConfirm from "./DeleteConfirm";
 import TaskFlatList from "./TaskFlatList";
@@ -24,12 +22,12 @@ import TasksTypeFilter from "./TasksTypeFilter";
 import TasksColorFilter from "./TasksColorFilter";
 import FilterModalButtons from "./FilterModalButtons";
 import TasksSortByFilter from "./TasksSortByFilter";
+import TasksPriorityFilter from "./TasksPriorityFilter";
 
 export {
   TabBar,
   Greeting,
   TaskCard,
-  Checkmark,
   AddTaskButton,
   ModalSheet,
   SettingsButton,
@@ -42,7 +40,6 @@ export {
   ColorBar,
   NotificationsButton,
   HeaderBar,
-  CheckBox,
   DeleteButton,
   DeleteConfirm,
   TaskFlatList,
@@ -52,4 +49,5 @@ export {
   TasksColorFilter,
   FilterModalButtons,
   TasksSortByFilter,
+  TasksPriorityFilter,
 };

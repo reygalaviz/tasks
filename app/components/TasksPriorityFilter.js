@@ -10,58 +10,57 @@ import {
 import Filters from "./Filters";
 import constants from "../constants/constants";
 import { getTheme } from "../theme/theme";
-function TasksTypeFilter({
-  setSelectedTab,
-  filterModal,
-  filterSheetRef,
-  filterTab,
-  setFilterTab,
+function TasksPriorityFilter({
+  priorityPicked,
+  setPriorityPicked,
+  pSheetRef,
+  filterNotes,
+  setActivePTab,
 }) {
   const theme = getTheme(useColorScheme());
 
   const section = [
-    { id: "today", label: "Today" },
-    { id: "upcoming", label: "Upcoming" },
-    { id: "done", label: "Completed" },
+    { id: "high", label: "High" },
+    { id: "medium", label: "Medium" },
+    { id: "low", label: "Low" },
   ];
 
-  const handleFilterClick = () => {
-    if (filterTab === "Today") {
-      setSelectedTab("Today");
+  const handleSubmit = () => {
+    filterNotes();
+    if (priorityPicked) {
+      setActivePTab(true);
     }
-    if (filterTab === "Upcoming") {
-      setSelectedTab("Upcoming");
-    }
-    if (filterTab === "Completed") {
-      setSelectedTab("Completed");
-    }
-    filterSheetRef.current.close();
+    pSheetRef.current.close();
+  };
+  const handleReset = () => {
+    setActivePTab(false);
+    setPriorityPicked();
   };
 
   return (
     <Filters
-      rbSheetRef={filterSheetRef}
+      rbSheetRef={pSheetRef}
       title="Filters"
       height={400}
-      donePressed={() => handleFilterClick()}
-      resetPressed={() => setFilterTab("Today")}
-      disabled={filterTab === "Today" ? true : false}
-      opacity={filterTab === "Today" ? 0.5 : 1}
+      donePressed={() => handleSubmit()}
+      resetPressed={() => handleReset()}
+      disabled={!priorityPicked ? true : false}
+      opacity={!priorityPicked ? 0.5 : 1}
     >
-      {section.map(({ id, label }) => {
+      {section.map(({ id, label }, index) => {
         return (
           <View key={id} style={styles.rowWrapper}>
-            <TouchableOpacity onPress={() => setFilterTab(label)}>
+            <TouchableOpacity onPress={() => setPriorityPicked(label)}>
               <View
                 style={[
                   styles.row,
-                  filterTab === "Today" && label === filterTab
+                  priorityPicked === "High" && label === priorityPicked
                     ? { backgroundColor: theme.color }
                     : null,
-                  filterTab === "Upcoming" && label === filterTab
+                  priorityPicked === "Medium" && label === priorityPicked
                     ? { backgroundColor: theme.color }
                     : null,
-                  filterTab === "Completed" && label === filterTab
+                  priorityPicked === "Low" && label === priorityPicked
                     ? { backgroundColor: theme.color }
                     : null,
                 ]}
@@ -71,7 +70,9 @@ function TasksTypeFilter({
                     styles.rowLabel,
                     {
                       color:
-                        label === filterTab ? theme.background : theme.color,
+                        label === priorityPicked
+                          ? theme.background
+                          : theme.color,
                     },
                   ]}
                 >
@@ -112,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TasksTypeFilter;
+export default TasksPriorityFilter;

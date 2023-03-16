@@ -20,7 +20,7 @@ function CompletedTasksScreen({
   return (
     <View style={{ flex: 1 }}>
       {completedTasks.length === 0 && (
-        <NoTaskFound message="No tasks have been completed yet" />
+        <NoTaskFound message="No tasks have been completed" />
       )}
       {completedTasks && (
         <View style={{ flex: 1 }}>

@@ -1,5 +1,12 @@
-import React, { useState, useRef, useCallback, useContext } from "react";
-import { View, Text, StyleSheet, Keyboard, useColorScheme } from "react-native";
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Keyboard,
+  useColorScheme,
+  Button,
+} from "react-native";
 import CustomButton from "../components/CustomButton";
 import CustomInput from "../components/CustomInput";
 import { useSetRecoilState, useRecoilState } from "recoil";
@@ -9,13 +16,20 @@ import CustomDatePicker from "../components/CustomDatePicker";
 import CustomTimePicker from "../components/CustomTimePicker";
 import ColorBar from "../components/ColorBar";
 import constants from "../constants/constants";
-import AddTaskButton from "../components/AddTaskButton";
 import ModalSheet from "../components/ModalSheet";
 import ModalSheetHeader from "../components/ModalSheetHeader";
 import { getTheme } from "../theme/theme";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
-function AddTaskScreen({ addTask }) {
+function AddTaskScreen({
+  addTask,
+  tasks,
+  snapPoints,
+  sheetRef,
+  onOpenAddTask,
+  handleSnapPress,
+  flatListRef,
+}) {
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
   const [date, setDate] = useState(new Date());
@@ -24,18 +38,6 @@ function AddTaskScreen({ addTask }) {
   const [color, setColor] = useState("#586BA4");
 
   const theme = getTheme(useColorScheme());
-
-  const sheetRef = useRef();
-  const snapPoints = ["100%"];
-  const [isOpen, setIsOpen] = useState(false);
-
-  const onOpenAddTask = () => {
-    sheetRef.current?.expand();
-  };
-  const handleSnapPress = useCallback((index) => {
-    sheetRef.current?.snapToIndex(index);
-    setIsOpen(!isOpen);
-  }, []);
 
   const onCancelPress = () => {
     setTask("");
@@ -74,79 +76,75 @@ function AddTaskScreen({ addTask }) {
       setColor("#586BA4");
       setDate(new Date());
       setTime(new Date());
+
+      // const newIndex = tasks.findIndex((item) => item.id === task.id);
+      // flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       sheetRef?.current?.close();
     }
   };
 
   return (
-    <>
-      <AddTaskButton onOpenAddTask={onOpenAddTask} />
+    <ModalSheet
+      sheetRef={sheetRef}
+      snapPoints={snapPoints}
+      index={-1}
+      onChange={handleSnapPress}
+      style={{
+        backgroundColor: theme.background,
+      }}
+    >
+      <ModalSheetHeader
+        title="Create your task"
+        cancel
+        onPress={onCancelPress}
+        iconColor={theme.color}
+        style={{ color: theme.color }}
+      />
 
-      <ModalSheet
-        sheetRef={sheetRef}
-        snapPoints={snapPoints}
-        index={-1}
-        onChange={handleSnapPress}
-        style={{
-          backgroundColor: theme.background,
-        }}
+      <BottomSheetScrollView
+        style={{ paddingHorizontal: constants.m, marginBottom: constants.m }}
       >
-        <ModalSheetHeader
-          title="Create your task"
-          cancel
-          onPress={onCancelPress}
-          iconColor={theme.color}
-          style={{ color: theme.color }}
+        <CustomInput
+          style={{ marginBottom: constants.s }}
+          maxLength={200}
+          textStyle={styles.titleText}
+          placeholder="e.g, Take my dog to the vet"
+          error={error.task}
+          onFocus={() => {
+            handleError(null, "task");
+          }}
+          value={task}
+          setValue={(value) => setTask(value)}
+        />
+        <CustomInput
+          style={{ marginVertical: constants.s }}
+          maxLength={500}
+          textStyle={styles.detailsText}
+          placeholder="Additional Notes"
+          value={taskDetails}
+          setValue={(value) => setTaskDetails(value)}
         />
 
-        <BottomSheetScrollView
-          style={{ paddingHorizontal: constants.m, marginBottom: constants.m }}
-        >
-          <CustomInput
-            style={{ marginBottom: constants.s }}
-            maxLength={200}
-            textStyle={styles.titleText}
-            placeholder="e.g, Take my dog to the vet"
-            error={error.task}
-            onFocus={() => {
-              handleError(null, "task");
-            }}
-            value={task}
-            setValue={(value) => setTask(value)}
-          />
-          <CustomInput
-            style={{ marginVertical: constants.s }}
-            maxLength={500}
-            textStyle={styles.detailsText}
-            placeholder="Additional Notes"
-            value={taskDetails}
-            setValue={(value) => setTaskDetails(value)}
-          />
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <CustomDatePicker date={date} setDate={setDate} />
+          <CustomTimePicker time={time} setTime={setTime} />
+        </View>
+        <ColorBar color={color} setColor={setColor} />
 
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <CustomDatePicker date={date} setDate={setDate} />
-            <CustomTimePicker time={time} setTime={setTime} />
-          </View>
-          <ColorBar color={color} setColor={setColor} />
+        <PriorityBar
+          priority={priority}
+          setPriority={setPriority}
+          buttons={["High", "Medium", "Low"]}
+        />
 
-          <PriorityBar
-            priority={priority}
-            setPriority={setPriority}
-            buttons={["High", "Medium", "Low"]}
-          />
-
-          <CustomButton
-            onPress={handleAddTask}
-            title="Submit"
-            style={[styles.button]}
-            bgColor={theme.buttonColor}
-            fgColor={theme.buttonText}
-          />
-        </BottomSheetScrollView>
-      </ModalSheet>
-    </>
+        <CustomButton
+          onPress={handleAddTask}
+          title="Submit"
+          style={[styles.button]}
+          fgColor={theme.buttonText}
+        />
+      </BottomSheetScrollView>
+    </ModalSheet>
   );
 }
 const styles = StyleSheet.create({

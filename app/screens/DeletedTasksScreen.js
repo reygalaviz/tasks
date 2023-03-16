@@ -56,6 +56,7 @@ function DeletedTasksScreen({ navigation, ...props }) {
                   moveToTrashBin={props.moveToTrashBin}
                   handleDelete={() => props.deleteTask(item.id)}
                   compDel
+                  selected
                 />
               );
             }

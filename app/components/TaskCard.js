@@ -1,11 +1,9 @@
-import React, { useState, useContext, useRef } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   Pressable,
-  useWindowDimensions,
-  Dimensions,
   useColorScheme,
 } from "react-native";
 import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
@@ -15,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { format } from "date-fns";
+import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 
 function TaskCard({
   task,

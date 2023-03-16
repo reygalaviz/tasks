@@ -6,9 +6,10 @@ import {
   Pressable,
   Text,
   useColorScheme,
+  TouchableOpacity,
 } from "react-native";
-import themeContext from "../theme/themeContext";
 import { getTheme } from "../theme/theme";
+import constants from "../constants/constants";
 
 const CustomButton = ({
   title,
@@ -21,7 +22,7 @@ const CustomButton = ({
   const theme = getTheme(useColorScheme());
 
   return (
-    <Pressable
+    <TouchableOpacity
       onPress={onPress}
       style={[
         style,
@@ -39,7 +40,7 @@ const CustomButton = ({
       >
         {title}
       </Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
@@ -48,10 +49,12 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 5,
     alignItems: "center",
-    borderRadius: 10,
+    justifyContent: "center",
+    borderRadius: 20,
+    height: constants.buttonsHeight,
   },
   container_PRIMARY: {
-    backgroundColor: "black",
+    backgroundColor: "#DD6E42",
   },
   container_SECONDARY: {
     borderColor: "lightgray",
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: "bold",
     color: "white",
+    fontSize: constants.buttonTextSize,
   },
   text_SECONDARY: {
     color: "gray",

@@ -1,23 +1,41 @@
 import "react-native-gesture-handler";
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { View, StyleSheet, useColorScheme } from "react-native";
+import React, { useState, useCallback, useEffect, useRef } from "react";
+import {
+  View,
+  StyleSheet,
+  useColorScheme,
+  FlatList,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
-import Greeting from "../components/Greeting";
 import AddTaskScreen from "./AddTaskScreen";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
 import SettingsScreen from "./SettingsScreen";
 import NotificationsButton from "../components/NotificationsButton";
 import SettingsButton from "../components/SettingsButton";
-import themeContext from "../theme/themeContext";
-import Animated from "react-native-reanimated";
+import AddTaskButton from "../components/AddTaskButton";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
 import { getTheme } from "../theme/theme";
 
 function HomeScreen({ navigation, ...props }) {
   const theme = getTheme(useColorScheme());
+
+  //add-screen-modal
+  const sheetRef = useRef();
+  const snapPoints = ["100%"];
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpenAddTask = () => {
+    sheetRef.current?.expand();
+  };
+  const handleSnapPress = useCallback((index) => {
+    sheetRef.current?.snapToIndex(index);
+    setIsOpen(!isOpen);
+  }, []);
 
   //recoil
   const todoList = useRecoilValue(todoItem);
@@ -33,25 +51,14 @@ function HomeScreen({ navigation, ...props }) {
     sheetSettingsRef.current?.expand();
   };
 
-  //animated header
-  const scrolling = useRef(new Animated.Value(0)).current;
-  const diffClamp = Animated.diffClamp(scrolling, 0, 100);
-  const translation = Animated.interpolateNode(diffClamp, {
-    inputRange: [0, 100],
-    outputRange: [0, -100],
-  });
+  const handleScroll = (event) => {
+    console.log(event.nativeEvent.contentOffset.y);
+  };
 
-  const startHeaderHeight = constants.startHeaderHeight;
-  const endHeaderHeight = constants.endHeaderHeight;
-
-  const animatedHeaderHeight = scrolling.interpolate({
-    inputRange: [0, 50],
-    outputRange: [startHeaderHeight, endHeaderHeight],
-    extrapolate: "clamp",
-  });
+  const flatListRef = useRef(null);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
+    <View style={[styles.container]}>
       <View style={{ paddingHorizontal: constants.m }}>
         <HeaderBar date>
           <NotificationsButton
@@ -59,7 +66,6 @@ function HomeScreen({ navigation, ...props }) {
           />
           <SettingsButton onOpenSettings={onOpenSettings} />
         </HeaderBar>
-
         <CustomInput
           style={{ marginVertical: constants.s }}
           textStyle={{
@@ -83,21 +89,36 @@ function HomeScreen({ navigation, ...props }) {
         setTasks={props.setTasks}
         updateStatus={props.updateStatus}
         moveToTrashBin={props.moveToTrashBin}
-        scrolling={scrolling}
         deleteTask={props.deleteTask}
+        filteredNotes={props.filteredNotes}
+        setFilteredNotes={props.setFilteredNotes}
+        onscroll={handleScroll}
+        flatListRef={flatListRef}
       />
-      <AddTaskScreen addTask={props.addTask} />
+
       <SettingsScreen
         isOpen={isSettingsOpen}
         setIsOpen={setIsSettingsOpen}
         sheetRef={sheetSettingsRef}
       />
+      <AddTaskScreen
+        addTask={props.addTask}
+        tasks={props.tasks}
+        snapPoints={snapPoints}
+        sheetRef={sheetRef}
+        onOpenAddTask={onOpenAddTask}
+        handleSnapPress={handleSnapPress}
+        flatListRef={flatListRef}
+      />
+      <AddTaskButton onOpenAddTask={onOpenAddTask} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+  },
 });
 
 export default HomeScreen;

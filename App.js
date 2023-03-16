@@ -7,17 +7,6 @@ import { Appearance, useColorScheme } from "react-native";
 import { getTheme } from "./app/theme/theme";
 
 export default function App() {
-  const [theme, setTheme] = useState(getTheme(Appearance.getColorScheme()));
-
-  useEffect(() => {
-    const subscription = Appearance.addChangeListener(({ theme }) => {
-      console.log("add change listener is working");
-      setTheme(getTheme(theme));
-    });
-
-    return () => subscription.remove();
-  }, []);
-
   return (
     <PortalProvider>
       <RecoilRoot>

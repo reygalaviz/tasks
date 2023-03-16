@@ -4,20 +4,29 @@ import TaskCard from "./TaskCard";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
 import constants from "../constants/constants";
-import Animated from "react-native-reanimated";
+import Animated, {
+  useSharedValue,
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  interpolate,
+} from "react-native-reanimated";
+import HeaderBar from "./HeaderBar";
+import NotificationsButton from "../components/NotificationsButton";
+import SettingsButton from "../components/SettingsButton";
 
-function TaskFlatList({ tasks, renderItem, scrolling }) {
-  const todoList = useRecoilValue(todoItem);
-  const scrollRef = useRef();
-
+function TaskFlatList({
+  tasks,
+  renderItem,
+  keyExtractor,
+  onscroll,
+  flatListRef,
+}) {
   return (
-    <Animated.FlatList
-      // scrollEventThrottle={16}
-      // onScroll={Animated.event([
-      //   { nativeEvent: { contentOffset: { y: scrolling } } },
-      // ])}
+    <FlatList
+      ref={flatListRef}
+      onScroll={onscroll}
       data={tasks}
-      keyExtractor={(item) => item.id}
+      keyExtractor={keyExtractor}
       showsVerticalScrollIndicator={true}
       contentContainerStyle={{
         paddingBottom: constants.l,
