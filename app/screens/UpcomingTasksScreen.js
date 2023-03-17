@@ -3,6 +3,7 @@ import { View, FlatList, Text, Pressable } from "react-native";
 import TaskFlatList from "../components/TaskFlatList";
 import TaskCard from "../components/TaskCard";
 import NoTaskFound from "../components/NoTaskFound";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function UpcomingTasksScreen({
   tasks,
@@ -14,6 +15,8 @@ function UpcomingTasksScreen({
   filteredNotes,
   deleteTask,
 }) {
+  const theme = useDeviceTheme();
+
   const today = new Date().toString().slice(0, 15);
   const futureTasks = filteredNotes.filter((item) => {
     return (

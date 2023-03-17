@@ -14,12 +14,13 @@ import CustomDatePicker from "../components/CustomDatePicker";
 import ColorBar from "../components/ColorBar";
 import PriorityBar from "../components/PriorityBar";
 import DeleteButton from "../components/DeleteButton";
-import { getTheme } from "../theme/theme";
 import CustomTimePicker from "../components/CustomTimePicker";
 import DeleteConfirm from "../components/DeleteConfirm";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function TaskDetailsScreen({ navigation, route, ...props }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
+
   const rbSheetRef = useRef();
   const modalVisible = () => {
     rbSheetRef.current.open();

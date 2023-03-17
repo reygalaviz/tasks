@@ -3,6 +3,7 @@ import { View, FlatList, Text, Pressable } from "react-native";
 import TaskFlatList from "../components/TaskFlatList";
 import TaskCard from "../components/TaskCard";
 import NoTaskFound from "../components/NoTaskFound";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function CompletedTasksScreen({
   tasks,
@@ -14,6 +15,8 @@ function CompletedTasksScreen({
   filteredNotes,
   deleteTask,
 }) {
+  const theme = useDeviceTheme();
+
   const completedTasks = filteredNotes.filter((item) => {
     return item.completed == true && item.trash == false;
   });

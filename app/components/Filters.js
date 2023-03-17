@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import RBottomSheet from "./RBottomSheet";
 import constants from "../constants/constants";
 import FilterModalButtons from "./FilterModalButtons";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function Filters({
   rbSheetRef,
@@ -14,12 +15,16 @@ function Filters({
   disabled,
   opacity,
 }) {
+  const theme = useDeviceTheme();
+
   return (
     <RBottomSheet rbSheetRef={rbSheetRef} height={height}>
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <View style={styles.sheetHeader}>
-            <Text style={styles.sheetTitle}>{title}</Text>
+            <Text style={[styles.sheetTitle, { color: theme.color }]}>
+              {title}
+            </Text>
           </View>
           <View style={styles.sheetBody}>{children}</View>
         </View>

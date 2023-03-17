@@ -19,11 +19,10 @@ import SettingsButton from "../components/SettingsButton";
 import AddTaskButton from "../components/AddTaskButton";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
-import { getTheme } from "../theme/theme";
+import { theme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function HomeScreen({ navigation, ...props }) {
-  const theme = getTheme(useColorScheme());
-
   //add-screen-modal
   const sheetRef = useRef();
   const snapPoints = ["100%"];
@@ -54,11 +53,12 @@ function HomeScreen({ navigation, ...props }) {
   const handleScroll = (event) => {
     console.log(event.nativeEvent.contentOffset.y);
   };
-
   const flatListRef = useRef(null);
 
+  const theme = useDeviceTheme();
+
   return (
-    <View style={[styles.container]}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={{ paddingHorizontal: constants.m }}>
         <HeaderBar date>
           <NotificationsButton

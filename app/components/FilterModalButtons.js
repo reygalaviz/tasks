@@ -8,22 +8,19 @@ import {
   useColorScheme,
 } from "react-native";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function FilterModalButtons({ resetPressed, donePressed, disabled, opacity }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         disabled={disabled}
         onPress={resetPressed}
-        style={[
-          styles.resetButton,
-          { backgroundColor: theme.background, opacity: opacity },
-        ]}
+        style={[styles.resetButton, { opacity: opacity }]}
       >
-        <Text style={styles.text}>Reset</Text>
+        <Text style={[styles.text, { color: theme.color }]}>Reset</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={donePressed} style={styles.doneButton}>
         <Text style={[styles.text, { color: theme.background }]}>Done</Text>

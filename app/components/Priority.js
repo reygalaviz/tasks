@@ -22,7 +22,6 @@ function Priority({ fgColor, priorityTitle }) {
 }
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
     borderRadius: 10,
     borderColor: "black",
     paddingHorizontal: constants.s,

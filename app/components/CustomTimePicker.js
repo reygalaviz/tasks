@@ -4,10 +4,9 @@ import constants from "../constants/constants";
 import { format } from "date-fns";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
-import { getTheme } from "../theme/theme";
-
+import { useDeviceTheme } from "../theme/deviceTheme";
 function CustomTimePicker({ time, setTime }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
   const [timePickerVisible, setTimePickerVisible] = useState(false);
 
   const showTimePicker = () => {

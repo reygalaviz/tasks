@@ -7,10 +7,10 @@ import {
   useColorScheme,
 } from "react-native";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function PriorityBar({ priority, setPriority, buttons }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const handleClick = (item, label) => {
     setPriority(label);
@@ -47,7 +47,7 @@ function PriorityBar({ priority, setPriority, buttons }) {
               style={[
                 styles.text,
                 {
-                  color: buttonLabel === priority ? theme.color : theme.color,
+                  color: buttonLabel === priority ? "black" : theme.color,
                 },
               ]}
             >
@@ -73,11 +73,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: constants.tabText,
   },
-  activeTab: {
-    borderWidth: 1,
-    borderBottomWidth: 4,
-    borderColor: "#333333",
-  },
+  activeTab: {},
 });
 
 export default PriorityBar;

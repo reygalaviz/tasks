@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import constants from "../constants/constants";
 import RBottomSheet from "./RBottomSheet";
 import CustomButton from "./CustomButton";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function DeleteConfirm({
   handleCancelDelete,
@@ -11,7 +11,7 @@ function DeleteConfirm({
   message,
   rbSheetRef,
 }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   return (
     <RBottomSheet rbSheetRef={rbSheetRef}>

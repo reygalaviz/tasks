@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
@@ -35,8 +35,8 @@ function TabBar({
   onscroll,
   flatListRef,
 }) {
-  const theme = getTheme(useColorScheme());
   const tabs = ["", "Today", "Colors", "Priority", "Sort by"];
+  const theme = useDeviceTheme();
 
   const [selectedTab, setSelectedTab] = useState(tabs[1]);
 
@@ -153,12 +153,12 @@ function TabBar({
               style={[
                 styles.container,
                 index === 1
-                  ? { backgroundColor: theme.color }
+                  ? { backgroundColor: theme.filterActiveButton }
                   : index === 2 && activeColorTab == true
-                  ? { backgroundColor: theme.color }
+                  ? { backgroundColor: theme.filterActiveButton }
                   : index === 3 && activePTab == true
-                  ? { backgroundColor: theme.color }
-                  : { backgroundColor: theme.textBoxBGColor },
+                  ? { backgroundColor: theme.filterActiveButton }
+                  : { backgroundColor: theme.filterInActiveButton },
 
                 ,
               ]}
@@ -176,13 +176,7 @@ function TabBar({
               }}
             >
               {index === 0 ? (
-                <Image
-                  source={require("../../assets/filter.png")}
-                  style={{
-                    width: constants.iconTabSizeW,
-                    height: constants.iconTabSizeH,
-                  }}
-                />
+                <Ionicons name="ios-options" size={24} color={theme.color} />
               ) : index !== 0 && index !== 1 ? (
                 <View style={[styles.fTabs]}>
                   <Text

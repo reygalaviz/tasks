@@ -8,7 +8,7 @@ import {
   useColorScheme,
 } from "react-native";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 const CustomInput = ({
   placeholder,
@@ -24,9 +24,9 @@ const CustomInput = ({
   error,
   onFocus = () => {},
 }) => {
-  const theme = getTheme(useColorScheme());
-
   const [isFocused, setIsFocused] = useState(false);
+
+  const theme = useDeviceTheme();
 
   return (
     <>

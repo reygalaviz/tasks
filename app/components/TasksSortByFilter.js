@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 function TasksSortByFilter({ sortBy, setSortBy, sortByModal, sortBySheetRef }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const section = [
     { id: "today", label: "Today" },

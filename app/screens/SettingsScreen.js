@@ -15,7 +15,6 @@ import {
   Pressable,
 } from "react-native";
 import { EventRegister } from "react-native-event-listeners";
-import { getTheme } from "../theme/theme";
 import ModalSheet from "../components/ModalSheet";
 import constants from "../constants/constants";
 import { Portal, PortalHost } from "@gorhom/portal";
@@ -23,10 +22,12 @@ import ModalSheetHeader from "../components/ModalSheetHeader";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
+  const theme = useDeviceTheme();
+
   const navigation = useNavigation();
-  const theme = getTheme(useColorScheme());
   const snapPoints = ["100%"];
 
   const handleSnapPress = useCallback((index) => {

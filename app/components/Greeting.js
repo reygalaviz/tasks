@@ -16,10 +16,10 @@ import Animated, {
   withSequence,
   withDelay,
 } from "react-native-reanimated";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function Greeting({ OnCalendarPress }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   let myDate = new Date();
   let hours = myDate.getHours();

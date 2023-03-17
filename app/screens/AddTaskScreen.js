@@ -18,8 +18,8 @@ import ColorBar from "../components/ColorBar";
 import constants from "../constants/constants";
 import ModalSheet from "../components/ModalSheet";
 import ModalSheetHeader from "../components/ModalSheetHeader";
-import { getTheme } from "../theme/theme";
 import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function AddTaskScreen({
   addTask,
@@ -30,14 +30,14 @@ function AddTaskScreen({
   handleSnapPress,
   flatListRef,
 }) {
+  const theme = useDeviceTheme();
+
   const [task, setTask] = useState("");
   const [taskDetails, setTaskDetails] = useState("");
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState("High");
   const [color, setColor] = useState("#586BA4");
-
-  const theme = getTheme(useColorScheme());
 
   const onCancelPress = () => {
     setTask("");
@@ -62,8 +62,8 @@ function AddTaskScreen({
       addTask({
         name: task,
         details: taskDetails,
-        date: date.toString().slice(0, 15),
-        time: time.getTime(),
+        date: date.toISOString(),
+        time: time.toISOString(),
         priority: priority,
         color: color,
         completed: false,

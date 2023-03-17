@@ -8,7 +8,6 @@ import {
   useColorScheme,
   TouchableOpacity,
 } from "react-native";
-import { getTheme } from "../theme/theme";
 import constants from "../constants/constants";
 
 const CustomButton = ({
@@ -19,8 +18,6 @@ const CustomButton = ({
   fgColor,
   style,
 }) => {
-  const theme = getTheme(useColorScheme());
-
   return (
     <TouchableOpacity
       onPress={onPress}

@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 function TasksColorFilter({
   colorSheetRef,
   tasks,
@@ -20,7 +20,7 @@ function TasksColorFilter({
   filterNotes,
   setActiveColorTab,
 }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const colorFilter = [
     { id: 1, label: "red", color: "#586BA4" },
@@ -81,8 +81,8 @@ function TasksColorFilter({
                   style={[
                     styles.row,
                     colorsPicked.includes(color)
-                      ? { backgroundColor: theme.color }
-                      : null,
+                      ? { backgroundColor: theme.filterActiveButton }
+                      : { backgroundColor: theme.filterInActiveButton },
                     ,
                   ]}
                 >
@@ -102,7 +102,7 @@ function TasksColorFilter({
                       styles.rowLabel,
                       colorsPicked.includes(color)
                         ? { color: theme.background }
-                        : null,
+                        : { color: theme.color },
                     ]}
                   >
                     {label}

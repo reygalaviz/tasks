@@ -1,10 +1,11 @@
 import React, { useRef, useState, useCallback, useContext } from "react";
 import { View, Pressable, StyleSheet, useColorScheme } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function DeleteButton({ onPress }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
+
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <Ionicons name="trash-outline" size={24} color={theme.color} />

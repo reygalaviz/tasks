@@ -2,10 +2,11 @@ import React, { useRef, useState, useCallback, useContext } from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function NotificationsButton({ onOpenNotifications }) {
-  const theme = useContext(themeContext);
+  const theme = useDeviceTheme();
+
   return (
     <Pressable
       onPress={onOpenNotifications}

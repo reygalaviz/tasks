@@ -8,13 +8,11 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
 import { useNavigation } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
 import { format } from "date-fns";
-import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
-
+import { useDeviceTheme } from "../theme/deviceTheme";
 function TaskCard({
   task,
   style,
@@ -28,9 +26,10 @@ function TaskCard({
   //   (task) => task.completed
   // ).length;
   // const remainingTasks = Object.values(task).length - completedTasks;
+  // format(task.time, "HH:mm a")
 
   const navigation = useNavigation();
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const onDetailsScreen = () => {
     navigation.navigate("DetailsScreen", { task });
@@ -99,13 +98,7 @@ function TaskCard({
         onPress={onDetailsScreen}
         style={[, styles.taskContainer, styleContainer]}
       >
-        <View
-          style={[
-            styles.task,
-            style,
-            { backgroundColor: task.color, borderColor: "#333333" },
-          ]}
-        >
+        <View style={[styles.task, style, { backgroundColor: task.color }]}>
           <View style={[styles.titleContainer]}>
             <Text style={[styles.title, {}]} numberOfLines={3}>
               {task.name}
@@ -133,7 +126,7 @@ function TaskCard({
                   size={constants.iconSize}
                   color="black"
                 />
-                <Text style={styles.date}>{format(task.time, "HH:mm a")}</Text>
+                <Text style={styles.date}>{task.time}</Text>
               </View>
               <Priority priorityTitle={task.priority} />
             </View>
@@ -175,9 +168,7 @@ const styles = StyleSheet.create({
     height: constants.cardHeight,
     width: "90%",
     justifyContent: "center",
-    borderRadius: 10,
-    borderWidth: 1,
-    borderBottomWidth: 5,
+    borderRadius: 15,
     flexDirection: "column",
     justifyContent: "space-between",
     paddingHorizontal: constants.m,

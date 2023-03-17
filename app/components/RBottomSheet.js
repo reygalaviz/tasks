@@ -2,12 +2,11 @@ import React, { useContext } from "react";
 import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 import CustomButton from "./CustomButton";
-import themeContext from "../theme/themeContext";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function RBottomSheet({ rbSheetRef, children, height }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   return (
     <RBSheet

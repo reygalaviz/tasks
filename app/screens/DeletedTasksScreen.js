@@ -5,8 +5,11 @@ import TaskFlatList from "../components/TaskFlatList";
 import constants from "../constants/constants";
 import TaskCard from "../components/TaskCard";
 import DeleteConfirm from "../components/DeleteConfirm";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function DeletedTasksScreen({ navigation, ...props }) {
+  const theme = useDeviceTheme();
+
   const onBackPress = () => {
     navigation.goBack();
   };

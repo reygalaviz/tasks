@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 function TasksTypeFilter({
   setSelectedTab,
   filterModal,
@@ -17,7 +17,7 @@ function TasksTypeFilter({
   filterTab,
   setFilterTab,
 }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const section = [
     { id: "today", label: "Today" },
@@ -56,13 +56,13 @@ function TasksTypeFilter({
                 style={[
                   styles.row,
                   filterTab === "Today" && label === filterTab
-                    ? { backgroundColor: theme.color }
-                    : null,
+                    ? { backgroundColor: theme.filterActiveButton }
+                    : { backgroundColor: theme.filterInActiveButton },
                   filterTab === "Upcoming" && label === filterTab
-                    ? { backgroundColor: theme.color }
+                    ? { backgroundColor: theme.filterActiveButton }
                     : null,
                   filterTab === "Completed" && label === filterTab
-                    ? { backgroundColor: theme.color }
+                    ? { backgroundColor: theme.filterActiveButton }
                     : null,
                 ]}
               >

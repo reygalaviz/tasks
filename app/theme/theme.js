@@ -1,4 +1,6 @@
-const light = {
+import { Appearance } from "react-native";
+
+export const light = {
   color: "black",
   background: "white",
   textBorder: "black",
@@ -11,10 +13,13 @@ const light = {
   inactiveTabColor: "gray",
   textBoxBGColor: "#F5F5F5",
   placeholderColor: "#909090",
+  filterActiveButton: "black",
+  filterInActiveButton: "#F5F5F5",
 };
-const dark = {
+
+export const dark = {
   color: "white",
-  background: "black",
+  background: "#11100f",
   textBorder: "gray",
   active: "black",
   buttonColor: "white",
@@ -23,16 +28,8 @@ const dark = {
   divider: "#a7a7a7",
   activeTabColor: "white",
   inactiveTabColor: "gray",
-  textBoxBGColor: "#333333",
+  textBoxBGColor: "#302c27",
   placeholderColor: "#909090",
-};
-
-const getTheme = (colorScheme) => {
-  return colorScheme === "dark" ? dark : light;
-};
-
-export { getTheme };
-export const theme = {
-  ...light,
-  ...dark,
+  filterActiveButton: "white",
+  filterInActiveButton: "#302c27",
 };

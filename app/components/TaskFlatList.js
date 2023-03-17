@@ -1,18 +1,6 @@
 import React, { useRef } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import TaskCard from "./TaskCard";
-import { useRecoilValue } from "recoil";
-import { todoItem } from "../recoil/atom/todoItem";
 import constants from "../constants/constants";
-import Animated, {
-  useSharedValue,
-  useAnimatedScrollHandler,
-  useAnimatedStyle,
-  interpolate,
-} from "react-native-reanimated";
-import HeaderBar from "./HeaderBar";
-import NotificationsButton from "../components/NotificationsButton";
-import SettingsButton from "../components/SettingsButton";
 
 function TaskFlatList({
   tasks,

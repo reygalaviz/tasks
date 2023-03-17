@@ -9,11 +9,10 @@ import {
   useColorScheme,
 } from "react-native";
 import constants from "../constants/constants";
-import themeContext from "../theme/themeContext";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 
 function ColorBar({ color, setColor }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const cardColors = [
     "#586BA4",

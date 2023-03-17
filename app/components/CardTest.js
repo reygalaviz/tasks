@@ -25,7 +25,6 @@
 // } from "react-native-reanimated";
 // import { PanGestureHandler } from "react-native-gesture-handler";
 // import BouncyCheckbox from "react-native-bouncy-checkbox";
-// import themeContext from "../theme/themeContext";
 // import Swipeable from "react-native-gesture-handler/Swipeable";
 // const translateX = useSharedValue(0);
 // const taskHeight = useSharedValue(constants.cardHeight);

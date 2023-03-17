@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import Filters from "./Filters";
 import constants from "../constants/constants";
-import { getTheme } from "../theme/theme";
+import { useDeviceTheme } from "../theme/deviceTheme";
 function TasksPriorityFilter({
   priorityPicked,
   setPriorityPicked,
@@ -17,7 +17,7 @@ function TasksPriorityFilter({
   filterNotes,
   setActivePTab,
 }) {
-  const theme = getTheme(useColorScheme());
+  const theme = useDeviceTheme();
 
   const section = [
     { id: "high", label: "High" },
@@ -55,13 +55,13 @@ function TasksPriorityFilter({
                 style={[
                   styles.row,
                   priorityPicked === "High" && label === priorityPicked
-                    ? { backgroundColor: theme.color }
-                    : null,
+                    ? { backgroundColor: theme.filterActiveButton }
+                    : { backgroundColor: theme.filterInActiveButton },
                   priorityPicked === "Medium" && label === priorityPicked
-                    ? { backgroundColor: theme.color }
+                    ? { backgroundColor: theme.filterActiveButton }
                     : null,
                   priorityPicked === "Low" && label === priorityPicked
-                    ? { backgroundColor: theme.color }
+                    ? { backgroundColor: theme.filterActiveButton }
                     : null,
                 ]}
               >
