@@ -51,7 +51,7 @@ function CustomDatePicker({ date, setDate }) {
             fontWeight: "600",
           }}
         >
-          {date.toString().slice(0, 15)}
+          {date && date instanceof Date && <Text>{date.toDateString()}</Text>}
         </Text>
       </View>
       <DateTimePickerModal

@@ -32,8 +32,8 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
 
   const [updatedTask, setUpdatedTask] = useState(task.name);
   const [updatedTaskDetails, setUpdatedTaskDetails] = useState(task.details);
-  const [updatedDate, setUpdatedDate] = useState(task.date);
-  const [updatedTime, setUpdatedTime] = useState(task.time);
+  const [updatedDate, setUpdatedDate] = useState(new Date(task.date));
+  const [updatedTime, setUpdatedTime] = useState(new Date(task.time));
   const [updatedPriority, setUpdatedPriority] = useState(task.priority);
   const [updatedColor, setUpdatedColor] = useState(task.color);
 
@@ -50,8 +50,8 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
         ...task,
         name: updatedTask,
         details: updatedTaskDetails,
-        date: updatedDate.toString().slice(0, 15),
-        time: updatedTime,
+        date: updatedDate.toISOString(),
+        time: updatedTime.toISOString(),
         priority: updatedPriority,
         color: updatedColor,
       });

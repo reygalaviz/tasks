@@ -25,16 +25,25 @@ function TasksPriorityFilter({
     { id: "low", label: "Low" },
   ];
 
+  const handlePriorityPicked = (p) => {
+    const newPriorities = priorityPicked.includes(p)
+      ? priorityPicked.filter((c) => c !== p)
+      : [...priorityPicked, p];
+    setPriorityPicked(newPriorities);
+  };
+
   const handleSubmit = () => {
     filterNotes();
-    if (priorityPicked) {
+    if (priorityPicked.length !== 0) {
       setActivePTab(true);
+    } else {
+      setActivePTab(false);
     }
     pSheetRef.current.close();
   };
   const handleReset = () => {
     setActivePTab(false);
-    setPriorityPicked();
+    setPriorityPicked([]);
   };
 
   return (
@@ -44,35 +53,28 @@ function TasksPriorityFilter({
       height={400}
       donePressed={() => handleSubmit()}
       resetPressed={() => handleReset()}
-      disabled={!priorityPicked ? true : false}
-      opacity={!priorityPicked ? 0.5 : 1}
+      disabled={priorityPicked.length === 0 ? true : false}
+      opacity={priorityPicked.length === 0 ? 0.5 : 1}
     >
       {section.map(({ id, label }, index) => {
         return (
           <View key={id} style={styles.rowWrapper}>
-            <TouchableOpacity onPress={() => setPriorityPicked(label)}>
+            <TouchableOpacity onPress={() => handlePriorityPicked(label)}>
               <View
                 style={[
                   styles.row,
-                  priorityPicked === "High" && label === priorityPicked
+                  priorityPicked.includes(label)
                     ? { backgroundColor: theme.filterActiveButton }
                     : { backgroundColor: theme.filterInActiveButton },
-                  priorityPicked === "Medium" && label === priorityPicked
-                    ? { backgroundColor: theme.filterActiveButton }
-                    : null,
-                  priorityPicked === "Low" && label === priorityPicked
-                    ? { backgroundColor: theme.filterActiveButton }
-                    : null,
                 ]}
               >
                 <Text
                   style={[
                     styles.rowLabel,
                     {
-                      color:
-                        label === priorityPicked
-                          ? theme.background
-                          : theme.color,
+                      color: priorityPicked.includes(label)
+                        ? theme.background
+                        : theme.color,
                     },
                   ]}
                 >

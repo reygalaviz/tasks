@@ -46,16 +46,17 @@ function TabBar({
   const [filterTab, setFilterTab] = useState("Today");
   const [colorsPicked, setColorsPicked] = useState([]);
   const [sortBy, setSortBy] = useState(0);
-  const [priorityPicked, setPriorityPicked] = useState();
+  const [priorityPicked, setPriorityPicked] = useState([]);
 
   const filterNotes = () => {
     const filtered = tasks.filter((task) => {
       const nameMatch = task.name.toLowerCase().includes(search.toLowerCase());
       const colorMatch =
         colorsPicked.length > 0 ? colorsPicked.includes(task.color) : task;
-      const priorityMatch = priorityPicked
-        ? priorityPicked === task.priority
-        : task;
+      const priorityMatch =
+        priorityPicked.length > 0
+          ? priorityPicked.includes(task.priority)
+          : task;
       return nameMatch && colorMatch && priorityMatch;
     });
     setFilteredNotes(filtered);
@@ -69,6 +70,25 @@ function TabBar({
   const filterModal = () => {
     filterSheetRef.current.open();
   };
+  const today = new Date().toISOString().slice(0, 10);
+  const tasksToday = filteredNotes.filter((item) => {
+    return (
+      item.date.slice(0, 10) === today &&
+      item.completed == false &&
+      item.trash == false
+    );
+  });
+
+  const futureTasks = filteredNotes.filter((item) => {
+    return (
+      item.date.slice(0, 10) !== today &&
+      item.completed == false &&
+      item.trash == false
+    );
+  });
+  const completedTasks = filteredNotes.filter((item) => {
+    return item.completed == true && item.trash == false;
+  });
 
   const colorSheetRef = useRef();
   const colorModal = () => {
@@ -103,6 +123,9 @@ function TabBar({
         setSelectedTab={setSelectedTab}
         filterModal={filterModal}
         filterSheetRef={filterSheetRef}
+        tasksToday={tasksToday}
+        futureTasks={futureTasks}
+        completedTasks={completedTasks}
       />
 
       <TasksColorFilter
@@ -229,7 +252,7 @@ function TabBar({
           search={search}
           setSearch={setSearch}
           tasks={tasks}
-          filteredNotes={filteredNotes}
+          tasksToday={tasksToday}
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
@@ -244,7 +267,7 @@ function TabBar({
           search={search}
           setSearch={setSearch}
           tasks={tasks}
-          filteredNotes={filteredNotes}
+          futureTasks={futureTasks}
           setTasks={setTasks}
           updateStatus={updateStatus}
           moveToTrashBin={moveToTrashBin}
@@ -256,7 +279,7 @@ function TabBar({
         <CompletedTasksScreen
           search={search}
           setSearch={setSearch}
-          filteredNotes={filteredNotes}
+          completedTasks={completedTasks}
           tasks={tasks}
           setTasks={setTasks}
           updateStatus={updateStatus}

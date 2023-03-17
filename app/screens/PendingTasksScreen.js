@@ -14,19 +14,16 @@ function PendingTasksScreen({
   moveToTrashBin,
   search,
   setSearch,
-  filteredNotes,
   deleteTask,
   onscroll,
   flatListRef,
+  tasksToday,
 }) {
   const theme = useDeviceTheme();
 
-  const today = new Date().toString().slice(0, 15);
-  const tasksToday = filteredNotes.filter((item) => {
-    return (
-      item.date === today && item.completed == false && item.trash == false
-    );
-  });
+  const sortedTasks = tasksToday.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -36,7 +33,7 @@ function PendingTasksScreen({
           <TaskFlatList
             flatListRef={flatListRef}
             oscroll={onscroll}
-            tasks={tasksToday}
+            tasks={sortedTasks}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => {
               return (

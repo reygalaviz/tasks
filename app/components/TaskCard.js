@@ -11,7 +11,7 @@ import constants from "../constants/constants";
 import { useNavigation } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
 import Priority from "./Priority";
-import { format } from "date-fns";
+import moment from "moment";
 import { useDeviceTheme } from "../theme/deviceTheme";
 function TaskCard({
   task,
@@ -112,7 +112,9 @@ function TaskCard({
                 size={constants.iconSize}
                 color="black"
               />
-              <Text style={styles.date}>{task.date}</Text>
+              <Text style={styles.date}>
+                {moment(task.date).format("dddd, MMMM D YYYY")}
+              </Text>
             </View>
             <View style={styles.timeContainer}>
               <View
@@ -126,7 +128,9 @@ function TaskCard({
                   size={constants.iconSize}
                   color="black"
                 />
-                <Text style={styles.date}>{task.time}</Text>
+                <Text style={styles.date}>
+                  {moment(task.time).format("LT")}
+                </Text>
               </View>
               <Priority priorityTitle={task.priority} />
             </View>

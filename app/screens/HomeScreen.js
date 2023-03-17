@@ -59,28 +59,27 @@ function HomeScreen({ navigation, ...props }) {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <View style={{ paddingHorizontal: constants.m }}>
-        <HeaderBar date>
-          <NotificationsButton
-            onOpenNotifications={() => console.log(props.tasks)}
-          />
-          <SettingsButton onOpenSettings={onOpenSettings} />
-        </HeaderBar>
-        <CustomInput
-          style={{ marginVertical: constants.s }}
-          textStyle={{
-            height: 20,
-            fontSize: constants.searchFontSize,
-            fontWeight: "600",
-          }}
-          placeholder="Search Notes"
-          value={search}
-          setValue={(value) => setSearch(value)}
-          numberOfLines={1}
-          maxLength={50}
-          multiline={false}
+      <HeaderBar date>
+        <NotificationsButton
+          onOpenNotifications={() => console.log(props.tasks)}
         />
-      </View>
+        <SettingsButton onOpenSettings={onOpenSettings} />
+      </HeaderBar>
+
+      <CustomInput
+        style={{ marginVertical: constants.s }}
+        textStyle={{
+          height: 20,
+          fontSize: constants.searchFontSize,
+          fontWeight: "600",
+        }}
+        placeholder="Search Notes"
+        value={search}
+        setValue={(value) => setSearch(value)}
+        numberOfLines={1}
+        maxLength={50}
+        multiline={false}
+      />
 
       <TabBar
         search={search}

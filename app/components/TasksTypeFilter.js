@@ -16,6 +16,9 @@ function TasksTypeFilter({
   filterSheetRef,
   filterTab,
   setFilterTab,
+  tasksToday,
+  futureTasks,
+  completedTasks,
 }) {
   const theme = useDeviceTheme();
 
@@ -78,6 +81,23 @@ function TasksTypeFilter({
                   {label}
                 </Text>
                 <View style={styles.rowSpacer} />
+                <Text
+                  style={[
+                    styles.rowLabel,
+                    {
+                      color:
+                        label === filterTab ? theme.background : theme.color,
+                    },
+                  ]}
+                >
+                  {label === "Today"
+                    ? tasksToday.length
+                    : label === "Upcoming"
+                    ? futureTasks.length
+                    : label === "Completed"
+                    ? completedTasks.length
+                    : null}
+                </Text>
               </View>
             </TouchableOpacity>
           </View>

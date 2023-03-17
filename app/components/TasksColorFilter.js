@@ -50,6 +50,8 @@ function TasksColorFilter({
     filterNotes();
     if (colorsPicked.length !== 0) {
       setActiveColorTab(true);
+    } else {
+      setActiveColorTab(false);
     }
     colorSheetRef.current.close();
   };

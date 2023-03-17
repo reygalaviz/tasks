@@ -12,14 +12,11 @@ function CompletedTasksScreen({
   moveToTrashBin,
   search,
   setSearch,
-  filteredNotes,
+  completedTasks,
   deleteTask,
 }) {
   const theme = useDeviceTheme();
 
-  const completedTasks = filteredNotes.filter((item) => {
-    return item.completed == true && item.trash == false;
-  });
   return (
     <View style={{ flex: 1 }}>
       {completedTasks.length === 0 && (

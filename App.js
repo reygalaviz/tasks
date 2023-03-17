@@ -17,13 +17,6 @@ import { colorScheme, theme } from "./app/theme/theme";
 export default function App() {
   const theme = useDeviceTheme();
 
-  if (theme.isLoading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
   return (
     <RecoilRoot>
       <BottomSheetModalProvider>

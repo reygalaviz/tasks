@@ -54,7 +54,9 @@ function CustomTimePicker({ time, setTime }) {
             fontWeight: "600",
           }}
         >
-          {format(time, "hh:mm a")}
+          {time && time instanceof Date && (
+            <Text>{time.toLocaleTimeString()}</Text>
+          )}
         </Text>
       </View>
       <DateTimePickerModal
@@ -62,6 +64,7 @@ function CustomTimePicker({ time, setTime }) {
         mode="time"
         onConfirm={handleConfirm}
         onCancel={hideTimePicker}
+        minimumDate={new Date()}
       />
     </Pressable>
   );

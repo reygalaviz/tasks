@@ -12,24 +12,22 @@ function UpcomingTasksScreen({
   moveToTrashBin,
   search,
   setSearch,
-  filteredNotes,
+  futureTasks,
   deleteTask,
 }) {
   const theme = useDeviceTheme();
 
-  const today = new Date().toString().slice(0, 15);
-  const futureTasks = filteredNotes.filter((item) => {
-    return (
-      item.date !== today && item.completed == false && item.trash == false
-    );
-  });
+  const sortedTasks = futureTasks.sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
   return (
     <View style={{ flex: 1 }}>
       {futureTasks.length === 0 && <NoTaskFound message="No upcoming tasks" />}
       {futureTasks && (
         <View style={{ flex: 1 }}>
           <TaskFlatList
-            tasks={futureTasks}
+            tasks={sortedTasks}
             renderItem={({ item }) => {
               return (
                 <TaskCard
