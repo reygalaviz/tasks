@@ -5,14 +5,12 @@ import TaskCard from "../components/TaskCard";
 import NoTaskFound from "../components/NoTaskFound";
 import { useDeviceTheme } from "../theme/deviceTheme";
 
-function CompletedTasksScreen({
+function BackLogScreen({
   tasks,
   setTasks,
   updateStatus,
   moveToTrashBin,
-  search,
-  setSearch,
-  completedTasks,
+  backlogTasks,
   deleteTask,
   scrollY,
 }) {
@@ -20,13 +18,11 @@ function CompletedTasksScreen({
 
   return (
     <View style={{ flex: 1 }}>
-      {completedTasks.length === 0 && (
-        <NoTaskFound message="No tasks have been completed" />
-      )}
-      {completedTasks && (
+      {backlogTasks.length === 0 && <NoTaskFound message="No tasks past due" />}
+      {backlogTasks && (
         <TaskFlatList
           scrollY={scrollY}
-          tasks={completedTasks}
+          tasks={backlogTasks}
           renderItem={({ item }) => {
             return (
               <TaskCard
@@ -43,4 +39,4 @@ function CompletedTasksScreen({
   );
 }
 
-export default CompletedTasksScreen;
+export default BackLogScreen;

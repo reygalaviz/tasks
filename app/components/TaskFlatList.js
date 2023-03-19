@@ -23,6 +23,7 @@ function TaskFlatList({
       contentContainerStyle={{
         flexGrow: 0,
         paddingTop: constants.flatListPaddingTop,
+        paddingBottom: constants.xl,
       }}
       renderItem={({ item, index }) => {
         if (renderItem) {

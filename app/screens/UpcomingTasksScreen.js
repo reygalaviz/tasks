@@ -26,20 +26,22 @@ function UpcomingTasksScreen({
     <View style={{ flex: 1 }}>
       {futureTasks.length === 0 && <NoTaskFound message="No upcoming tasks" />}
       {futureTasks && (
-        <TaskFlatList
-          scrollY={scrollY}
-          tasks={sortedTasks}
-          renderItem={({ item }) => {
-            return (
-              <TaskCard
-                task={item}
-                updateStatus={() => updateStatus(item.id)}
-                handleDelete={() => moveToTrashBin(item.id)}
-                pending
-              />
-            );
-          }}
-        />
+        <View style={{ flex: 1 }}>
+          <TaskFlatList
+            scrollY={scrollY}
+            tasks={sortedTasks}
+            renderItem={({ item }) => {
+              return (
+                <TaskCard
+                  task={item}
+                  updateStatus={() => updateStatus(item.id)}
+                  handleDelete={() => moveToTrashBin(item.id)}
+                  pending
+                />
+              );
+            }}
+          />
+        </View>
       )}
     </View>
   );

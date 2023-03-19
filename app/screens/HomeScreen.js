@@ -25,6 +25,7 @@ import { useDeviceTheme } from "../theme/deviceTheme";
 import PendingTasksScreen from "./PendingTasksScreen";
 import UpcomingTasksScreen from "./UpcomingTasksScreen";
 import CompletedTasksScreen from "./CompletedTasksScreen";
+import BackLogScreen from "./BackLogScreen";
 import FilterTabBar from "../components/FilterTabBar";
 
 function HomeScreen({ navigation, ...props }) {
@@ -55,9 +56,6 @@ function HomeScreen({ navigation, ...props }) {
     sheetSettingsRef.current?.expand();
   };
 
-  const handleScroll = (event) => {
-    console.log(event.nativeEvent.contentOffset.y);
-  };
   const flatListRef = useRef(null);
 
   const theme = useDeviceTheme();
@@ -74,7 +72,7 @@ function HomeScreen({ navigation, ...props }) {
       case 2:
         return <CompletedTasksScreen {...props} />;
       case 3:
-        return <CompletedTasksScreen {...props} />;
+        return <BackLogScreen {...props} />;
       default:
         return null;
     }
@@ -122,6 +120,10 @@ function HomeScreen({ navigation, ...props }) {
     return item.completed == true && item.trash == false;
   });
 
+  const backlogTasks = props.filteredNotes.filter((item) => {
+    return item.date.slice(0, 10) < today;
+  });
+
   //animated-header
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
 
@@ -144,7 +146,7 @@ function HomeScreen({ navigation, ...props }) {
   });
 
   const topComponentsOpacity = scrollY.interpolate({
-    inputRange: [0, headerHeight - 100],
+    inputRange: [0, headerHeight - 180],
     outputRange: [1, 0],
     extrapolate: "clamp",
   });
@@ -177,6 +179,8 @@ function HomeScreen({ navigation, ...props }) {
               futureTasks={futureTasks}
               completedTasks={completedTasks}
               tasksToday={tasksToday}
+              backlogTasks={backlogTasks}
+              tasks={props.tasks}
             />
           </Animated.View>
         </View>
@@ -190,7 +194,7 @@ function HomeScreen({ navigation, ...props }) {
               fontSize: constants.searchFontSize,
               fontWeight: "600",
             }}
-            placeholder="Search Notes"
+            placeholder="search tasks"
             value={search}
             setValue={(value) => setSearch(value)}
             numberOfLines={1}
@@ -217,6 +221,7 @@ function HomeScreen({ navigation, ...props }) {
         tasksToday: tasksToday,
         futureTasks: futureTasks,
         completedTasks: completedTasks,
+        backlogTasks: backlogTasks,
         scrollY: scrollY,
         flatListRef: flatListRef,
       })}

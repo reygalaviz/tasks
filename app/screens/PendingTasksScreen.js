@@ -30,22 +30,24 @@ function PendingTasksScreen({
     <View style={{ flex: 1 }}>
       {tasksToday.length === 0 && <NoTaskFound message="No tasks for today" />}
       {tasksToday && (
-        <TaskFlatList
-          flatListRef={flatListRef}
-          scrollY={scrollY}
-          tasks={sortedTasks}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            return (
-              <TaskCard
-                task={item}
-                updateStatus={() => updateStatus(item.id)}
-                handleDelete={() => moveToTrashBin(item.id)}
-                pending
-              />
-            );
-          }}
-        />
+        <View style={{ flex: 1 }}>
+          <TaskFlatList
+            flatListRef={flatListRef}
+            scrollY={scrollY}
+            tasks={sortedTasks}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => {
+              return (
+                <TaskCard
+                  task={item}
+                  updateStatus={() => updateStatus(item.id)}
+                  handleDelete={() => moveToTrashBin(item.id)}
+                  pending
+                />
+              );
+            }}
+          />
+        </View>
       )}
     </View>
   );

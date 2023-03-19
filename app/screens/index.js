@@ -8,6 +8,7 @@ import DeletedTasksScreen from "./DeletedTasksScreen";
 import CompletedTasksScreen from "./CompletedTasksScreen";
 import PendingTasksScreen from "./PendingTasksScreen";
 import UpcomingTasksScreen from "./UpcomingTasksScreen";
+import BackLogScreen from "./BackLogScreen";
 
 export {
   HomeScreen,
@@ -20,4 +21,5 @@ export {
   CompletedTasksScreen,
   PendingTasksScreen,
   UpcomingTasksScreen,
+  BackLogScreen,
 };

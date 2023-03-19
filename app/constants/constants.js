@@ -111,5 +111,10 @@ export default {
 
   //animated-header
   headerHeight: moderateScale(400),
-  flatListPaddingTop: moderateScale(410),
+  flatListPaddingTop: moderateScale(400),
+
+  //tab-bar
+  tabBarActiveFontSize: RFValue(15),
+  tabBarInActFontSize: RFValue(12),
+  tabText: RFValue(5),
 };

@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, FlatList } from "react-native";
 import HeaderBar from "../components/HeaderBar";
-import TaskFlatList from "../components/TaskFlatList";
 import constants from "../constants/constants";
 import TaskCard from "../components/TaskCard";
 import DeleteConfirm from "../components/DeleteConfirm";
 import { useDeviceTheme } from "../theme/deviceTheme";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function DeletedTasksScreen({ navigation, ...props }) {
   const theme = useDeviceTheme();
@@ -18,9 +18,24 @@ function DeletedTasksScreen({ navigation, ...props }) {
     rbSheetRef.current.open();
   };
   const handleDeleteTask = () => {
+    deleteTasks(deletedTotalTasks);
     rbSheetRef.current.close();
   };
   const handleCancelDelete = () => {
+    rbSheetRef.current.close();
+  };
+
+  const deletedTotalTasks = props.tasks.filter((item) => {
+    return item.trash == true;
+  });
+
+  const deleteTasks = async (tasks) => {
+    try {
+      const taskKeys = tasks.map((task) => `task:${task.id}`);
+      await AsyncStorage.multiRemove(taskKeys);
+    } catch (error) {
+      console.error(error);
+    }
     rbSheetRef.current.close();
   };
 
@@ -48,21 +63,19 @@ function DeletedTasksScreen({ navigation, ...props }) {
         </Pressable>
       </View>
       <View style={{ flex: 1 }}>
-        <TaskFlatList
-          tasks={props.tasks}
+        <FlatList
+          data={deletedTotalTasks}
           renderItem={({ item }) => {
-            if (item && item.trash == true) {
-              return (
-                <TaskCard
-                  task={item}
-                  updateStatus={props.updateStatus}
-                  moveToTrashBin={props.moveToTrashBin}
-                  handleDelete={() => props.deleteTask(item.id)}
-                  compDel
-                  selected
-                />
-              );
-            }
+            return (
+              <TaskCard
+                task={item}
+                updateStatus={props.updateStatus}
+                moveToTrashBin={props.moveToTrashBin}
+                handleDelete={() => props.deleteTask(item.id)}
+                compDel
+                selected
+              />
+            );
           }}
         />
       </View>

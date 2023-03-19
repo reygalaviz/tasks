@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import constants from "../constants/constants";
 import { useDeviceTheme } from "../theme/deviceTheme";
+import { Entypo } from "@expo/vector-icons";
 
 import TasksColorFilter from "./TasksColorFilter";
 import TasksPriorityFilter from "./TasksPriorityFilter";
@@ -26,7 +27,7 @@ function FilterTabBar({
 }) {
   const theme = useDeviceTheme();
 
-  const tabs = ["Colors", "Priority", "Sort By"];
+  const tabs = ["colors", "priority", "sort by"];
   const [activeColorTab, setActiveColorTab] = useState(0);
   const [activePTab, setActivePTab] = useState(0);
 
@@ -79,7 +80,11 @@ function FilterTabBar({
               key={index}
               style={[
                 styles.container,
-                { backgroundColor: theme.filterInActiveButton },
+                activeColorTab == true && index === 0
+                  ? { backgroundColor: theme.filterActiveButton }
+                  : activePTab == true && index === 1
+                  ? { backgroundColor: theme.filterActiveButton }
+                  : { backgroundColor: theme.filterInActiveButton },
               ]}
               onPress={() => {
                 {
@@ -93,7 +98,32 @@ function FilterTabBar({
                 }
               }}
             >
-              <Text style={[{ color: theme.color }]}>{tab}</Text>
+              <Text
+                style={[
+                  styles.text,
+                  {
+                    color:
+                      activeColorTab == true && index === 0
+                        ? theme.background
+                        : activePTab == true && index === 1
+                        ? theme.background
+                        : theme.color,
+                  },
+                ]}
+              >
+                {tab}
+              </Text>
+              <Entypo
+                name="chevron-small-down"
+                size={24}
+                color={
+                  activeColorTab == true && index === 0
+                    ? theme.background
+                    : activePTab == true && index === 1
+                    ? theme.background
+                    : theme.color
+                }
+              />
             </TouchableOpacity>
           );
         })}
@@ -138,6 +168,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "green",
+    flexDirection: "row",
+  },
+  text: {
+    fontWeight: "700",
   },
 });
 
