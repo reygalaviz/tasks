@@ -23,6 +23,7 @@ import TasksColorFilter from "./TasksColorFilter";
 import FilterModalButtons from "./FilterModalButtons";
 import TasksSortByFilter from "./TasksSortByFilter";
 import TasksPriorityFilter from "./TasksPriorityFilter";
+import FilterTabBar from "./FilterTabBar";
 
 export {
   TabBar,
@@ -50,4 +51,5 @@ export {
   FilterModalButtons,
   TasksSortByFilter,
   TasksPriorityFilter,
+  FilterTabBar,
 };

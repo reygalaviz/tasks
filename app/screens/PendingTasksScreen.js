@@ -18,6 +18,7 @@ function PendingTasksScreen({
   onscroll,
   flatListRef,
   tasksToday,
+  scrollY,
 }) {
   const theme = useDeviceTheme();
 
@@ -29,24 +30,22 @@ function PendingTasksScreen({
     <View style={{ flex: 1 }}>
       {tasksToday.length === 0 && <NoTaskFound message="No tasks for today" />}
       {tasksToday && (
-        <View style={{ flex: 1 }}>
-          <TaskFlatList
-            flatListRef={flatListRef}
-            oscroll={onscroll}
-            tasks={sortedTasks}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              return (
-                <TaskCard
-                  task={item}
-                  updateStatus={() => updateStatus(item.id)}
-                  handleDelete={() => moveToTrashBin(item.id)}
-                  pending
-                />
-              );
-            }}
-          />
-        </View>
+        <TaskFlatList
+          flatListRef={flatListRef}
+          scrollY={scrollY}
+          tasks={sortedTasks}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => {
+            return (
+              <TaskCard
+                task={item}
+                updateStatus={() => updateStatus(item.id)}
+                handleDelete={() => moveToTrashBin(item.id)}
+                pending
+              />
+            );
+          }}
+        />
       )}
     </View>
   );

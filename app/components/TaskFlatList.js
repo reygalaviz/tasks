@@ -1,23 +1,28 @@
 import React, { useRef } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList, Animated } from "react-native";
 import constants from "../constants/constants";
 
 function TaskFlatList({
   tasks,
   renderItem,
   keyExtractor,
-  onscroll,
+  scrollY,
   flatListRef,
 }) {
   return (
-    <FlatList
+    <Animated.FlatList
       ref={flatListRef}
-      onScroll={onscroll}
+      scrollEventThrottle={16}
+      onScroll={Animated.event(
+        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+        { useNativeDriver: true }
+      )}
       data={tasks}
       keyExtractor={keyExtractor}
       showsVerticalScrollIndicator={true}
       contentContainerStyle={{
-        paddingBottom: constants.l,
+        flexGrow: 0,
+        paddingTop: constants.flatListPaddingTop,
       }}
       renderItem={({ item, index }) => {
         if (renderItem) {

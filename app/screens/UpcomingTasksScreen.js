@@ -14,6 +14,7 @@ function UpcomingTasksScreen({
   setSearch,
   futureTasks,
   deleteTask,
+  scrollY,
 }) {
   const theme = useDeviceTheme();
 
@@ -25,21 +26,20 @@ function UpcomingTasksScreen({
     <View style={{ flex: 1 }}>
       {futureTasks.length === 0 && <NoTaskFound message="No upcoming tasks" />}
       {futureTasks && (
-        <View style={{ flex: 1 }}>
-          <TaskFlatList
-            tasks={sortedTasks}
-            renderItem={({ item }) => {
-              return (
-                <TaskCard
-                  task={item}
-                  updateStatus={() => updateStatus(item.id)}
-                  handleDelete={() => moveToTrashBin(item.id)}
-                  pending
-                />
-              );
-            }}
-          />
-        </View>
+        <TaskFlatList
+          scrollY={scrollY}
+          tasks={sortedTasks}
+          renderItem={({ item }) => {
+            return (
+              <TaskCard
+                task={item}
+                updateStatus={() => updateStatus(item.id)}
+                handleDelete={() => moveToTrashBin(item.id)}
+                pending
+              />
+            );
+          }}
+        />
       )}
     </View>
   );

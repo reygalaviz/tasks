@@ -102,9 +102,14 @@ export default {
   //filters
   filterButtonsHeight: verticalScale(50),
   filterModalHeight: verticalScale(600),
+  filterTabHeight: moderateScale(40),
 
   //color-bar
   circleSize: moderateScale(35),
   circleRing: moderateScale(2),
   spaceBetween: moderateScale(2),
+
+  //animated-header
+  headerHeight: moderateScale(400),
+  flatListPaddingTop: moderateScale(410),
 };

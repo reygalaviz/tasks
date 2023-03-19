@@ -1,26 +1,21 @@
 import React, { useContext } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  useColorScheme,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import constants from "../constants/constants";
 import moment from "moment";
 import { Entypo } from "@expo/vector-icons";
 import Greeting from "./Greeting";
 import { useDeviceTheme } from "../theme/deviceTheme";
+import Animated from "react-native-reanimated";
 
 function HeaderBar({
   children,
   back,
-  reminder,
+
   date,
   header,
   onBackPress,
+
   style,
-  greeting,
 }) {
   const theme = useDeviceTheme();
 
@@ -57,6 +52,7 @@ const styles = StyleSheet.create({
   container: {
     marginTop: constants.marginTopHeader,
     marginBottom: constants.s,
+    marginHorizontal: constants.m,
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",

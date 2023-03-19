@@ -64,7 +64,7 @@ function CustomTimePicker({ time, setTime }) {
         mode="time"
         onConfirm={handleConfirm}
         onCancel={hideTimePicker}
-        minimumDate={new Date()}
+        // minimumDate={new Date()}
       />
     </Pressable>
   );
