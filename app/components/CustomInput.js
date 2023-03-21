@@ -6,6 +6,7 @@ import {
   Text,
   KeyboardAvoidingView,
   useColorScheme,
+  TouchableOpacity,
 } from "react-native";
 import constants from "../constants/constants";
 import { useDeviceTheme } from "../theme/deviceTheme";
@@ -22,6 +23,7 @@ const CustomInput = ({
   numberOfLines,
   multiline = true,
   error,
+  children,
   onFocus = () => {},
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -62,6 +64,7 @@ const CustomInput = ({
           numberOfLines={numberOfLines}
           multiline={multiline}
         />
+        {children}
       </View>
       {error && (
         <Text
@@ -84,6 +87,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: constants.inputPaddingHor,
     paddingVertical: constants.inputPaddingVertical,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
 });
 

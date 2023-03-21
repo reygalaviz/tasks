@@ -21,6 +21,9 @@ function TaskCard({
   compDel,
   pending,
   handleDelete,
+  textStyle,
+  upcomingDateFormat,
+  todayDateFormat,
 }) {
   // const completedTasks = Object.values(task).filter(
   //   (task) => task.completed
@@ -34,16 +37,14 @@ function TaskCard({
   const onDetailsScreen = () => {
     navigation.navigate("DetailsScreen", { task });
   };
+
   const rightSwipeActions = () => {
     return (
       <Pressable
         onPress={handleDelete}
         style={{
-          borderRadius: 10,
+          borderRadius: 15,
           height: constants.cardHeight,
-          borderWidth: 1,
-          borderBottomWidth: 5,
-          borderColor: "#333333",
           backgroundColor: "#ED6A5E",
           justifyContent: "center",
           alignItems: "flex-end",
@@ -68,10 +69,7 @@ function TaskCard({
       <Pressable
         onPress={updateStatus}
         style={{
-          borderRadius: 10,
-          borderWidth: 1,
-          borderBottomWidth: 5,
-          borderColor: "#333333",
+          borderRadius: 15,
           height: constants.cardHeight,
           marginLeft: constants.m,
           marginRight: "-4%",
@@ -100,41 +98,68 @@ function TaskCard({
       >
         <View style={[styles.task, style, { backgroundColor: task.color }]}>
           <View style={[styles.titleContainer]}>
-            <Text style={[styles.title, {}]} numberOfLines={3}>
+            <Text style={[styles.title, textStyle]} numberOfLines={2}>
               {task.name}
             </Text>
           </View>
 
-          <View>
-            <View style={styles.dateContainer}>
-              <MaterialIcons
-                name="calendar-today"
-                size={constants.iconSize}
-                color="black"
-              />
-              <Text style={styles.date}>
-                {moment(task.date).format("dddd, MMMM D YYYY")}
-              </Text>
+          {todayDateFormat && (
+            <View>
+              <View style={styles.timeContainer}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Octicons
+                    name="calendar"
+                    size={constants.iconSize}
+                    color={theme.cardSubTextColor}
+                  />
+                  <Text
+                    style={[styles.date, { color: theme.cardSubTextColor }]}
+                  >
+                    Today at {moment(task.time).format("LT")}
+                  </Text>
+                </View>
+                <Priority priorityTitle={task.priority} />
+              </View>
             </View>
-            <View style={styles.timeContainer}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
+          )}
+
+          {upcomingDateFormat && (
+            <View>
+              <View style={styles.dateContainer}>
                 <MaterialIcons
-                  name="access-time"
+                  name="calendar-today"
                   size={constants.iconSize}
                   color="black"
                 />
                 <Text style={styles.date}>
-                  {moment(task.time).format("LT")}
+                  {moment(task.date).format("dddd, MMMM D YYYY")}
                 </Text>
               </View>
-              <Priority priorityTitle={task.priority} />
+              <View style={styles.timeContainer}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <MaterialIcons
+                    name="access-time"
+                    size={constants.iconSize}
+                    color="black"
+                  />
+                  <Text style={styles.date}>
+                    {moment(task.time).format("LT")}
+                  </Text>
+                </View>
+                <Priority priorityTitle={task.priority} />
+              </View>
             </View>
-          </View>
+          )}
         </View>
       </Pressable>
     );
@@ -201,7 +226,7 @@ const styles = StyleSheet.create({
   },
   timeContainer: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "space-between",
   },
   iconContainer: {

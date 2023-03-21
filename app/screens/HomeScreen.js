@@ -1,32 +1,13 @@
 import "react-native-gesture-handler";
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import {
-  View,
-  StyleSheet,
-  Platform,
-  StatusBar,
-  Dimensions,
-  Animated,
-  Text,
-} from "react-native";
-import HeaderBar from "../components/HeaderBar";
-import constants from "../constants/constants";
+import { View, StyleSheet } from "react-native";
 import AddTaskScreen from "./AddTaskScreen";
 import { useRecoilValue } from "recoil";
 import { todoItem } from "../recoil/atom/todoItem";
 import SettingsScreen from "./SettingsScreen";
-import NotificationsButton from "../components/NotificationsButton";
-import SettingsButton from "../components/SettingsButton";
 import AddTaskButton from "../components/AddTaskButton";
-import TabBar from "../components/TabBar";
-import CustomInput from "../components/CustomInput";
-import { theme } from "../theme/theme";
 import { useDeviceTheme } from "../theme/deviceTheme";
-import PendingTasksScreen from "./PendingTasksScreen";
-import UpcomingTasksScreen from "./UpcomingTasksScreen";
-import CompletedTasksScreen from "./CompletedTasksScreen";
-import BackLogScreen from "./BackLogScreen";
-import FilterTabBar from "../components/FilterTabBar";
+import AnimatedHeader from "../components/AnimatedHeader";
 
 function HomeScreen({ navigation, ...props }) {
   //add-screen-modal
@@ -46,9 +27,6 @@ function HomeScreen({ navigation, ...props }) {
   const todoList = useRecoilValue(todoItem);
   const [mode, setMode] = useState(false);
 
-  //search
-  const [search, setSearch] = useState("");
-
   //settings screen
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const sheetSettingsRef = useRef();
@@ -60,171 +38,18 @@ function HomeScreen({ navigation, ...props }) {
 
   const theme = useDeviceTheme();
 
-  //tab-info
-  const [activeTab, setActiveTab] = useState(0);
-
-  const renderScreen = (index, props) => {
-    switch (index) {
-      case 0:
-        return <PendingTasksScreen {...props} scrollY={props.scrollY} />;
-      case 1:
-        return <UpcomingTasksScreen {...props} />;
-      case 2:
-        return <CompletedTasksScreen {...props} />;
-      case 3:
-        return <BackLogScreen {...props} />;
-      default:
-        return null;
-    }
-  };
-
-  const [colorsPicked, setColorsPicked] = useState([]);
-  const [sortBy, setSortBy] = useState(0);
-  const [priorityPicked, setPriorityPicked] = useState([]);
-
-  const filterNotes = () => {
-    const filtered = props.tasks.filter((task) => {
-      const nameMatch = task.name.toLowerCase().includes(search.toLowerCase());
-      const colorMatch =
-        colorsPicked.length > 0 ? colorsPicked.includes(task.color) : task;
-      const priorityMatch =
-        priorityPicked.length > 0
-          ? priorityPicked.includes(task.priority)
-          : task;
-      return nameMatch && colorMatch && priorityMatch;
-    });
-    props.setFilteredNotes(filtered);
-  };
-
-  useEffect(() => {
-    filterNotes();
-  }, [search]);
-
-  const today = new Date().toISOString().slice(0, 10);
-  const tasksToday = props.filteredNotes.filter((item) => {
-    return (
-      item.date.slice(0, 10) === today &&
-      item.completed == false &&
-      item.trash == false
-    );
-  });
-
-  const futureTasks = props.filteredNotes.filter((item) => {
-    return (
-      item.date.slice(0, 10) !== today &&
-      item.completed == false &&
-      item.trash == false
-    );
-  });
-  const completedTasks = props.filteredNotes.filter((item) => {
-    return item.completed == true && item.trash == false;
-  });
-
-  const backlogTasks = props.filteredNotes.filter((item) => {
-    return item.date.slice(0, 10) < today;
-  });
-
-  //animated-header
-  const [scrollY, setScrollY] = useState(new Animated.Value(0));
-
-  const HEADER_HEIGHT = Platform.OS === "ios" ? constants.headerHeight : 120;
-  const STATUS_BAR_HEIGHT = StatusBar.currentHeight ?? 0; // Optional chaining is used to prevent errors if StatusBar.currentHeight is null
-  const headerHeight = HEADER_HEIGHT + STATUS_BAR_HEIGHT;
-
-  const scrollYClamped = Animated.diffClamp(scrollY, 0, headerHeight);
-
-  const headerTranslate = scrollY.interpolate({
-    inputRange: [0, headerHeight * 0.55],
-    outputRange: [0, -headerHeight * 0.55],
-    extrapolate: "clamp",
-  });
-
-  const headerOpacity = scrollY.interpolate({
-    inputRange: [0, headerHeight / 2, headerHeight],
-    outputRange: [1, 0.5, 0],
-    extrapolate: "clamp",
-  });
-
-  const topComponentsOpacity = scrollY.interpolate({
-    inputRange: [0, headerHeight - 180],
-    outputRange: [1, 0],
-    extrapolate: "clamp",
-  });
-
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <Animated.View
-        style={[
-          styles.header,
-          {
-            transform: [{ translateY: headerTranslate }],
-            height: headerHeight,
-            backgroundColor: theme.background,
-            // opacity: headerOpacity,
-          },
-        ]}
-      >
-        <View style={{ width: "100%" }}>
-          <Animated.View style={{ opacity: topComponentsOpacity }}>
-            <HeaderBar date>
-              <NotificationsButton
-                onOpenNotifications={() => console.log(props.tasks)}
-              />
-              <SettingsButton onOpenSettings={onOpenSettings} />
-            </HeaderBar>
-          </Animated.View>
-          <Animated.View style={{ opacity: topComponentsOpacity }}>
-            <TabBar
-              setActiveTabb={setActiveTab}
-              futureTasks={futureTasks}
-              completedTasks={completedTasks}
-              tasksToday={tasksToday}
-              backlogTasks={backlogTasks}
-              tasks={props.tasks}
-            />
-          </Animated.View>
-        </View>
-        <View style={{ paddingHorizontal: constants.m }}>
-          <CustomInput
-            style={{
-              marginVertical: constants.s,
-            }}
-            textStyle={{
-              height: 20,
-              fontSize: constants.searchFontSize,
-              fontWeight: "600",
-            }}
-            placeholder="search tasks"
-            value={search}
-            setValue={(value) => setSearch(value)}
-            numberOfLines={1}
-            maxLength={50}
-            multiline={false}
-          />
-        </View>
-
-        <FilterTabBar
-          tasks={props.tasks}
-          setTasks={props.setTasks}
-          filterNotes={filterNotes}
-          colorsPicked={colorsPicked}
-          setColorsPicked={setColorsPicked}
-          priorityPicked={priorityPicked}
-          setPriorityPicked={setPriorityPicked}
-          sortBy={sortBy}
-          setSortBy={setSortBy}
-        />
-      </Animated.View>
-      {renderScreen(activeTab, {
-        updateStatus: props.updateStatus,
-        moveToTrashBin: props.moveToTrashBin,
-        tasksToday: tasksToday,
-        futureTasks: futureTasks,
-        completedTasks: completedTasks,
-        backlogTasks: backlogTasks,
-        scrollY: scrollY,
-        flatListRef: flatListRef,
-      })}
+      <AnimatedHeader
+        tasks={props.tasks}
+        setTasks={props.setTasks}
+        filteredNotes={props.filteredNotes}
+        setFilteredNotes={props.setFilteredNotes}
+        updateStatus={props.updateStatus}
+        moveToTrashBin={props.moveToTrashBin}
+        flatListRef={flatListRef}
+        onOpenSettings={onOpenSettings}
+      />
 
       <SettingsScreen
         isOpen={isSettingsOpen}
@@ -248,14 +73,6 @@ function HomeScreen({ navigation, ...props }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 1000,
-    elevation: 1000,
   },
 });
 

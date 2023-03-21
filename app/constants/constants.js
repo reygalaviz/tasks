@@ -28,7 +28,7 @@ export default {
   gray: "#799496",
 
   //search-bar
-  searchFontSize: RFValue(13),
+  searchFontSize: RFValue(12),
 
   //priority-colors
   high: "#F76C5E",
@@ -42,7 +42,7 @@ export default {
   daygreeting: RFValue(30),
   header: RFValue(15),
   screenHeader: RFValue(20),
-  sectionHeader: RFValue(13),
+  sectionHeader: RFValue(18),
   sectionItem: RFValue(12),
 
   //header-bar
@@ -73,8 +73,8 @@ export default {
   cardTitle: RFValue(12),
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
-  cardHeight: 140,
-  iconSize: verticalScale(20),
+  cardHeight: moderateScale(120),
+  iconSize: moderateScale(15),
 
   //completed-task-card
   deletedCardHeight: verticalScale(115),
@@ -116,5 +116,10 @@ export default {
   //tab-bar
   tabBarActiveFontSize: RFValue(15),
   tabBarInActFontSize: RFValue(12),
-  tabText: RFValue(5),
+  tabBarText: RFValue(5),
+  filterTabBarFontSize: RFValue(11),
+
+  //deleted-tasks
+  messageFontSize: RFValue(11),
+  cancelFontSize: RFValue(14),
 };

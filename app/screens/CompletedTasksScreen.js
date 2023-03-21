@@ -24,20 +24,28 @@ function CompletedTasksScreen({
         <NoTaskFound message="No tasks have been completed" />
       )}
       {completedTasks && (
-        <TaskFlatList
-          scrollY={scrollY}
-          tasks={completedTasks}
-          renderItem={({ item }) => {
-            return (
-              <TaskCard
-                task={item}
-                updateStatus={() => updateStatus(item.id)}
-                handleDelete={() => moveToTrashBin(item.id)}
-                compDel
-              />
-            );
-          }}
-        />
+        <View style={{ flex: 1 }}>
+          <TaskFlatList
+            scrollY={scrollY}
+            tasks={completedTasks}
+            renderItem={({ item }) => {
+              return (
+                <TaskCard
+                  task={item}
+                  textStyle={{
+                    textDecorationLine: "line-through",
+                    textDecorationStyle: "solid",
+                    textDecorationColor: "black",
+                  }}
+                  updateStatus={() => updateStatus(item.id)}
+                  handleDelete={() => moveToTrashBin(item.id)}
+                  compDel
+                  showCompletedOn
+                />
+              );
+            }}
+          />
+        </View>
       )}
     </View>
   );

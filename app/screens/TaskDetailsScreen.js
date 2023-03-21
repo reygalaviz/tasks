@@ -44,7 +44,7 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
 
   const handleEditTask = (e) => {
     if (updatedTask === "") {
-      handleError("Please input title", "task");
+      handleError("Please provide a title", "task");
     } else {
       props.updateTask({
         ...task,
@@ -75,15 +75,13 @@ function TaskDetailsScreen({ navigation, route, ...props }) {
         handleDeleteTask={handleDeleteTask}
         message="Are you sure you want to delete task?"
       />
-      <HeaderBar
-        onBackPress={onBackPress}
-        back
-        header="Task Details"
-        style={{ paddingHorizontal: constants.m }}
-      >
+      <HeaderBar onBackPress={onBackPress} back header="Task Details">
         <DeleteButton onPress={() => modalVisible()} />
       </HeaderBar>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: constants.xl }}
+      >
         <View style={styles.form}>
           <CustomInput
             style={{ marginBottom: constants.s }}

@@ -23,10 +23,10 @@ function TasksColorFilter({
   const theme = useDeviceTheme();
 
   const colorFilter = [
-    { id: 1, label: "red", color: "#586BA4" },
-    { id: 2, label: "blue", color: "#F5DD90" },
-    { id: 3, label: "orange", color: "#84DCCF" },
-    { id: 4, label: "purple", color: "#C5EBC3" },
+    { id: 1, label: "red", color: "#fbf8cc" },
+    { id: 2, label: "blue", color: "#fde4cf" },
+    { id: 3, label: "orange", color: "#ffcfd2" },
+    { id: 4, label: "purple", color: "#f1c0e8" },
     { id: 5, label: "brown", color: "#799496" },
     { id: 6, label: "teal", color: "#F0EFF4" },
     { id: 7, label: "black", color: "#F79AD3" },
@@ -37,6 +37,23 @@ function TasksColorFilter({
     { id: 12, label: "violet", color: "#DAD4EF" },
     { id: 13, label: "lightgray", color: "#ECBEB4" },
     { id: 14, label: "lightblue", color: "#EBCFB2" },
+  ];
+
+  const cardColors = [
+    "#fbf8cc",
+    "#fde4cf",
+    "#ffcfd2",
+    "#f1c0e8",
+    "#cfbaf0",
+    "#a3c4f3",
+    "#90dbf4",
+    "#8eecf5",
+    "#98f5e1",
+    "#b9fbc0",
+    "#BE95C4",
+    "#DAD4EF",
+    "#ECBEB4",
+    "#EBCFB2",
   ];
 
   const handleColorChange = (color) => {

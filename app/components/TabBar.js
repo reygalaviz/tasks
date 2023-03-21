@@ -28,24 +28,24 @@ function TabBar({
   style,
   tasks,
 }) {
-  const today = new Date().toISOString().slice(0, 10);
+  const now = new Date();
+  const today = now.toLocaleDateString();
 
-  const totalTasksCreatedThatDay = tasks.filter((item) => {
-    const subtractDeletedTasks = item.trash == true && item.completed !== true;
-    const t = item.date.slice(0, 10) === today;
+  // Filter tasks for today
+  const tasksForToday = tasks.filter((item) => {
+    const taskDueDate = new Date(item.date);
+    const subtractDeletedTasks = item.trash;
+    const t = taskDueDate.toLocaleDateString() === today;
     return t - subtractDeletedTasks;
   });
 
-  const totalCompletedTasksThatDay = tasks.filter((item) => {
-    return item.completed == true;
-  });
-  const totalTasksForToday = totalTasksCreatedThatDay.length;
-  const tasksCompletedToday = totalCompletedTasksThatDay.filter(
-    (task) =>
-      (task.trash == true || task.trash == false) &&
-      task.completed == true &&
-      task.date.slice(0, 10) === new Date().toISOString().slice(0, 10)
-  ).length;
+  // Count completed tasks for today
+  const completedTasksForToday = tasksForToday.filter((item) => item.completed);
+  const numCompletedTasksForToday = completedTasksForToday.length;
+
+  // Display the result to the user
+  const numTasksForToday = tasksForToday.length;
+  const message = `${numCompletedTasksForToday} out of ${numTasksForToday} done today.`;
 
   const TABS = [
     {
@@ -103,9 +103,7 @@ function TabBar({
             styles.tabText,
             activeTab === 0 ? styles.activeTabText : styles.inActiveTabText,
           ]}
-        >
-          {tasksCompletedToday} out of {totalTasksForToday} tasks done today.
-        </Text>
+        ></Text>
       </TouchableOpacity>
       {TABS.slice(1).map((tab, index) => (
         <TouchableOpacity
@@ -131,7 +129,7 @@ function TabBar({
           >
             {tab.title}
           </Text>
-          <Text
+          {/* <Text
             style={[
               {
                 fontWeight: "500",
@@ -150,7 +148,7 @@ function TabBar({
               ? backlogTasks.length
               : null}{" "}
             tasks
-          </Text>
+          </Text> */}
         </TouchableOpacity>
       ))}
     </View>
@@ -183,7 +181,7 @@ const styles = StyleSheet.create({
     padding: constants.s,
   },
   tabText: {
-    fontSize: constants.tabText,
+    fontSize: constants.tabBarText,
     fontWeight: "700",
     color: "#222",
   },

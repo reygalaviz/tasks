@@ -20,20 +20,23 @@ function BackLogScreen({
     <View style={{ flex: 1 }}>
       {backlogTasks.length === 0 && <NoTaskFound message="No tasks past due" />}
       {backlogTasks && (
-        <TaskFlatList
-          scrollY={scrollY}
-          tasks={backlogTasks}
-          renderItem={({ item }) => {
-            return (
-              <TaskCard
-                task={item}
-                updateStatus={() => updateStatus(item.id)}
-                handleDelete={() => moveToTrashBin(item.id)}
-                compDel
-              />
-            );
-          }}
-        />
+        <View style={{ flex: 1 }}>
+          <TaskFlatList
+            scrollY={scrollY}
+            tasks={backlogTasks}
+            renderItem={({ item }) => {
+              return (
+                <TaskCard
+                  task={item}
+                  updateStatus={() => updateStatus(item.id)}
+                  handleDelete={() => moveToTrashBin(item.id)}
+                  compDel
+                  upcomingDateFormat
+                />
+              );
+            }}
+          />
+        </View>
       )}
     </View>
   );

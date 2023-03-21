@@ -172,6 +172,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: "700",
+    fontSize: constants.filterTabBarFontSize,
   },
 });
 

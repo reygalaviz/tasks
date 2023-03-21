@@ -7,16 +7,7 @@ import Greeting from "./Greeting";
 import { useDeviceTheme } from "../theme/deviceTheme";
 import Animated from "react-native-reanimated";
 
-function HeaderBar({
-  children,
-  back,
-
-  date,
-  header,
-  onBackPress,
-
-  style,
-}) {
+function HeaderBar({ children, back, date, header, onBackPress, style }) {
   const theme = useDeviceTheme();
 
   return (

@@ -4,7 +4,14 @@ import constants from "../constants/constants";
 
 function NoTaskFound({ message }) {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View
+      style={{
+        flexGrow: "100%",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        paddingTop: constants.flatListPaddingTop + 150,
+      }}
+    >
       <Text
         style={{
           fontSize: constants.sectionHeader,

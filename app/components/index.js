@@ -24,6 +24,8 @@ import FilterModalButtons from "./FilterModalButtons";
 import TasksSortByFilter from "./TasksSortByFilter";
 import TasksPriorityFilter from "./TasksPriorityFilter";
 import FilterTabBar from "./FilterTabBar";
+import OptionsButton from "./OptionsButton";
+import AnimatedHeader from "./AnimatedHeader";
 
 export {
   TabBar,
@@ -52,4 +54,6 @@ export {
   TasksSortByFilter,
   TasksPriorityFilter,
   FilterTabBar,
+  OptionsButton,
+  AnimatedHeader,
 };

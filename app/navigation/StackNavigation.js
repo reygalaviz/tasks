@@ -36,6 +36,22 @@ function StackNavigation(props) {
     }
   };
 
+  const deleteAllTasks = async () => {
+    try {
+      // Retrieve the current tasks array from AsyncStorage
+      const tasksString = await AsyncStorage.getItem("tasks");
+      const tasks = JSON.parse(tasksString) || [];
+
+      // Filter the array to keep only the tasks where trash == false
+      const filteredTasks = tasks.filter((task) => !task.trash);
+
+      // Store the filtered array back into AsyncStorage
+      await AsyncStorage.setItem("tasks", JSON.stringify(filteredTasks));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   useEffect(() => {
     const getTasks = async () => {
       try {
@@ -69,7 +85,11 @@ function StackNavigation(props) {
   const updateStatus = async (id) => {
     const allitems = tasks.map((item) => {
       if (item.id === id) {
-        return { ...item, completed: !item.completed };
+        return {
+          ...item,
+          completed: !item.completed,
+          completedOn: new Date().toISOString().slice(0, 10),
+        };
       }
       return item;
     });
@@ -130,6 +150,7 @@ function StackNavigation(props) {
               setTasks={setTasks}
               moveToTrashBin={moveToTrashBin}
               deleteTask={deleteTask}
+              deleteAllTasks={deleteAllTasks}
             />
           )}
         </Stack.Screen>

@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Pressable, Text, View, useColorScheme } from "react-native";
 import constants from "../constants/constants";
 import { format } from "date-fns";
@@ -8,7 +8,11 @@ import { useDeviceTheme } from "../theme/deviceTheme";
 function CustomTimePicker({ time, setTime }) {
   const theme = useDeviceTheme();
   const [timePickerVisible, setTimePickerVisible] = useState(false);
+  const [currentTime, setCurrentTime] = useState(time);
 
+  useEffect(() => {
+    setCurrentTime(time);
+  }, [time]);
   const showTimePicker = () => {
     setTimePickerVisible(true);
   };
@@ -19,6 +23,7 @@ function CustomTimePicker({ time, setTime }) {
 
   const handleConfirm = (time) => {
     setTime(time);
+    setCurrentTime(time);
     hideTimePicker();
   };
 
@@ -54,13 +59,14 @@ function CustomTimePicker({ time, setTime }) {
             fontWeight: "600",
           }}
         >
-          {time && time instanceof Date && (
-            <Text>{time.toLocaleTimeString()}</Text>
+          {currentTime && currentTime instanceof Date && (
+            <Text>{currentTime.toLocaleTimeString()}</Text>
           )}
         </Text>
       </View>
       <DateTimePickerModal
         isVisible={timePickerVisible}
+        date={currentTime}
         mode="time"
         onConfirm={handleConfirm}
         onCancel={hideTimePicker}

@@ -16,7 +16,7 @@ function DeleteConfirm({
   return (
     <RBottomSheet rbSheetRef={rbSheetRef}>
       <View style={styles.sheetHeader}>
-        <Text style={styles.sheetTitle}>{message}</Text>
+        <Text style={[styles.sheetTitle]}>{message}</Text>
       </View>
       <View style={styles.sheetBody}>
         <CustomButton
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   sheetTitle: {
+    marginBottom: constants.l,
     fontSize: constants.sectionHeader,
     fontWeight: "600",
   },

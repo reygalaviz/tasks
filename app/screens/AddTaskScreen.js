@@ -37,14 +37,14 @@ function AddTaskScreen({
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
   const [priority, setPriority] = useState("High");
-  const [color, setColor] = useState("#586BA4");
+  const [color, setColor] = useState("#fbf8cc");
 
   const onCancelPress = () => {
     setTask("");
     setTaskDetails("");
     setDate(new Date());
     setTime(new Date());
-    setPriority("High"), setColor("#586BA4");
+    setPriority("High"), setColor("#fbf8cc");
     sheetRef?.current?.close();
     Keyboard.dismiss();
     setError({});
@@ -57,7 +57,7 @@ function AddTaskScreen({
 
   const handleAddTask = () => {
     if (task === "") {
-      handleError("Please input title", "task");
+      handleError("Please provide a title", "task");
     } else {
       addTask({
         name: task,
@@ -68,12 +68,13 @@ function AddTaskScreen({
         color: color,
         completed: false,
         trash: false,
+        completedOn: null,
         id: Date.now(),
       });
       setTask("");
       setTaskDetails("");
       setPriority("High");
-      setColor("#586BA4");
+      setColor("#fbf8cc");
       setDate(new Date());
       setTime(new Date());
 

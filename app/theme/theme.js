@@ -15,6 +15,8 @@ export const light = {
   placeholderColor: "#909090",
   filterActiveButton: "black",
   filterInActiveButton: "#F5F5F5",
+  floatingBtnDelColor: "#F5F5F5",
+  cardSubTextColor: "#202020",
 };
 
 export const dark = {
@@ -32,4 +34,6 @@ export const dark = {
   placeholderColor: "#909090",
   filterActiveButton: "white",
   filterInActiveButton: "#302c27",
+  floatingBtnDelColor: "#302c27",
+  cardSubTextColor: "#202020",
 };
