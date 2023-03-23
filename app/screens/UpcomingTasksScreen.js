@@ -10,7 +10,7 @@ import {
 import TaskCard from "../components/TaskCard";
 import { useDeviceTheme } from "../theme/deviceTheme";
 import constants from "../constants/constants";
-import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
+import { Octicons } from "@expo/vector-icons";
 import Priority from "../components/Priority";
 import moment from "moment";
 import "moment-timezone";
@@ -65,9 +65,67 @@ function UpcomingTasksScreen({
         .map((task) => moment(task.date).format("MMMM"))
     );
     const monthSections = Array.from(taskMonths).map((month) => {
-      const tasksForMonth = upcomingTasks.filter((task) => {
-        const taskDueDate = moment(task.date);
+      const tasksForMonth = upcomingTasks
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .filter((task) => {
+          const taskDueDate = moment(task.date);
 
+          if (taskDueDate.isSame(tomorrow, "day")) {
+            return false;
+          }
+          // Exclude tasks that are this week
+          if (taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]")) {
+            return false;
+          }
+          // Exclude tasks that are next week
+          if (
+            taskDueDate.isBetween(startOfNextWeek, endOfNextWeek, "day", "[]")
+          ) {
+            return false;
+          }
+          return moment(task.date).format("MMMM") === month;
+        });
+      return { title: month, data: tasksForMonth };
+    });
+    // tomorrow tasks
+    const tomorrowTasks = upcomingTasks
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((task) => {
+        const taskDueDate = moment(task.date);
+        return taskDueDate.isSame(tomorrow, "day");
+      });
+
+    //this week tasks
+    const thisWeekTasks = upcomingTasks
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((task) => {
+        const taskDueDate = moment(task.date);
+        // Exclude tasks that are due tomorrow
+        if (taskDueDate.isSame(tomorrow, "day")) {
+          return false;
+        }
+        return taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]");
+      });
+
+    //next week tasks
+    const nextWeekTasks = upcomingTasks
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((task) => {
+        const taskDueDate = moment(task.date);
+        return taskDueDate.isBetween(
+          startOfNextWeek,
+          endOfNextWeek,
+          "day",
+          "[]"
+        );
+      });
+
+    //this month tasks
+    const thisMonthTasks = upcomingTasks
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((task) => {
+        const taskDueDate = moment(task.date);
+        // Exclude tasks that are due tomorrow
         if (taskDueDate.isSame(tomorrow, "day")) {
           return false;
         }
@@ -81,51 +139,8 @@ function UpcomingTasksScreen({
         ) {
           return false;
         }
-        return moment(task.date).format("MMMM") === month;
+        return taskDueDate.isSame(moment(), "month");
       });
-      return { title: month, data: tasksForMonth };
-    });
-    // tomorrow tasks
-    const tomorrowTasks = upcomingTasks
-      .sort((a, b) => new Date(a.date) - new Date(b.date))
-      .filter((task) => {
-        const taskDueDate = moment(task.date);
-        return taskDueDate.isSame(tomorrow, "day");
-      });
-
-    //this week tasks
-    const thisWeekTasks = upcomingTasks.filter((task) => {
-      const taskDueDate = moment(task.date);
-      // Exclude tasks that are due tomorrow
-      if (taskDueDate.isSame(tomorrow, "day")) {
-        return false;
-      }
-      return taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]");
-    });
-
-    //next week tasks
-    const nextWeekTasks = upcomingTasks.filter((task) => {
-      const taskDueDate = moment(task.date);
-      return taskDueDate.isBetween(startOfNextWeek, endOfNextWeek, "day", "[]");
-    });
-
-    //this month tasks
-    const thisMonthTasks = upcomingTasks.filter((task) => {
-      const taskDueDate = moment(task.date);
-      // Exclude tasks that are due tomorrow
-      if (taskDueDate.isSame(tomorrow, "day")) {
-        return false;
-      }
-      // Exclude tasks that are this week
-      if (taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]")) {
-        return false;
-      }
-      // Exclude tasks that are next week
-      if (taskDueDate.isBetween(startOfNextWeek, endOfNextWeek, "day", "[]")) {
-        return false;
-      }
-      return taskDueDate.isSame(moment(), "month");
-    });
 
     setTomorrowTasks(tomorrowTasks);
     setThisWeekTasks(thisWeekTasks);
@@ -184,23 +199,23 @@ function UpcomingTasksScreen({
         handleDelete={() => moveToTrashBin(item.id)}
         pending
       >
-        <View>
-          <View style={styles.timeContainer}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Octicons
-                name="calendar"
-                size={constants.iconSize}
-                color={theme.cardSubTextColor}
-              />
-              <Text style={styles.date}>{formattedDate}</Text>
-            </View>
-            <Priority priorityTitle={item.priority} />
+        <View style={styles.timeContainer}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Octicons
+              name="calendar"
+              size={constants.iconSize}
+              color={"#302c27"}
+            />
+            <Text style={[styles.date, { color: "#302c27" }]}>
+              {formattedDate}
+            </Text>
           </View>
+          <Priority priorityTitle={item.priority} />
         </View>
       </TaskCard>
     );

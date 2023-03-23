@@ -78,8 +78,6 @@ function AddTaskScreen({
       setDate(new Date());
       setTime(new Date());
 
-      // const newIndex = tasks.findIndex((item) => item.id === task.id);
-      // flatListRef.current.scrollToIndex({ index: newIndex, animated: true });
       sheetRef?.current?.close();
     }
   };

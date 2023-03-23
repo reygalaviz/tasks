@@ -3,7 +3,7 @@ import { Pressable, Text, View, useColorScheme } from "react-native";
 import constants from "../constants/constants";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
-import { format } from "date-fns";
+import moment from "moment";
 import { useDeviceTheme } from "../theme/deviceTheme";
 function CustomDatePicker({ date, setDate }) {
   const [datePickerVisible, setDatePickerVisible] = useState(false);
@@ -51,11 +51,14 @@ function CustomDatePicker({ date, setDate }) {
             fontWeight: "600",
           }}
         >
-          {date && date instanceof Date && <Text>{date.toDateString()}</Text>}
+          {date && date instanceof Date && (
+            <Text>{moment(date).format("ddd MMM D YYYY")}</Text>
+          )}
         </Text>
       </View>
       <DateTimePickerModal
         isVisible={datePickerVisible}
+        date={date}
         mode="date"
         minimumDate={new Date()}
         maximumDate={new Date("2300-06-15")}

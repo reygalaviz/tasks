@@ -1,17 +1,10 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  useColorScheme,
-} from "react-native";
-import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Ionicons, Octicons } from "@expo/vector-icons";
 import constants from "../constants/constants";
 import { useNavigation } from "@react-navigation/native";
 import { Swipeable } from "react-native-gesture-handler";
-import Priority from "./Priority";
-import moment from "moment";
+
 import { useDeviceTheme } from "../theme/deviceTheme";
 function TaskCard({
   task,
@@ -22,16 +15,9 @@ function TaskCard({
   pending,
   handleDelete,
   textStyle,
-  upcomingDateFormat,
   children,
-  todayDateFormat,
+  numberOfLines = 2,
 }) {
-  // const completedTasks = Object.values(task).filter(
-  //   (task) => task.completed
-  // ).length;
-  // const remainingTasks = Object.values(task).length - completedTasks;
-  // format(task.time, "HH:mm a")
-
   const navigation = useNavigation();
   const theme = useDeviceTheme();
 
@@ -99,35 +85,13 @@ function TaskCard({
       >
         <View style={[styles.task, style, { backgroundColor: task.color }]}>
           <View style={[styles.titleContainer]}>
-            <Text style={[styles.title, textStyle]} numberOfLines={2}>
+            <Text
+              style={[styles.title, textStyle]}
+              numberOfLines={numberOfLines}
+            >
               {task.name}
             </Text>
           </View>
-
-          {todayDateFormat && (
-            <View>
-              <View style={styles.timeContainer}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Octicons
-                    name="calendar"
-                    size={constants.iconSize}
-                    color={theme.cardSubTextColor}
-                  />
-                  <Text
-                    style={[styles.date, { color: theme.cardSubTextColor }]}
-                  >
-                    Today at {moment(task.time).format("LT")}
-                  </Text>
-                </View>
-                <Priority priorityTitle={task.priority} />
-              </View>
-            </View>
-          )}
 
           {children}
         </View>
@@ -182,22 +146,6 @@ const styles = StyleSheet.create({
     fontSize: constants.cardTitle,
     fontWeight: "bold",
     width: "100%",
-  },
-  dateContainer: {
-    width: "75%",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: constants.xs,
-  },
-  date: {
-    fontSize: constants.cardDate,
-    fontWeight: "600",
-    marginLeft: constants.s,
-  },
-  timeContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
 });
 

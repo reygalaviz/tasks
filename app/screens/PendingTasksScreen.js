@@ -1,22 +1,17 @@
 import React, { useRef, useEffect } from "react";
-import { View, Text } from "react-native";
-import { color } from "react-native-reanimated";
+import { View, Text, StyleSheet } from "react-native";
 import NoTaskFound from "../components/NoTaskFound";
 import TaskCard from "../components/TaskCard";
 import TaskFlatList from "../components/TaskFlatList";
+import Priority from "../components/Priority";
 import constants from "../constants/constants";
 import { useDeviceTheme } from "../theme/deviceTheme";
+import { Octicons } from "@expo/vector-icons";
 import moment from "moment";
 
 function PendingTasksScreen({
-  tasks,
-  setTasks,
   updateStatus,
   moveToTrashBin,
-  search,
-  setSearch,
-  deleteTask,
-  onscroll,
   flatListRef,
   todayTasks,
   scrollY,
@@ -46,8 +41,26 @@ function PendingTasksScreen({
                     updateStatus={() => updateStatus(item.id)}
                     handleDelete={() => moveToTrashBin(item.id)}
                     pending
-                    todayDateFormat
-                  />
+                  >
+                    <View style={styles.timeContainer}>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Octicons
+                          name="calendar"
+                          size={constants.iconSize}
+                          color={"#302c27"}
+                        />
+                        <Text style={[styles.date, { color: "#302c27" }]}>
+                          Today at {moment(item.time).format("LT")}
+                        </Text>
+                      </View>
+                      <Priority priorityTitle={item.priority} />
+                    </View>
+                  </TaskCard>
                 );
               }}
             />
@@ -57,5 +70,34 @@ function PendingTasksScreen({
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+  },
+  title: {
+    fontSize: constants.cardTitle,
+    fontWeight: "bold",
+    width: "100%",
+  },
+  dateContainer: {
+    width: "75%",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: constants.xs,
+  },
+  date: {
+    fontSize: constants.cardDate,
+    fontWeight: "600",
+    marginLeft: constants.s,
+  },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+});
 
 export default PendingTasksScreen;

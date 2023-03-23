@@ -1,18 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Pressable, Text, View, useColorScheme } from "react-native";
 import constants from "../constants/constants";
-import { format } from "date-fns";
+import moment from "moment";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Feather } from "@expo/vector-icons";
 import { useDeviceTheme } from "../theme/deviceTheme";
 function CustomTimePicker({ time, setTime }) {
   const theme = useDeviceTheme();
-  const [timePickerVisible, setTimePickerVisible] = useState(false);
-  const [currentTime, setCurrentTime] = useState(time);
+  const [currenTime, setCurrentTime] = useState(new Date()); // add this state variable
 
-  useEffect(() => {
-    setCurrentTime(time);
-  }, [time]);
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
   const showTimePicker = () => {
     setTimePickerVisible(true);
   };
@@ -22,10 +19,18 @@ function CustomTimePicker({ time, setTime }) {
   };
 
   const handleConfirm = (time) => {
+    time.setSeconds(0);
     setTime(time);
-    setCurrentTime(time);
     hideTimePicker();
   };
+
+  useEffect(() => {
+    setCurrentTime(new Date()); // update the current date every second
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <Pressable
@@ -59,14 +64,14 @@ function CustomTimePicker({ time, setTime }) {
             fontWeight: "600",
           }}
         >
-          {currentTime && currentTime instanceof Date && (
-            <Text>{currentTime.toLocaleTimeString()}</Text>
+          {time && time instanceof Date && (
+            <Text>{moment(time || currenTime).format(" h:mm a")}</Text>
           )}
         </Text>
       </View>
       <DateTimePickerModal
         isVisible={timePickerVisible}
-        date={currentTime}
+        date={time && currenTime}
         mode="time"
         onConfirm={handleConfirm}
         onCancel={hideTimePicker}

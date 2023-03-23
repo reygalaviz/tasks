@@ -1,19 +1,17 @@
 import React from "react";
-import { View, FlatList, Text, Pressable } from "react-native";
+import { View, FlatList, Text, Pressable, StyleSheet } from "react-native";
+import constants from "../constants/constants";
 import TaskFlatList from "../components/TaskFlatList";
 import TaskCard from "../components/TaskCard";
 import NoTaskFound from "../components/NoTaskFound";
 import { useDeviceTheme } from "../theme/deviceTheme";
+import Priority from "../components/Priority";
+import moment from "moment";
 
 function CompletedTasksScreen({
-  tasks,
-  setTasks,
   updateStatus,
   moveToTrashBin,
-  search,
-  setSearch,
   completedTasks,
-  deleteTask,
   scrollY,
 }) {
   const theme = useDeviceTheme();
@@ -39,9 +37,25 @@ function CompletedTasksScreen({
                   }}
                   updateStatus={() => updateStatus(item.id)}
                   handleDelete={() => moveToTrashBin(item.id)}
+                  numberOfLines={1}
+                  style={{ height: constants.completedCardHeight }}
                   compDel
-                  showCompletedOn
-                />
+                >
+                  <View style={styles.timeContainer}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Text style={styles.date}>
+                        Marked completed on{"\n"}
+                        {moment(item.completedOn).format("LL")}
+                      </Text>
+                    </View>
+                    <Priority priorityTitle={item.priority} />
+                  </View>
+                </TaskCard>
               );
             }}
           />
@@ -50,5 +64,19 @@ function CompletedTasksScreen({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  date: {
+    fontSize: constants.cardDate,
+    fontWeight: "600",
+    width: "85%",
+    color: "#302c27",
+  },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+});
 
 export default CompletedTasksScreen;

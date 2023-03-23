@@ -74,6 +74,7 @@ export default {
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
   cardHeight: moderateScale(120),
+  completedCardHeight: moderateScale(100),
   iconSize: moderateScale(15),
 
   //completed-task-card
