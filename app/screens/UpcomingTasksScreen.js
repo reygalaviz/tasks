@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Pressable, SectionList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  SectionList,
+  StyleSheet,
+  Animated,
+} from "react-native";
 import TaskCard from "../components/TaskCard";
 import { useDeviceTheme } from "../theme/deviceTheme";
 import constants from "../constants/constants";
+import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
+import Priority from "../components/Priority";
 import moment from "moment";
+const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
 function UpcomingTasksScreen({
   tasks,
@@ -11,6 +21,7 @@ function UpcomingTasksScreen({
   updateStatus,
   moveToTrashBin,
   upcomingTasks,
+  scrollY,
 }) {
   const theme = useDeviceTheme();
 
@@ -18,6 +29,7 @@ function UpcomingTasksScreen({
   const [thisWeekTasks, setThisWeekTasks] = useState([]);
   const [nextWeekTasks, setNextWeekTasks] = useState([]);
   const [thisMonthTasks, setThisMonthTasks] = useState([]);
+  const [monthSections, setMonthSections] = useState([]);
 
   useEffect(() => {
     const today = new Date();
@@ -34,50 +46,49 @@ function UpcomingTasksScreen({
     const endOfNextWeek = moment().add(1, "weeks").endOf("isoWeek");
 
     const tomorrow = new Date(
-      monday.getFullYear(),
-      monday.getMonth(),
-      monday.getDate() + 1
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 1
     );
 
+    // generate sections for each month with upcoming tasks
+    const taskMonths = new Set(
+      upcomingTasks
+
+        .filter(
+          (task) => moment(task.date).format("M") !== moment(today).format("M")
+        )
+        .map((task) => moment(task.date).format("MMMM"))
+    );
+    const monthSections = Array.from(taskMonths)
+    .map((month) => {
+      const tasksForMonth = upcomingTasks.filter(
+        (task) => moment(task.date).format("MMMM") === month
+      );
+      return { title: month, data: tasksForMonth };
+    });
+
     // tomorrow tasks
-    const tomorrowTasks = upcomingTasks
-      .sort((a, b) => new Date(a.time) - new Date(b.time))
-      .filter((task) => {
-        const taskDueDate = moment(task.date);
-        return taskDueDate.isSame(tomorrow, "day");
-      });
+    const tomorrowTasks = upcomingTasks.filter((task) => {
+      const taskDueDate = moment(task.date);
+      return taskDueDate.isSame(tomorrow, "day");
+    });
 
     //this week tasks
-
-    const thisWeekTasks = upcomingTasks
-      .sort(
-        (a, b) =>
-          new Date(a.date).toLocaleString() - new Date(b.date).toLocaleString()
-      )
-      .filter((task) => {
-        const taskDueDate = moment(task.date);
-        // Exclude tasks that are due tomorrow
-        if (taskDueDate.isSame(tomorrow, "day")) {
-          return false;
-        }
-        return taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]");
-      });
+    const thisWeekTasks = upcomingTasks.filter((task) => {
+      const taskDueDate = moment(task.date);
+      // Exclude tasks that are due tomorrow
+      if (taskDueDate.isSame(tomorrow, "day")) {
+        return false;
+      }
+      return taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]");
+    });
 
     //next week tasks
-    const nextWeekTasks = upcomingTasks
-      .sort(
-        (a, b) =>
-          new Date(a.date).toLocaleString() - new Date(b.date).toLocaleString()
-      )
-      .filter((task) => {
-        const taskDueDate = moment(task.date);
-        return taskDueDate.isBetween(
-          startOfNextWeek,
-          endOfNextWeek,
-          "day",
-          "[]"
-        );
-      });
+    const nextWeekTasks = upcomingTasks.filter((task) => {
+      const taskDueDate = moment(task.date);
+      return taskDueDate.isBetween(startOfNextWeek, endOfNextWeek, "day", "[]");
+    });
 
     //this month tasks
     const thisMonthTasks = upcomingTasks.filter((task) => {
@@ -101,6 +112,7 @@ function UpcomingTasksScreen({
     setThisWeekTasks(thisWeekTasks);
     setNextWeekTasks(nextWeekTasks);
     setThisMonthTasks(thisMonthTasks);
+    setMonthSections(monthSections);
   }, [upcomingTasks]);
 
   let sections = [
@@ -108,6 +120,7 @@ function UpcomingTasksScreen({
     { title: "This Week", data: thisWeekTasks },
     { title: "Next Week", data: nextWeekTasks },
     { title: "This Month", data: thisMonthTasks },
+    ...monthSections,
   ];
   // Remove "Tomorrow" section if there are no tasks for tomorrow
   if (tomorrowTasks.length === 0) {
@@ -124,7 +137,24 @@ function UpcomingTasksScreen({
   }
 
   // Render individual task item
-  const renderTaskItem = ({ item }) => {
+  const renderTaskItem = ({ item, section }) => {
+    let formattedDate = "";
+    if (item.date) {
+      const taskDueDate = new Date(item.date);
+      switch (section.title) {
+        case "Tomorrow":
+          formattedDate = taskDueDate.toLocaleString();
+          break;
+        case "This Week":
+        case "Next Week":
+        case "This Month":
+          formattedDate = taskDueDate.toLocaleDateString();
+          break;
+        default:
+          formattedDate = taskDueDate.toLocaleDateString();
+          break;
+      }
+    }
     return (
       <TaskCard
         key={item.id}
@@ -133,8 +163,26 @@ function UpcomingTasksScreen({
         updateStatus={() => updateStatus(item.id)}
         handleDelete={() => moveToTrashBin(item.id)}
         pending
-        upcomingDateFormat
-      />
+      >
+        <View>
+          <View style={styles.timeContainer}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Octicons
+                name="calendar"
+                size={constants.iconSize}
+                color={theme.cardSubTextColor}
+              />
+              <Text style={styles.date}>{formattedDate}</Text>
+            </View>
+            <Priority priorityTitle={item.priority} />
+          </View>
+        </View>
+      </TaskCard>
     );
   };
   // Render section header
@@ -153,7 +201,16 @@ function UpcomingTasksScreen({
 
   return (
     <View style={styles.container}>
-      <SectionList
+      <AnimatedSectionList
+        contentContainerStyle={{
+          paddingTop: constants.flatListPaddingTop,
+          paddingBottom: constants.xl,
+        }}
+        scrollEventThrottle={500}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
         keyExtractor={(item, index) => item + index}
         sections={sections}
         renderItem={renderTaskItem}
@@ -166,8 +223,6 @@ function UpcomingTasksScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: constants.flatListPaddingTop,
-    paddingBottom: constants.xl,
   },
   sectionContainer: {
     paddingHorizontal: constants.m,
@@ -176,6 +231,32 @@ const styles = StyleSheet.create({
   sectionText: {
     fontSize: constants.sectionHeader,
     fontWeight: "700",
+  },
+  titleContainer: {
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    flexWrap: "wrap",
+  },
+  title: {
+    fontSize: constants.cardTitle,
+    fontWeight: "bold",
+    width: "100%",
+  },
+  dateContainer: {
+    width: "75%",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: constants.xs,
+  },
+  date: {
+    fontSize: constants.cardDate,
+    fontWeight: "600",
+    marginLeft: constants.s,
+  },
+  timeContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 });
 

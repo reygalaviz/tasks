@@ -41,8 +41,8 @@ export default {
   //font-size
   daygreeting: RFValue(30),
   header: RFValue(15),
-  screenHeader: RFValue(20),
-  sectionHeader: RFValue(18),
+  screenHeader: RFValue(22),
+  sectionHeader: RFValue(16),
   sectionItem: RFValue(12),
 
   //header-bar
@@ -62,15 +62,15 @@ export default {
   inputPaddingHor: horizontalScale(20),
 
   //add-task
-  taskFont: RFValue(14),
-  taskDetailsFont: RFValue(12),
+  taskFont: RFValue(16),
+  taskDetailsFont: RFValue(16),
   taskFontDateTime: RFValue(12),
   errorFontSize: RFValue(11),
   buttonsHeight: verticalScale(50),
   buttonTextSize: RFValue(13),
 
   //task-card
-  cardTitle: RFValue(12),
+  cardTitle: RFValue(18),
   cardDate: RFValue(12),
   cardPriority: RFValue(12),
   cardHeight: moderateScale(120),

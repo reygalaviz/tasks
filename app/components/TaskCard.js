@@ -23,6 +23,7 @@ function TaskCard({
   handleDelete,
   textStyle,
   upcomingDateFormat,
+  children,
   todayDateFormat,
 }) {
   // const completedTasks = Object.values(task).filter(
@@ -128,38 +129,7 @@ function TaskCard({
             </View>
           )}
 
-          {upcomingDateFormat && (
-            <View>
-              <View style={styles.dateContainer}>
-                <MaterialIcons
-                  name="calendar-today"
-                  size={constants.iconSize}
-                  color="black"
-                />
-                <Text style={styles.date}>
-                  {moment(task.date).format("dddd, MMMM D YYYY")}
-                </Text>
-              </View>
-              <View style={styles.timeContainer}>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <MaterialIcons
-                    name="access-time"
-                    size={constants.iconSize}
-                    color="black"
-                  />
-                  <Text style={styles.date}>
-                    {moment(task.time).format("LT")}
-                  </Text>
-                </View>
-                <Priority priorityTitle={task.priority} />
-              </View>
-            </View>
-          )}
+          {children}
         </View>
       </Pressable>
     );
@@ -228,16 +198,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  iconContainer: {
-    backgroundColor: "#ED6A5E",
-    width: constants.cardHeight,
-    height: constants.cardHeight,
-    position: "absolute",
-    right: constants.m,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
   },
 });
 

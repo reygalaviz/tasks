@@ -37,15 +37,10 @@ function AnimatedHeader({
   const theme = useDeviceTheme();
 
   const [search, setSearch] = useState("");
-  const inputRef = useRef(null);
-
   const handleChangeText = useCallback((value) => {
     setSearch(value);
   }, []);
-  function handleClearText() {
-    setSearch("");
-    inputRef.current.focus();
-  }
+
   const [activeTab, setActiveTab] = useState(0);
 
   const renderScreen = (index, props) => {
@@ -95,11 +90,12 @@ function AnimatedHeader({
 
     const filteredTodayTasks = filteredNotes.filter((task) => {
       const taskDueDate = new Date(task.date);
-      return (
-        taskDueDate.toLocaleDateString() <= today &&
-        !task.completed &&
-        !task.trash
-      );
+      const isToday =
+        taskDueDate.getDate() === now.getDate() &&
+        taskDueDate.getMonth() === now.getMonth() &&
+        taskDueDate.getFullYear() === now.getFullYear();
+      const isLate = taskDueDate.getTime() < now.getTime();
+      return isToday && !task.completed && !task.trash;
     });
 
     // Filter out upcoming tasks and set them to the upcomingTasks state
@@ -116,7 +112,7 @@ function AnimatedHeader({
     const filteredBacklogTasks = filteredNotes.filter((task) => {
       const taskDueDate = new Date(task.date);
       return (
-        taskDueDate.toLocaleDateString() > today &&
+        taskDueDate.toLocaleDateString() < today &&
         !task.completed &&
         !task.trash
       );
@@ -138,6 +134,7 @@ function AnimatedHeader({
   const headerHeight = HEADER_HEIGHT + STATUS_BAR_HEIGHT;
 
   const scrollYClamped = Animated.diffClamp(scrollY, 0, headerHeight);
+  const THRESHOLD = headerHeight / 2;
 
   const headerTranslate = scrollY.interpolate({
     inputRange: [0, headerHeight * 0.55],
@@ -205,20 +202,7 @@ function AnimatedHeader({
             numberOfLines={1}
             maxLength={50}
             multiline={false}
-          >
-            <TouchableOpacity
-              style={styles.searchIcon}
-              onPress={handleClearText}
-            >
-              {search.length > 0 && (
-                <Entypo
-                  name="cross"
-                  size={constants.searchFontSize}
-                  color={theme.placeholderColor}
-                />
-              )}
-            </TouchableOpacity>
-          </CustomInput>
+          />
         </View>
 
         <FilterTabBar

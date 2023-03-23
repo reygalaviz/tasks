@@ -22,8 +22,8 @@ import BackLogScreen from "../screens/BackLogScreen";
 function TabBar({
   setActiveTabb,
   completedTasks,
-  futureTasks,
-  tasksToday,
+  upcomingTasks,
+  todayTasks,
   backlogTasks,
   style,
   tasks,
@@ -50,7 +50,7 @@ function TabBar({
   const TABS = [
     {
       key: "tab1",
-      title: "Today",
+      title: "today",
       render: () => <PendingTasksScreen />,
     },
     {
@@ -129,7 +129,7 @@ function TabBar({
           >
             {tab.title}
           </Text>
-          {/* <Text
+          <Text
             style={[
               {
                 fontWeight: "500",
@@ -141,14 +141,14 @@ function TabBar({
             ]}
           >
             {index === 0
-              ? futureTasks.length
+              ? upcomingTasks.length
               : index === 1
               ? completedTasks.length
               : index === 2
               ? backlogTasks.length
               : null}{" "}
             tasks
-          </Text> */}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>

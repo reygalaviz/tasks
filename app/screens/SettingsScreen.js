@@ -42,10 +42,7 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
   const sections = [
     {
       header: "Preferences",
-      items: [
-        { id: "darkMode", label: "Dark Mode", type: "toggle" },
-        { id: "deletedTask", label: "Deleted Tasks", type: "select" },
-      ],
+      items: [{ id: "deletedTask", label: "Deleted Tasks", type: "select" }],
     },
     {
       header: "Help",
@@ -55,9 +52,7 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
       ],
     },
   ];
-  const [form, setForm] = useState({
-    darkMode: false,
-  });
+  const [form, setForm] = useState({});
 
   return (
     <ModalSheet
@@ -106,22 +101,6 @@ function SettingsScreen({ isOpen, setIsOpen, sheetRef }) {
                     {/* {type === "select" && <Text>{form[id]}</Text>} */}
                     {["select", "link"].includes(type) && (
                       <Feather name="chevron-right" size={24} color="#ababab" />
-                    )}
-                    {type === "toggle" && (
-                      <Switch
-                        value={form[id]}
-                        onValueChange={(value) => {
-                          setForm({ ...form, [id]: value });
-
-                          {
-                            id === "darkMode" &&
-                              EventRegister.emit("changeTheme", value);
-                          }
-                        }}
-                        style={{
-                          transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }],
-                        }}
-                      />
                     )}
                   </View>
                 </Pressable>
