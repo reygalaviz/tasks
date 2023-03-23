@@ -13,6 +13,8 @@ import constants from "../constants/constants";
 import { Ionicons, MaterialIcons, Octicons } from "@expo/vector-icons";
 import Priority from "../components/Priority";
 import moment from "moment";
+import "moment-timezone";
+
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList);
 
 function UpcomingTasksScreen({
@@ -30,6 +32,8 @@ function UpcomingTasksScreen({
   const [nextWeekTasks, setNextWeekTasks] = useState([]);
   const [thisMonthTasks, setThisMonthTasks] = useState([]);
   const [monthSections, setMonthSections] = useState([]);
+
+  console.log(tomorrowTasks);
 
   useEffect(() => {
     const today = new Date();
@@ -52,27 +56,42 @@ function UpcomingTasksScreen({
     );
 
     // generate sections for each month with upcoming tasks
+
     const taskMonths = new Set(
       upcomingTasks
-
         .filter(
           (task) => moment(task.date).format("M") !== moment(today).format("M")
         )
         .map((task) => moment(task.date).format("MMMM"))
     );
-    const monthSections = Array.from(taskMonths)
-    .map((month) => {
-      const tasksForMonth = upcomingTasks.filter(
-        (task) => moment(task.date).format("MMMM") === month
-      );
+    const monthSections = Array.from(taskMonths).map((month) => {
+      const tasksForMonth = upcomingTasks.filter((task) => {
+        const taskDueDate = moment(task.date);
+
+        if (taskDueDate.isSame(tomorrow, "day")) {
+          return false;
+        }
+        // Exclude tasks that are this week
+        if (taskDueDate.isBetween(startOfWeek, endOfWeek, "day", "[]")) {
+          return false;
+        }
+        // Exclude tasks that are next week
+        if (
+          taskDueDate.isBetween(startOfNextWeek, endOfNextWeek, "day", "[]")
+        ) {
+          return false;
+        }
+        return moment(task.date).format("MMMM") === month;
+      });
       return { title: month, data: tasksForMonth };
     });
-
     // tomorrow tasks
-    const tomorrowTasks = upcomingTasks.filter((task) => {
-      const taskDueDate = moment(task.date);
-      return taskDueDate.isSame(tomorrow, "day");
-    });
+    const tomorrowTasks = upcomingTasks
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+      .filter((task) => {
+        const taskDueDate = moment(task.date);
+        return taskDueDate.isSame(tomorrow, "day");
+      });
 
     //this week tasks
     const thisWeekTasks = upcomingTasks.filter((task) => {
@@ -140,18 +159,20 @@ function UpcomingTasksScreen({
   const renderTaskItem = ({ item, section }) => {
     let formattedDate = "";
     if (item.date) {
-      const taskDueDate = new Date(item.date);
+      const taskDueDate = moment(item.date);
+      const taskDueTime = moment(item.time);
       switch (section.title) {
         case "Tomorrow":
-          formattedDate = taskDueDate.toLocaleString();
+          formattedDate = "Tomorrow at " + taskDueTime.format("LT");
           break;
         case "This Week":
+          formattedDate =
+            taskDueDate.format("dddd [at] ") + taskDueTime.format("LT");
+          break;
         case "Next Week":
         case "This Month":
-          formattedDate = taskDueDate.toLocaleDateString();
-          break;
         default:
-          formattedDate = taskDueDate.toLocaleDateString();
+          formattedDate = taskDueDate.format("ddd MMM D, [at] h:mm a");
           break;
       }
     }
@@ -159,7 +180,6 @@ function UpcomingTasksScreen({
       <TaskCard
         key={item.id}
         task={item}
-        showDate
         updateStatus={() => updateStatus(item.id)}
         handleDelete={() => moveToTrashBin(item.id)}
         pending

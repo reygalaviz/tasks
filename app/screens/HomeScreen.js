@@ -8,8 +8,12 @@ import SettingsScreen from "./SettingsScreen";
 import AddTaskButton from "../components/AddTaskButton";
 import { useDeviceTheme } from "../theme/deviceTheme";
 import AnimatedHeader from "../components/AnimatedHeader";
+import OnBoarding from "../components/OnBoarding";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function HomeScreen({ navigation, ...props }) {
+  const flatListRef = useRef(null);
+  const theme = useDeviceTheme();
   //add-screen-modal
   const sheetRef = useRef();
   const snapPoints = ["100%"];
@@ -34,39 +38,59 @@ function HomeScreen({ navigation, ...props }) {
     sheetSettingsRef.current?.expand();
   };
 
-  const flatListRef = useRef(null);
-
-  const theme = useDeviceTheme();
+  //on-boarding screens
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const onDone = () => {
+    setShowOnboarding(false);
+  };
+  const onSkip = () => {
+    setShowOnboarding(false);
+  };
+  useEffect(() => {
+    // Check if the user has completed the onboarding
+    AsyncStorage.getItem("hasCompletedOnboarding").then((value) => {
+      if (value === null) {
+        setShowOnboarding(true);
+        AsyncStorage.setItem("hasCompletedOnboarding", "true");
+      }
+    });
+  }, []);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.background }]}>
-      <AnimatedHeader
-        tasks={props.tasks}
-        setTasks={props.setTasks}
-        filteredNotes={props.filteredNotes}
-        setFilteredNotes={props.setFilteredNotes}
-        updateStatus={props.updateStatus}
-        moveToTrashBin={props.moveToTrashBin}
-        flatListRef={flatListRef}
-        onOpenSettings={onOpenSettings}
-      />
+    <>
+      {showOnboarding ? (
+        <OnBoarding onDone={onDone} onSkip={onSkip} />
+      ) : (
+        <View style={[styles.container, { backgroundColor: theme.background }]}>
+          <AnimatedHeader
+            tasks={props.tasks}
+            setTasks={props.setTasks}
+            filteredNotes={props.filteredNotes}
+            setFilteredNotes={props.setFilteredNotes}
+            updateStatus={props.updateStatus}
+            moveToTrashBin={props.moveToTrashBin}
+            flatListRef={flatListRef}
+            onOpenSettings={onOpenSettings}
+          />
 
-      <SettingsScreen
-        isOpen={isSettingsOpen}
-        setIsOpen={setIsSettingsOpen}
-        sheetRef={sheetSettingsRef}
-      />
-      <AddTaskScreen
-        addTask={props.addTask}
-        tasks={props.tasks}
-        snapPoints={snapPoints}
-        sheetRef={sheetRef}
-        onOpenAddTask={onOpenAddTask}
-        handleSnapPress={handleSnapPress}
-        flatListRef={flatListRef}
-      />
-      <AddTaskButton onOpenAddTask={onOpenAddTask} />
-    </View>
+          <SettingsScreen
+            isOpen={isSettingsOpen}
+            setIsOpen={setIsSettingsOpen}
+            sheetRef={sheetSettingsRef}
+          />
+          <AddTaskScreen
+            addTask={props.addTask}
+            tasks={props.tasks}
+            snapPoints={snapPoints}
+            sheetRef={sheetRef}
+            onOpenAddTask={onOpenAddTask}
+            handleSnapPress={handleSnapPress}
+            flatListRef={flatListRef}
+          />
+          <AddTaskButton onOpenAddTask={onOpenAddTask} />
+        </View>
+      )}
+    </>
   );
 }
 

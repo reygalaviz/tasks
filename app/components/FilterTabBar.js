@@ -27,7 +27,7 @@ function FilterTabBar({
 }) {
   const theme = useDeviceTheme();
 
-  const tabs = ["colors", "priority", "sort by"];
+  const tabs = ["colors", "priority"];
   const [activeColorTab, setActiveColorTab] = useState(0);
   const [activePTab, setActivePTab] = useState(0);
 
