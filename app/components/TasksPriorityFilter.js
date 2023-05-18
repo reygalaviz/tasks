@@ -59,29 +59,28 @@ function TasksPriorityFilter({
       {section.map(({ id, label }, index) => {
         return (
           <View key={id} style={styles.rowWrapper}>
-            <TouchableOpacity onPress={() => handlePriorityPicked(label)}>
-              <View
+            <TouchableOpacity
+              onPress={() => handlePriorityPicked(label)}
+              style={[
+                styles.row,
+                priorityPicked.includes(label)
+                  ? { backgroundColor: theme.filterActiveButton }
+                  : { backgroundColor: theme.filterInActiveButton },
+              ]}
+            >
+              <Text
                 style={[
-                  styles.row,
-                  priorityPicked.includes(label)
-                    ? { backgroundColor: theme.filterActiveButton }
-                    : { backgroundColor: theme.filterInActiveButton },
+                  styles.rowLabel,
+                  {
+                    color: priorityPicked.includes(label)
+                      ? theme.background
+                      : theme.color,
+                  },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.rowLabel,
-                    {
-                      color: priorityPicked.includes(label)
-                        ? theme.background
-                        : theme.color,
-                    },
-                  ]}
-                >
-                  {label}
-                </Text>
-                <View style={styles.rowSpacer} />
-              </View>
+                {label}
+              </Text>
+              <View style={styles.rowSpacer} />
             </TouchableOpacity>
           </View>
         );

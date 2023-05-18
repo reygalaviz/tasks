@@ -7,6 +7,7 @@ import {
   StatusBar,
   Animated,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import HeaderBar from "../components/HeaderBar";
 import constants from "../constants/constants";
@@ -14,15 +15,13 @@ import NotificationsButton from "../components/NotificationsButton";
 import SettingsButton from "../components/SettingsButton";
 import TabBar from "../components/TabBar";
 import CustomInput from "../components/CustomInput";
-import { theme } from "../theme/theme";
 import { useDeviceTheme } from "../theme/deviceTheme";
 import FilterTabBar from "../components/FilterTabBar";
-import { Entypo } from "@expo/vector-icons";
-
 import PendingTasksScreen from "../screens/PendingTasksScreen";
 import UpcomingTasksScreen from "../screens/UpcomingTasksScreen";
 import CompletedTasksScreen from "../screens/CompletedTasksScreen";
 import BackLogScreen from "../screens/BackLogScreen";
+import debounce from "lodash/debounce";
 
 function AnimatedHeader({
   tasks,
@@ -37,9 +36,6 @@ function AnimatedHeader({
   const theme = useDeviceTheme();
 
   const [search, setSearch] = useState("");
-  const handleChangeText = useCallback((value) => {
-    setSearch(value);
-  }, []);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -198,7 +194,7 @@ function AnimatedHeader({
             }}
             placeholder="search tasks"
             value={search}
-            setValue={handleChangeText}
+            setValue={(value) => setSearch(value)}
             numberOfLines={1}
             maxLength={50}
             multiline={false}

@@ -26,6 +26,7 @@ import TasksPriorityFilter from "./TasksPriorityFilter";
 import FilterTabBar from "./FilterTabBar";
 import OptionsButton from "./OptionsButton";
 import AnimatedHeader from "./AnimatedHeader";
+import ReminderOptionsModal from "./ReminderOptionsModal";
 
 export {
   TabBar,
@@ -56,4 +57,5 @@ export {
   FilterTabBar,
   OptionsButton,
   AnimatedHeader,
+  ReminderOptionsModal,
 };

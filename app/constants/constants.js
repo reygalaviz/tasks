@@ -63,7 +63,7 @@ export default {
 
   //add-task
   taskFont: RFValue(16),
-  taskDetailsFont: RFValue(16),
+  taskDetailsFont: RFValue(12),
   taskFontDateTime: RFValue(12),
   errorFontSize: RFValue(11),
   buttonsHeight: verticalScale(50),
@@ -104,6 +104,9 @@ export default {
   filterButtonsHeight: verticalScale(50),
   filterModalHeight: verticalScale(600),
   filterTabHeight: moderateScale(40),
+
+  //reminder-options
+  reminderModalHeight: moderateScale(450),
 
   //color-bar
   circleSize: moderateScale(35),

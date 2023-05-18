@@ -1,22 +1,20 @@
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { PortalProvider } from "@gorhom/portal";
 import { RecoilRoot } from "recoil";
 import StackNavigation from "./app/navigation/StackNavigation";
-import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  Appearance,
-  useColorScheme,
-  ActivityIndicator,
-} from "react-native";
-import { Provider as PaperProvider } from "react-native-paper";
-import { useDeviceTheme } from "./app/theme/deviceTheme";
-import { colorScheme, theme } from "./app/theme/theme";
+import React, { useEffect } from "react";
+import * as Notifications from "expo-notifications";
 
 export default function App() {
-  const theme = useDeviceTheme();
-
+  useEffect(() => {
+    // Request permission to send notifications
+    (async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== "granted") {
+        alert("Sorry, we need notification permissions to make this work!");
+        return;
+      }
+    })();
+  }, []);
   return (
     <RecoilRoot>
       <BottomSheetModalProvider>

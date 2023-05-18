@@ -33,8 +33,6 @@ function UpcomingTasksScreen({
   const [thisMonthTasks, setThisMonthTasks] = useState([]);
   const [monthSections, setMonthSections] = useState([]);
 
-  console.log(tomorrowTasks);
-
   useEffect(() => {
     const today = new Date();
     const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
@@ -59,15 +57,15 @@ function UpcomingTasksScreen({
 
     const taskMonths = new Set(
       upcomingTasks
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
         .filter(
           (task) => moment(task.date).format("M") !== moment(today).format("M")
         )
         .map((task) => moment(task.date).format("MMMM"))
     );
-    const monthSections = Array.from(taskMonths).map((month) => {
-      const tasksForMonth = upcomingTasks
-        .sort((a, b) => new Date(a.date) - new Date(b.date))
-        .filter((task) => {
+    const monthSections = Array.from(taskMonths)
+      .filter((month) => {
+        const tasksForMonth = upcomingTasks.filter((task) => {
           const taskDueDate = moment(task.date);
 
           if (taskDueDate.isSame(tomorrow, "day")) {
@@ -85,8 +83,21 @@ function UpcomingTasksScreen({
           }
           return moment(task.date).format("MMMM") === month;
         });
-      return { title: month, data: tasksForMonth };
-    });
+
+        return tasksForMonth.length > 0;
+      })
+      .map((month) => {
+        const tasksForMonth = upcomingTasks
+          .sort((a, b) => new Date(a.date) - new Date(b.date))
+          .filter((task) => {
+            const taskDueDate = moment(task.date);
+
+            return moment(task.date).format("MMMM") === month;
+          });
+
+        return { title: month, data: tasksForMonth };
+      });
+
     // tomorrow tasks
     const tomorrowTasks = upcomingTasks
       .sort((a, b) => new Date(a.date) - new Date(b.date))
@@ -185,9 +196,16 @@ function UpcomingTasksScreen({
             taskDueDate.format("dddd [at] ") + taskDueTime.format("LT");
           break;
         case "Next Week":
+          formattedDate =
+            taskDueDate.format("dddd [at] ") + taskDueTime.format("LT");
+          break;
         case "This Month":
+          formattedDate =
+            taskDueDate.format("dddd D, [at] ") + taskDueTime.format("LT");
+          break;
         default:
-          formattedDate = taskDueDate.format("ddd MMM D, [at] h:mm a");
+          formattedDate =
+            taskDueDate.format("ddd MMMM D, [at] ") + taskDueTime.format("LT");
           break;
       }
     }
